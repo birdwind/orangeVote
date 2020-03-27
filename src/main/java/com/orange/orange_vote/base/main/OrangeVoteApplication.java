@@ -10,18 +10,18 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.data.repository.config.BootstrapMode;
 
 @ComponentScan(lazyInit = true, value = {"com.orange.orange_vote.*"})
-@EnableJpaRepositories(bootstrapMode = BootstrapMode.LAZY, value = {"com.orange.orange_vote.repo.dao"})
+@EnableJpaRepositories(bootstrapMode = BootstrapMode.LAZY, value = {"com.orange.orange_vote.entity.dao"})
 @EntityScan({"com.orange.orange_vote.*"})
 @SpringBootApplication
 public class OrangeVoteApplication extends SpringBootServletInitializer {
 
-	@Override
-	protected SpringApplicationBuilder configure(SpringApplicationBuilder builder) {
-		return builder.sources(OrangeVoteApplication.class);
-	}
+    @Override
+    protected SpringApplicationBuilder configure(SpringApplicationBuilder builder) {
+        return builder.sources(OrangeVoteApplication.class);
+    }
 
-	public static void main(String[] args) {
-		SpringApplication.run(OrangeVoteApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(OrangeVoteApplication.class, args);
+    }
 
 }

@@ -1,10 +1,5 @@
 package com.orange.orange_vote.base.view.abstracts;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
-import java.util.Map;
-
 import com.google.common.collect.Maps;
 import com.orange.orange_vote.base.enums.ViewTypeEnum;
 import com.orange.orange_vote.base.repo.BaseModel;
@@ -12,14 +7,17 @@ import com.orange.orange_vote.base.utils.LocaleI18nUtils;
 import com.orange.orange_vote.base.view.BaseRow;
 import com.orange.orange_vote.base.view.BaseVote;
 import com.orange.orange_vote.base.view.BaseVoteConverter;
-
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
+import java.util.Map;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
 @Data
 public abstract class AbstractVoteConverter<S extends BaseModel, R extends BaseRow, V extends BaseVote>
-    extends AbstractViewConverter<S, R> implements BaseVoteConverter<S, R, V> {
+        extends AbstractViewConverter<S, R> implements BaseVoteConverter<S, R, V> {
 
     private static final ViewTypeEnum DEFAULT_VIEW_TYPE = ViewTypeEnum.LABEL;
 
@@ -59,7 +57,7 @@ public abstract class AbstractVoteConverter<S extends BaseModel, R extends BaseR
         try {
             return voteClass.getDeclaredConstructor().newInstance();
         } catch (InstantiationException | IllegalAccessException | InvocationTargetException
-            | NoSuchMethodException e) {
+                | NoSuchMethodException e) {
             return null;
         }
     }
