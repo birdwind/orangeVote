@@ -36,13 +36,13 @@ public class RelateNotMatchException extends BaseThrowable {
 
     @Override
     public String getMessage() {
-        //TODO: I18n多國語言處理
+        // TODO: I18n多國語言處理
         if (StringUtils.isBlank(this.value)) {
-//            return this.field + " : " + LocaleI18nUtils.getString(this.code);
+            // return this.field + " : " + LocaleI18nUtils.getString(this.code);
             return this.field + " : " + this.code;
         }
 
-//        return this.field + " = " + this.value + " : " + LocaleI18nUtils.getString(this.code);
+        // return this.field + " = " + this.value + " : " + LocaleI18nUtils.getString(this.code);
         return this.field + " = " + this.value + " : " + this.code;
     }
 

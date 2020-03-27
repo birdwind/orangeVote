@@ -1,6 +1,6 @@
-# ªì©l«Ø¥ß±M®×®É¡A±N application.yml.example ½Æ»s¨ì [web¼Ò²Õ]/src/main/resources/
-# ±NÀÉ¦W§ó§ï¬° application.yml
-# ³]©w datasource ¸ê®Æ®wªº³s½u³]©w
+# ï¿½ï¿½lï¿½Ø¥ß±Mï¿½×®É¡Aï¿½N application.yml.example ï¿½Æ»sï¿½ï¿½ [webï¿½Ò²ï¿½]/src/main/resources/
+# ï¿½Nï¿½É¦Wï¿½ï¿½ï¬° application.yml
+# ï¿½]ï¿½w datasource ï¿½ï¿½Æ®wï¿½ï¿½ï¿½sï¿½uï¿½]ï¿½w
 
 spring:
   main:
@@ -10,8 +10,8 @@ spring:
       prefix: /WEB-INF
       suffix: .jsp
   datasource:
-    # ½Ð«O¯d url «á­±ªº³s±µ°Ñ¼Æ
-    url: jdbc:mysql://localhost/wayson_dev?serverTimezone=Asia/Taipei&useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull
+    # ï¿½Ð«Oï¿½d url ï¿½á­±ï¿½ï¿½ï¿½sï¿½ï¿½ï¿½Ñ¼ï¿½
+    url: jdbc:mysql://localhost/orange_vote?serverTimezone=Asia/Taipei&useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull
     username: root
     password:
     #    url: jdbc:mysql://13.230.111.240:3306/wayson_dev?serverTimezone=Asia/Taipei&useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull
