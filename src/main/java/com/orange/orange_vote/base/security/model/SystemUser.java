@@ -1,8 +1,4 @@
-/*
- * Copyright (c) 2019. Create by Terry Huang (黃昭維)
- */
-
-package com.birdwind.rbac.base.security;
+package com.orange.orange_vote.base.security.model;
 
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -12,7 +8,6 @@ import org.springframework.security.core.userdetails.User;
 import java.io.Serializable;
 import java.security.Principal;
 import java.util.Collection;
-import java.util.Set;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -25,10 +20,6 @@ public class SystemUser extends User {
     private Serializable core;
 
     private String session;
-
-    private Serializable sideMenu;
-
-    private Set<String> urls;
 
     public SystemUser(String username, String password, boolean enabled, boolean accountNonExpired,
         boolean credentialsNonExpired, boolean accountNonLocked, Collection<? extends GrantedAuthority> authorities) {
@@ -57,7 +48,7 @@ public class SystemUser extends User {
     }
 
     @SuppressWarnings("unchecked")
-    public static <T> T getMemberCore() {
+    public static <T> T getMember() {
         try {
             return (T) ((SystemUser) getCurrentUser()).getCore();
         } catch (Exception e) {
@@ -66,21 +57,12 @@ public class SystemUser extends User {
     }
 
     @SuppressWarnings("unchecked")
-    public static <T> T getMemberCore(Principal principal) {
+    public static <T> T getMember(Principal principal) {
         if (principal == null) {
-            return getMemberCore();
+            return getMember();
         }
 
         return (T) ((SystemUser) ((Authentication) principal).getPrincipal()).getCore();
-    }
-
-    @SuppressWarnings("unchecked")
-    public <T> T getSideMenu() {
-        try {
-            return (T) this.sideMenu;
-        } catch (ClassCastException e) {
-            return null;
-        }
     }
 
     private Serializable getCore() {

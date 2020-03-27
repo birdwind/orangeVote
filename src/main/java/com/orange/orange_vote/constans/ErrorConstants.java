@@ -1,62 +1,10 @@
-package com.orange.orange_vote.base.constans;
+package com.orange.orange_vote.constans;
 
-public class BaseErrorConstants {
-    // 共用錯誤
-    public static final String NULL = "Error.Invalid.Null";
+public class ErrorConstants {
 
-    public static final String MUST_NULL = "Error.Invalid.MustNull";
+    //Member
+    public static final String MEMBER_NOT_FOUND = "Error.Member.NotFound";
 
-    public static final String NULL_OR_NOT_BLANK = "Error.Invalid.NullOrNotBlank";
-
-    public static final String INVALID_LENGTH = "Error.Invalid.Length";
-
-    public static final String INVALID_VALUE = "Error.Invalid.Value";
-
-    public static final String INVALID_MIN_MAX = "Error.Invalid.MinMax";
-
-    public static final String MUST_POSITIVE = "Error.Invalid.Positive";
-
-    public static final String MUST_POSITIVE_INT = "Error.Invalid.PositiveInt";
-
-    public static final String MUST_INTEGER = "Error.Invalid.Int";
-
-    public static final String INVALID_EMAIL = "Error.Invalid.Email";
-
-    public static final String INVALID_UUID = "Error.Invalid.Uuid";
-
-    public static final String INVALID_DATA_INTEGRITY = "Error.Invalid.DataIntegrity";
-
-    public static final String CRITERIA_UPDATE_NO_ID = "Error.Criteria.UpdateNoId";
-
-    public static final String CAN_NOT_EDIT = "Error.Invalid.CanNotEdit";
-
-    public static final String INVALID_SEARCH = "Error.Search.InvalidField";
-
-    public static final String RELATE_NOT_MATCH = "Error.Invalid.CoreAndDetailNotMatch";
-
-    public static final String START_TIME_IS_TOO_LATE = "Error.Invalid.StartTime.TooLate";
-
-    public static final String END_TIME_IS_TOO_EARLY = "Error.Invalid.EndTime.TooEarly";
-
-    // 系統錯誤
-    public static final String FORM_ERROR = "Error.System.FormError";
-
-    public static final String NO_PERMISSION = "Error.System.NoPermission";
-
-    public static final String NOT_LOGIN = "Error.System.NotLogin";
-
-    public static final String NOT_GUEST = "Error.System.NotGuest";
-
-    public static final String EXPIRED_SESSION = "Error.System.ExpiredSession";
-
-    public static final String RESOURCE_NOT_FOUND = "Error.System.ResourceNotFound";
-
-    public static final String PAGE_NOT_FOUND = "Error.System.PageNotFound";
-
-    public static final String FILE_COUNTS_NOT_MATCH = "Error.System.FileCountsNotMatch";
-
-    public static final String METHOD_NOT_SUPPORT = "Error.System.MethodNotSupport";
-
-    public static final String FILE_NOT_FOUND = "Error.System.FileNotFound";
+    public static final String MEMBER_SUSPENDED = "Error.Member.Suspended";
 
 }
