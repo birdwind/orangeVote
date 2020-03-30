@@ -59,4 +59,7 @@ public class BaseErrorConstants {
 
     public static final String FILE_NOT_FOUND = "Error.System.FileNotFound";
 
+    //登入成功
+    public static final String LOGIN_SUCCESS = "登入成功";
+
 }

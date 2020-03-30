@@ -24,4 +24,9 @@ public class MemberServiceImpl implements MemberService {
     public void updateSession(String session, Integer memberId) {
         memberDao.updateSession(session, memberId);
     }
+
+    @Override
+    public Optional<Member> getMemberCoreBySession(String session) {
+        return memberDao.findMemberCoreBySession(session);
+    }
 }

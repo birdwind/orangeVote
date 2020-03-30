@@ -21,6 +21,8 @@ public interface BasePacker<R extends BaseResource> {
 
     R packErrors(String url, HttpStatus httpStatus, String response);
 
+    R packErrors(HttpStatus httpStatus, String response, Integer errorCode, String errorMsg);
+
     R packFieldErrors(Collection<? extends BaseFieldError> errors);
 
 }

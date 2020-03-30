@@ -8,4 +8,6 @@ public interface MemberService {
     Optional<Member> getMemberByUsername(String username);
 
     void updateSession(String session, Integer memberId);
+
+    Optional<Member> getMemberCoreBySession(String session);
 }

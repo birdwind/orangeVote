@@ -1,7 +1,9 @@
 package com.orange.orange_vote.base.security;
 
 import com.orange.orange_vote.base.system.converter.SystemResourcePacker;
+import com.orange.orange_vote.base.utils.LocaleI18nUtils;
 import com.orange.orange_vote.base.utils.ServletUtils;
+import com.orange.orange_vote.constans.ErrorConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.AuthenticationException;
@@ -17,15 +19,16 @@ public class CustomAuthenticationFailureHandler implements AuthenticationFailure
     @Autowired
     private SystemResourcePacker systemResourcePacker;
 
-//    @Autowired
+    // @Autowired
     // private SystemLogService systemLogService;
 
     @Override
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response,
         AuthenticationException exception) {
         try {
-            ServletUtils.setResponse(response,
-                systemResourcePacker.packErrors(HttpStatus.FORBIDDEN, exception.getMessage()));
+            ServletUtils.setResponse(response, systemResourcePacker.packErrors(HttpStatus.UNAUTHORIZED,
+                LocaleI18nUtils.getString(ErrorConstants.MEMBER_NOT_FOUND)));
+
         } catch (IOException e) {
             e.printStackTrace();
         }

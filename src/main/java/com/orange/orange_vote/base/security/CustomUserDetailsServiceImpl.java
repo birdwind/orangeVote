@@ -5,6 +5,7 @@ import com.orange.orange_vote.RoleService;
 import com.orange.orange_vote.base.constans.BaseErrorConstants;
 import com.orange.orange_vote.base.security.model.Authority;
 import com.orange.orange_vote.base.security.model.SystemUser;
+import com.orange.orange_vote.base.system.converter.SystemResourcePacker;
 import com.orange.orange_vote.base.utils.LocaleI18nUtils;
 import com.orange.orange_vote.constans.ErrorConstants;
 import com.orange.orange_vote.entity.model.Member;
@@ -31,6 +32,9 @@ public class CustomUserDetailsServiceImpl implements UserDetailsService {
 
     @Autowired
     private RoleService roleService;
+
+    @Autowired
+    private SystemResourcePacker systemResourcePacker;
 
     @Transactional(readOnly = true)
     public UserDetails loadUserByUsername(String username) {

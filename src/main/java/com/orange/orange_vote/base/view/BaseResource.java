@@ -8,6 +8,14 @@ public interface BaseResource extends BaseView {
 
     void setStatus(Boolean status);
 
+    Integer getErrorCode();
+
+    void setErrorCode(Integer errorCode);
+
+    String getErrorMsg();
+
+    void setErrorMsg(String errorMsg);
+
     Integer getHttpStatus();
 
     void setHttpStatus(Integer httpStatus);

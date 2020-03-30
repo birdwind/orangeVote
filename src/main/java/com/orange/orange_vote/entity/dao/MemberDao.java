@@ -14,4 +14,7 @@ public interface MemberDao extends BaseRepository<Member, Integer> {
     @Modifying
     @Query(value = "UPDATE Member m set m.session = ?1 WHERE m.status = true AND m.memberId = ?2")
     void updateSession(String session, Integer memberId);
+
+    @Query(value = "SELECT m FROM Member m WHERE m.status = true AND m.session = ?1")
+    Optional<Member> findMemberCoreBySession(String session);
 }

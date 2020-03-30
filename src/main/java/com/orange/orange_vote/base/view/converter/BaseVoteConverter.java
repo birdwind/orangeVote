@@ -1,4 +1,4 @@
-package com.orange.orange_vote.base.view;
+package com.orange.orange_vote.base.view.converter;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -7,6 +7,8 @@ import com.orange.orange_vote.base.dto.basic.BaseConverter;
 import com.orange.orange_vote.base.dto.mapper.column.Header;
 import com.orange.orange_vote.base.enums.ViewTypeEnum;
 import com.orange.orange_vote.base.repo.BaseModel;
+import com.orange.orange_vote.base.view.BaseRow;
+import com.orange.orange_vote.base.view.BaseVote;
 import java.lang.reflect.Modifier;
 import java.util.Arrays;
 import java.util.Collection;

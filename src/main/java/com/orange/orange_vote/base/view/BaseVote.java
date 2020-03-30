@@ -13,4 +13,5 @@ public interface BaseVote extends BaseView {
     Collection<? extends BaseRow> getContents();
 
     void setContents(Collection<? extends BaseRow> contents);
+
 }

@@ -2,6 +2,7 @@ package com.orange.orange_vote.base.security;
 
 import com.orange.orange_vote.MemberService;
 import com.orange.orange_vote.base.security.model.SystemUser;
+import com.orange.orange_vote.base.security.view.converter.LoginViewConverter;
 import com.orange.orange_vote.base.system.converter.SystemResourcePacker;
 import com.orange.orange_vote.base.utils.CipherUtils;
 import com.orange.orange_vote.base.utils.LocaleI18nUtils;
@@ -28,6 +29,9 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
     @Autowired
     private SystemResourcePacker systemResourcePacker;
 
+    @Autowired
+    private LoginViewConverter loginViewConverter;
+
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
         Authentication authentication) throws IOException {
@@ -43,9 +47,10 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
         systemUser.setSession(sessionString);
         systemUser.setCore(member);
 
-        String res = systemUser.getUsername() + " 登入成功";
+        String res = systemUser.getUsername() + " Login Success";
         // systemLogService.setResponseAndLog(response, systemResourcePacker.packErrors(HttpStatus.OK, res));
-        ServletUtils.setResponse(response, systemResourcePacker.packErrors(HttpStatus.OK, res));
+//        ServletUtils.setResponse(response, systemResourcePacker.packErrors(HttpStatus.OK, res));
+        ServletUtils.setResponse(response, systemResourcePacker.pack(loginViewConverter.convert(member)));
     }
 
 }

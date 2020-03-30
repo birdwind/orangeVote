@@ -87,6 +87,16 @@ public abstract class AbstractResourcePacker<R extends BaseResource> implements 
         return resource;
     }
 
+    @Override
+    public R packErrors(HttpStatus httpStatus, String response, Integer errorCode, String errorMsg) {
+        R resource = getInstance();
+        resource.setResponse(response);
+        resource.setErrorCode(errorCode);
+        resource.setErrorMsg(errorMsg);
+        setOtherProperties(null, resource, httpStatus);
+        return resource;
+    }
+
     // 預設表單欄位錯誤是 412 PRECONDITION_FAILED
     @Override
     public R packFieldErrors(Collection<? extends BaseFieldError> errors) {

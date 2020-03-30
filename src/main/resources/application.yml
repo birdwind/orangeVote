@@ -11,7 +11,7 @@ spring:
       suffix: .jsp
   datasource:
     # �ЫO�d url �᭱���s���Ѽ�
-    url: jdbc:mysql://localhost/orange_vote?serverTimezone=Asia/Taipei&useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull
+    url: jdbc:mysql://localhost/orange?serverTimezone=Asia/Taipei&useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull
     username: root
     password:
     #    url: jdbc:mysql://13.230.111.240:3306/wayson_dev?serverTimezone=Asia/Taipei&useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull

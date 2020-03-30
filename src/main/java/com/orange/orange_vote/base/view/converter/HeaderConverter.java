@@ -1,4 +1,4 @@
-package com.orange.orange_vote.base.view;
+package com.orange.orange_vote.base.view.converter;
 
 import com.orange.orange_vote.base.annotation.KeyValue;
 import com.orange.orange_vote.base.annotation.Required;
@@ -7,6 +7,7 @@ import com.orange.orange_vote.base.enums.BaseEnum;
 import com.orange.orange_vote.base.enums.ViewTypeEnum;
 import com.orange.orange_vote.base.repo.BaseModel;
 import com.orange.orange_vote.base.utils.LocaleI18nUtils;
+import com.orange.orange_vote.base.view.BaseListItem;
 import org.apache.commons.lang3.StringUtils;
 import java.lang.reflect.Field;
 import java.util.List;
