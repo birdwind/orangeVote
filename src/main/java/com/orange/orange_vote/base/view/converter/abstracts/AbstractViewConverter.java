@@ -1,4 +1,4 @@
-package com.orange.orange_vote.base.view.abstracts;
+package com.orange.orange_vote.base.view.converter.abstracts;
 
 import com.google.common.collect.Maps;
 import com.orange.orange_vote.base.annotation.Ignore;
@@ -22,7 +22,7 @@ import com.orange.orange_vote.base.enums.ViewTypeEnum;
 import com.orange.orange_vote.base.repo.BaseModel;
 import com.orange.orange_vote.base.utils.LocaleI18nUtils;
 import com.orange.orange_vote.base.view.BaseView;
-import com.orange.orange_vote.base.view.HeaderConverter;
+import com.orange.orange_vote.base.view.converter.HeaderConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import java.io.Serializable;

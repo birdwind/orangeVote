@@ -1,4 +1,4 @@
-package com.orange.orange_vote.base.view.abstracts;
+package com.orange.orange_vote.base.view.converter.abstracts;
 
 import com.google.common.collect.Maps;
 import com.orange.orange_vote.base.enums.ViewTypeEnum;
@@ -6,7 +6,8 @@ import com.orange.orange_vote.base.repo.BaseModel;
 import com.orange.orange_vote.base.utils.LocaleI18nUtils;
 import com.orange.orange_vote.base.view.BaseRow;
 import com.orange.orange_vote.base.view.BaseVote;
-import com.orange.orange_vote.base.view.BaseVoteConverter;
+import com.orange.orange_vote.base.view.converter.BaseVoteConverter;
+import com.orange.orange_vote.base.view.converter.abstracts.AbstractViewConverter;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
