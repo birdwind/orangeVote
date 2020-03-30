@@ -1,6 +1,7 @@
 package com.orange.orange_vote.base.security;
 
 import com.orange.orange_vote.base.constans.BaseErrorConstants;
+import com.orange.orange_vote.base.enums.ErrorCode;
 import com.orange.orange_vote.base.system.converter.SystemResourcePacker;
 import com.orange.orange_vote.base.utils.LocaleI18nUtils;
 import com.orange.orange_vote.base.utils.ServletUtils;
@@ -21,11 +22,13 @@ public class CustomAccessDeniedHandler implements AccessDeniedHandler {
 
     @Override
     public void handle(HttpServletRequest request, HttpServletResponse response,
-                       AccessDeniedException accessDeniedException) throws ServletException {
+        AccessDeniedException accessDeniedException) throws ServletException {
         try {
-//            System.out.println("Custom" + "false");
-            ServletUtils.setResponse(response, systemResourcePacker.packErrors(HttpStatus.UNAUTHORIZED,
-                    LocaleI18nUtils.getString(BaseErrorConstants.NO_PERMISSION)));
+            // System.out.println("Custom" + "false");
+            ServletUtils.setResponse(response,
+                systemResourcePacker.packErrors(HttpStatus.UNAUTHORIZED,
+                    LocaleI18nUtils.getString(BaseErrorConstants.NO_PERMISSION), ErrorCode.NO_PERMISSION.errorCode(),
+                    ErrorCode.NO_PERMISSION.errorMsg()));
         } catch (Exception e) {
             throw new ServletException();
         }

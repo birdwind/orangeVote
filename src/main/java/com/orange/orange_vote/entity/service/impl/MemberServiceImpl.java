@@ -1,8 +1,8 @@
-package com.orange.orange_vote.entity.serviceImpl;
+package com.orange.orange_vote.entity.service.impl;
 
 import com.orange.orange_vote.entity.dao.MemberDao;
 import com.orange.orange_vote.entity.model.Member;
-import com.orange.orange_vote.MemberService;
+import com.orange.orange_vote.entity.service.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.Optional;

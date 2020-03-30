@@ -53,6 +53,14 @@ public class BaseErrorConstants {
 
     public static final String PAGE_NOT_FOUND = "Error.System.PageNotFound";
 
+    public static final String API_NOT_FOUND = "Error.System.ApiNotFound";
+
+    public static final String BAD_REQUEST = "Error.System.BadRequest";
+
+    public static final String DATA_INCOMPLETE = "Error.System.DataInComplete";
+
+    public static final String SERVER_ERROR = "Error.System.ServerError";
+
     public static final String FILE_COUNTS_NOT_MATCH = "Error.System.FileCountsNotMatch";
 
     public static final String METHOD_NOT_SUPPORT = "Error.System.MethodNotSupport";
@@ -61,5 +69,7 @@ public class BaseErrorConstants {
 
     //登入成功
     public static final String LOGIN_SUCCESS = "登入成功";
+
+    public static final String LOGIN_ERROR = "Error.System.LoginError";
 
 }

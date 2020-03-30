@@ -1,12 +1,12 @@
 package com.orange.orange_vote.entity.model;
 
-import com.orange.orange_vote.base.annotation.I18nPrefix;
 import com.orange.orange_vote.base.repo.AbstractModel;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -21,27 +21,38 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table(name = "`member_role_relate`")
-@I18nPrefix(value = "MemberRoleRelate")
-public class MemberRoleRelate extends AbstractModel {
+@Table(name = "`module_role_relate`")
+public class ModuleRoleRelate extends AbstractModel {
 
     private static final long serialVersionUID = 1L;
 
+    public ModuleRoleRelate() {
+        this.moduleRoleRelateId = 0;
+        this.status = true;
+    }
+
+    public ModuleRoleRelate(Role role, Module module) {
+        this.moduleRoleRelateId = 0;
+        this.status = true;
+        this.role = role;
+        this.module = module;
+    }
+
     @Id
-    @Column(name = "relate_id", updatable = false, nullable = false)
+    @Column(name = "module_role_relate_id", updatable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer relateId;
+    private Integer moduleRoleRelateId;
 
-    @Column(name = "relate_uuid", updatable = false, nullable = false)
-    private String relateUuid;
-
-    @OneToOne
-    @JoinColumn(name = "member_id", nullable = false)
-    private Member member;
-
-    @OneToOne
-    @JoinColumn(name = "role_id", nullable = false)
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "role_id")
     private Role role;
+
+    @OneToOne
+    @JoinColumn(name = "module_id")
+    private Module module;
+
+    @Column(name = "status")
+    private Boolean status;
 
     @CreationTimestamp
     @Column(name = "create_date", updatable = false)
@@ -53,11 +64,9 @@ public class MemberRoleRelate extends AbstractModel {
     @Temporal(TemporalType.TIMESTAMP)
     private Date updateDate;
 
-    @Column(name = "status", nullable = false)
-    private Boolean status;
-
     @Override
     public Integer getId() {
-        return this.relateId;
+        return this.moduleRoleRelateId;
     }
+
 }

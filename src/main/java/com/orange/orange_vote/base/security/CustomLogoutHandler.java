@@ -1,5 +1,6 @@
 package com.orange.orange_vote.base.security;
 
+import com.orange.orange_vote.base.enums.ErrorCode;
 import com.orange.orange_vote.base.system.converter.SystemResourcePacker;
 import com.orange.orange_vote.base.utils.LocaleI18nUtils;
 import com.orange.orange_vote.base.utils.ServletUtils;
@@ -25,7 +26,8 @@ public class CustomLogoutHandler implements LogoutSuccessHandler {
         try {
             // System.out.println("Custom" + "false");
             ServletUtils.setResponse(httpServletResponse,
-                systemResourcePacker.packErrors(HttpStatus.OK, LocaleI18nUtils.getString("Logout Success")));
+                systemResourcePacker.packErrors(HttpStatus.OK, LocaleI18nUtils.getString("Logout Success"),
+                    ErrorCode.SUCCESS.errorCode(), ErrorCode.SUCCESS.errorMsg()));
         } catch (Exception e) {
             throw new ServletException();
         }

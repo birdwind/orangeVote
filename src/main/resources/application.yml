@@ -30,7 +30,7 @@ spring:
     multipart:
       max-file-size: -1
       max-request-size: -1
-#  session:
-#    timeout: 30s
+  session:
+    timeout: 999999999
 server:
   port: 5278

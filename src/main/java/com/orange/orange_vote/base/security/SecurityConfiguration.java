@@ -34,19 +34,19 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     private UserDetailsService userDetailsService;
 
     @Autowired
-    CustomAuthenticationEntryPoint customAuthenticationEntryPoint; // 未登陆时返回 JSON 格式的数据给前端（否则为 html）
+    private CustomAuthenticationEntryPoint customAuthenticationEntryPoint; // 未登陆时返回 JSON 格式的数据给前端（否则为 html）
 
     @Autowired
-    CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler; // 登录成功返回的 JSON 格式数据给前端（否则为 html）
+    private CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler; // 登录成功返回的 JSON 格式数据给前端（否则为 html）
 
     @Autowired
-    CustomAuthenticationFailureHandler customAuthenticationFailureHandler; // 登录失败返回的 JSON 格式数据给前端（否则为 html）
+    private CustomAuthenticationFailureHandler customAuthenticationFailureHandler; // 登录失败返回的 JSON 格式数据给前端（否则为 html）
 
     @Autowired
-    CustomLogoutHandler customLogoutHandler; // 注销成功返回的 JSON 格式数据给前端（否则为 登录时的 html）
+    private CustomLogoutHandler customLogoutHandler; // 注销成功返回的 JSON 格式数据给前端（否则为 登录时的 html）
 
     @Autowired
-    CustomAccessDeniedHandler customAccessDeniedHandler; // 无权访问返回的 JSON 格式数据给前端（否则为 403 html 页面）
+    private CustomAccessDeniedHandler customAccessDeniedHandler; // 无权访问返回的 JSON 格式数据给前端（否则为 403 html 页面）
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {

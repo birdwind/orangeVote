@@ -1,13 +1,13 @@
 package com.orange.orange_vote.base.interceptor;
 
-import com.orange.orange_vote.MemberService;
 import com.orange.orange_vote.base.constans.BaseErrorConstants;
+import com.orange.orange_vote.base.enums.ErrorCode;
 import com.orange.orange_vote.base.security.model.SystemUser;
 import com.orange.orange_vote.base.system.converter.SystemResourcePacker;
 import com.orange.orange_vote.base.utils.LocaleI18nUtils;
 import com.orange.orange_vote.base.utils.ServletUtils;
 import com.orange.orange_vote.entity.model.Member;
-import org.apache.commons.lang3.StringUtils;
+import com.orange.orange_vote.entity.service.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
@@ -42,14 +42,15 @@ public class LoginInterceptor implements HandlerInterceptor {
         }
         if (ServletUtils.isApi(request)) {
             ServletUtils.setResponse(response,
-                systemResourcePacker.packErrors(HttpStatus.UNAUTHORIZED, LocaleI18nUtils.getString(code)));
+                systemResourcePacker.packErrors(HttpStatus.UNAUTHORIZED, LocaleI18nUtils.getString(code),
+                    ErrorCode.NOT_LOGIN.errorCode(), ErrorCode.NOT_LOGIN.errorMsg()));
 
             // systemLogService.setResponseAndLog(response,
             // systemResourcePacker.packErrors(HttpStatus.UNAUTHORIZED, LocaleI18nUtils.getString(code)));
         }
-//        else if (StringUtils.equals(request.getMethod(), "GET")) {
-//            response.sendRedirect("/logout");
-//        }
+        // else if (StringUtils.equals(request.getMethod(), "GET")) {
+        // response.sendRedirect("/logout");
+        // }
 
         return false;
     }

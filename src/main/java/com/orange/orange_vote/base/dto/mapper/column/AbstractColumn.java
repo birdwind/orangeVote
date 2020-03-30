@@ -3,9 +3,11 @@ package com.orange.orange_vote.base.dto.mapper.column;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.orange.orange_vote.base.view.BaseListItem;
 import java.util.List;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
+@Getter
+@Setter
 abstract class AbstractColumn implements Column {
 
     private String title;

@@ -1,12 +1,16 @@
 package com.orange.orange_vote.base.dto.mapper.column;
 
 import java.util.Collection;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
-final class CollectionColumnImpl extends AbstractColumn implements CollectionColumn{
+@Getter
+@Setter
+final class CollectionColumnImpl extends AbstractColumn implements CollectionColumn {
 
     private Collection<?> value;
 
-    CollectionColumnImpl(){super();}
+    CollectionColumnImpl() {
+        super();
+    }
 }

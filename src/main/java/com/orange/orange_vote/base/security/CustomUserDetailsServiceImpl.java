@@ -1,7 +1,7 @@
 package com.orange.orange_vote.base.security;
 
-import com.orange.orange_vote.MemberService;
-import com.orange.orange_vote.RoleService;
+import com.orange.orange_vote.entity.service.MemberService;
+import com.orange.orange_vote.entity.service.RoleService;
 import com.orange.orange_vote.base.constans.BaseErrorConstants;
 import com.orange.orange_vote.base.security.model.Authority;
 import com.orange.orange_vote.base.security.model.SystemUser;

@@ -1,5 +1,6 @@
 package com.orange.orange_vote.base.exception;
 
+import com.orange.orange_vote.base.enums.ErrorCode;
 import com.orange.orange_vote.base.system.SystemResource;
 import com.orange.orange_vote.base.system.converter.SystemFieldErrorConverter;
 import com.orange.orange_vote.base.system.converter.SystemResourcePacker;
@@ -36,17 +37,20 @@ public class ControllerExceptionTranslator {
     @Autowired
     private SystemFieldErrorConverter systemFieldErrorConverter;
 
-    //SQL錯誤
+    // SQL錯誤
     @ResponseBody
     @ExceptionHandler(DataIntegrityViolationException.class)
     public SystemResource sqlException(DataIntegrityViolationException e) {
-        return systemResourcePacker.packErrors(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
+        return systemResourcePacker.packErrors(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage(),
+            ErrorCode.SERVER_ERROR.errorCode(), ErrorCode.SERVER_ERROR.errorMsg());
     }
 
+    // 無效的數據訪問
     @ResponseBody
     @ExceptionHandler(InvalidDataAccessApiUsageException.class)
     public SystemResource invalidDataAccessApiUsageException(InvalidDataAccessApiUsageException e) {
-        return systemResourcePacker.packErrors(HttpStatus.BAD_REQUEST, e.getMessage());
+        return systemResourcePacker.packErrors(HttpStatus.BAD_REQUEST, e.getMessage(),
+            ErrorCode.SERVER_ERROR.errorCode(), ErrorCode.SERVER_ERROR.errorMsg());
     }
 
     // AOP (或其他) 拋出表單驗證錯誤
@@ -55,19 +59,22 @@ public class ControllerExceptionTranslator {
     public SystemResource methodArgumentNotValidException(MethodArgumentNotValidException e) {
         BindingResult result = e.getBindingResult();
         SystemResource systemResource =
-                systemResourcePacker.packFieldErrors(systemFieldErrorConverter.convert(result.getFieldErrors()));
+            systemResourcePacker.packFieldErrors(systemFieldErrorConverter.convert(result.getFieldErrors()),
+                ErrorCode.DATA_INCOMPLETE.errorCode(), ErrorCode.DATA_INCOMPLETE.errorMsg());
 
-        //TODO: System log儲存至DataBase
-//        SystemLog log = new SystemLog();
-//        log.setResponseContent(systemResource.toJson());
-//        systemLogService.saveSystemLog(log);
+        // TODO: System log儲存至DataBase
+        // SystemLog log = new SystemLog();
+        // log.setResponseContent(systemResource.toJson());
+        // systemLogService.saveSystemLog(log);
         return systemResource;
     }
 
+    // relate綁定錯誤
     @ResponseBody
     @ExceptionHandler(RelateNotMatchException.class)
     public SystemResource bindRelateNotMatchException(RelateNotMatchException e) {
-        return systemResourcePacker.packErrors(e.getHttpStatus(), e.getMessage());
+        return systemResourcePacker.packErrors(e.getHttpStatus(), e.getMessage(), ErrorCode.DATA_INCOMPLETE.errorCode(),
+            ErrorCode.DATA_INCOMPLETE.errorMsg());
     }
 
     // BaseValidator (Spring Validator) 拋出表單驗證錯誤
@@ -76,32 +83,38 @@ public class ControllerExceptionTranslator {
     public SystemResource bindException(BindException e) {
         BindingResult result = e.getBindingResult();
         SystemResource systemResource =
-                systemResourcePacker.packFieldErrors(systemFieldErrorConverter.convert(result.getFieldErrors()));
+            systemResourcePacker.packFieldErrors(systemFieldErrorConverter.convert(result.getFieldErrors()),
+                ErrorCode.DATA_INCOMPLETE.errorCode(), ErrorCode.DATA_INCOMPLETE.errorMsg());
 
-        //TODO: System log儲存至DataBase
-//        SystemLog log = new SystemLog();
-//        log.setResponseContent(systemResource.toJson());
-//        systemLogService.saveSystemLog(log);
+        // TODO: System log儲存至DataBase
+        // SystemLog log = new SystemLog();
+        // log.setResponseContent(systemResource.toJson());
+        // systemLogService.saveSystemLog(log);
         return systemResource;
     }
 
+    // 資源訪問異常
     @ResponseBody
     @ExceptionHandler(AccessResourceException.class)
     public SystemResource bindAccessResourceException(AccessResourceException e) {
-        return systemResourcePacker.packErrors(HttpStatus.FORBIDDEN, e.getMessage());
+        return systemResourcePacker.packErrors(HttpStatus.FORBIDDEN, e.getMessage(),
+            ErrorCode.NO_PERMISSION.errorCode(), ErrorCode.NO_PERMISSION.errorMsg());
     }
 
+    //
     @ResponseBody
     @ExceptionHandler(HttpMessageNotReadableException.class)
     public SystemResource httpMessageNotReadableException(HttpMessageNotReadableException e) {
-        return systemResourcePacker.packErrors(HttpStatus.BAD_REQUEST, e.getMessage());
+        return systemResourcePacker.packErrors(HttpStatus.BAD_REQUEST, e.getMessage(),
+            ErrorCode.BAD_REQUEST.errorCode(), ErrorCode.BAD_REQUEST.errorMsg());
     }
 
     // Http 請求的提交內容格式不符合 controller 定義的
     @ResponseBody
     @ExceptionHandler(MissingServletRequestPartException.class)
     public SystemResource missingServletRequestPartException(MissingServletRequestPartException e) {
-        return systemResourcePacker.packErrors(HttpStatus.BAD_REQUEST, e.getMessage());
+        return systemResourcePacker.packErrors(HttpStatus.BAD_REQUEST, e.getMessage(),
+            ErrorCode.BAD_REQUEST.errorCode(), ErrorCode.BAD_REQUEST.errorMsg());
     }
 
     // Http 請求用了錯誤的提交方法 (例如：要求 formData 卻使用 application/json)
@@ -109,7 +122,8 @@ public class ControllerExceptionTranslator {
     @ResponseBody
     @ExceptionHandler(MultipartException.class)
     public SystemResource handleMultipartException(MultipartException e) {
-        return systemResourcePacker.packErrors(HttpStatus.BAD_REQUEST, e.getMessage());
+        return systemResourcePacker.packErrors(HttpStatus.BAD_REQUEST, e.getMessage(),
+            ErrorCode.BAD_REQUEST.errorCode(), ErrorCode.BAD_REQUEST.errorMsg());
     }
 
     @ExceptionHandler(BadCredentialsException.class)
@@ -117,28 +131,28 @@ public class ControllerExceptionTranslator {
 
     @ExceptionHandler({AopConfigException.class})
     public void handleAopConfigExceptionException(HttpServletRequest httpServletRequest,
-                                                  HttpServletResponse httpServletResponse) throws IOException {
+        HttpServletResponse httpServletResponse) throws IOException {
         httpServletRequest.setAttribute("error", "bad request");
         httpServletResponse.sendError(HttpStatus.BAD_REQUEST.value());
     }
 
     @ExceptionHandler(PermissionDeniedDataAccessException.class)
     public void handlePermissionDeniedDataAccessException(HttpServletRequest httpServletRequest,
-                                                          HttpServletResponse httpServletResponse) throws IOException {
+        HttpServletResponse httpServletResponse) throws IOException {
         httpServletRequest.setAttribute("error", "permission denied");
         httpServletResponse.sendError(HttpStatus.UNAUTHORIZED.value());
     }
 
     @ExceptionHandler(UsernameNotFoundException.class)
     public void handleUserNotFoundException(HttpServletRequest httpServletRequest,
-                                            HttpServletResponse httpServletResponse) throws IOException {
+        HttpServletResponse httpServletResponse) throws IOException {
         httpServletRequest.setAttribute("error", "user not found");
         httpServletResponse.sendError(HttpStatus.NOT_FOUND.value());
     }
 
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
     public void handleMethodArgumentTypeMismatchException(MethodArgumentTypeMismatchException e,
-                                                          HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws IOException {
+        HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws IOException {
         Throwable cause = getNestedCause(e);
         HttpStatus status = HttpStatus.NOT_FOUND;
 
@@ -162,7 +176,8 @@ public class ControllerExceptionTranslator {
         if (cause instanceof BaseThrowable) {
             status = Optional.ofNullable(((BaseThrowable) cause).getHttpStatus()).orElse(HttpStatus.NOT_FOUND);
         }
-        return systemResourcePacker.packErrors(status, cause.getMessage());
+        return systemResourcePacker.packErrors(status, cause.getMessage(), ErrorCode.API_NOT_FOUND.errorCode(),
+            ErrorCode.API_NOT_FOUND.errorMsg());
     }
 
     private Throwable getNestedCause(Throwable e) {

@@ -3,11 +3,11 @@ package com.orange.orange_vote.base.view.abstracts;
 import com.google.gson.Gson;
 import com.orange.orange_vote.base.view.BaseResource;
 import java.io.Serializable;
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
-@Data
+@Getter
+@Setter
 public abstract class AbstractResource implements BaseResource {
 
     private static final long serialVersionUID = 1L;

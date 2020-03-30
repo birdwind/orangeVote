@@ -15,33 +15,46 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.UniqueConstraint;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
 @Entity
-@Table(name = "`member_role_relate`")
-@I18nPrefix(value = "MemberRoleRelate")
-public class MemberRoleRelate extends AbstractModel {
+@I18nPrefix(value = "MemberAuth.Operator")
+@Table(name = "`function_operator_relate`",
+    uniqueConstraints = @UniqueConstraint(columnNames = {"function_id", "operator_id"}))
+public class FunctionOperatorRelate extends AbstractModel {
 
     private static final long serialVersionUID = 1L;
 
+    public FunctionOperatorRelate() {
+        this.functionOperatorRelateId = 0;
+        this.status = true;
+    }
+
+    public FunctionOperatorRelate(Function function, Operator operator) {
+        this();
+        this.function = function;
+        this.operator = operator;
+    }
+
     @Id
-    @Column(name = "relate_id", updatable = false, nullable = false)
+    @Column(name = "function_operator_relate_id", updatable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer relateId;
-
-    @Column(name = "relate_uuid", updatable = false, nullable = false)
-    private String relateUuid;
+    private Integer functionOperatorRelateId;
 
     @OneToOne
-    @JoinColumn(name = "member_id", nullable = false)
-    private Member member;
+    @JoinColumn(name = "function_id")
+    private Function function;
 
     @OneToOne
-    @JoinColumn(name = "role_id", nullable = false)
-    private Role role;
+    @JoinColumn(name = "operator_id")
+    private Operator operator;
+
+    @Column(name = "status")
+    private Boolean status;
 
     @CreationTimestamp
     @Column(name = "create_date", updatable = false)
@@ -53,11 +66,9 @@ public class MemberRoleRelate extends AbstractModel {
     @Temporal(TemporalType.TIMESTAMP)
     private Date updateDate;
 
-    @Column(name = "status", nullable = false)
-    private Boolean status;
-
     @Override
     public Integer getId() {
-        return this.relateId;
+        return this.functionOperatorRelateId;
     }
+
 }

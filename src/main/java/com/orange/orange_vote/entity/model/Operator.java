@@ -5,13 +5,14 @@ import com.orange.orange_vote.base.repo.AbstractModel;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -21,27 +22,39 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table(name = "`member_role_relate`")
-@I18nPrefix(value = "MemberRoleRelate")
-public class MemberRoleRelate extends AbstractModel {
+@I18nPrefix(value = "MemberAuth.Operator")
+@Table(name = "`operator`")
+public class Operator extends AbstractModel {
 
     private static final long serialVersionUID = 1L;
 
     @Id
-    @Column(name = "relate_id", updatable = false, nullable = false)
+    @Column(name = "operator_id", updatable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer relateId;
+    private Integer operatorId;
 
-    @Column(name = "relate_uuid", updatable = false, nullable = false)
-    private String relateUuid;
+    @Column(name = "operator_uuid", updatable = false, unique = true, nullable = false)
+    private String operatorUuid;
 
-    @OneToOne
-    @JoinColumn(name = "member_id", nullable = false)
-    private Member member;
+    @Column(name = "operator_key", unique = true)
+    private String operatorKey;
 
-    @OneToOne
-    @JoinColumn(name = "role_id", nullable = false)
-    private Role role;
+    // 0 = /page, 1 = /api
+    @Column(name = "type")
+    private Integer type;
+
+    // 0 = GET, 1 = PUT, 2 = POST, 3 = DELETE
+    @Column(name = "method")
+    private Integer method;
+
+    @Column(name = "url", unique = true)
+    private String url;
+
+    @Column(name = "note")
+    private String note;
+
+    @Column(name = "status")
+    private Boolean status;
 
     @CreationTimestamp
     @Column(name = "create_date", updatable = false)
@@ -53,11 +66,12 @@ public class MemberRoleRelate extends AbstractModel {
     @Temporal(TemporalType.TIMESTAMP)
     private Date updateDate;
 
-    @Column(name = "status", nullable = false)
-    private Boolean status;
+    @OneToMany(fetch = FetchType.LAZY, targetEntity = FunctionOperatorRelate.class, mappedBy = "operator")
+    private List<FunctionOperatorRelate> functionOperatorRelates;
 
     @Override
     public Integer getId() {
-        return this.relateId;
+        return this.operatorId;
     }
+
 }

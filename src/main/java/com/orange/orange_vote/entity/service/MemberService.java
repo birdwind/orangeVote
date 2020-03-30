@@ -1,4 +1,4 @@
-package com.orange.orange_vote;
+package com.orange.orange_vote.entity.service;
 
 import com.orange.orange_vote.entity.model.Member;
 import java.util.Optional;

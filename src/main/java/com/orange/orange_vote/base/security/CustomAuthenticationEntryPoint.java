@@ -1,6 +1,7 @@
 package com.orange.orange_vote.base.security;
 
 import com.orange.orange_vote.base.constans.BaseErrorConstants;
+import com.orange.orange_vote.base.enums.ErrorCode;
 import com.orange.orange_vote.base.system.converter.SystemResourcePacker;
 import com.orange.orange_vote.base.utils.LocaleI18nUtils;
 import com.orange.orange_vote.base.utils.ServletUtils;
@@ -24,8 +25,10 @@ public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint 
         AuthenticationException authenticationException) throws ServletException {
         try {
             // System.out.println("Custom" + "false");
-            ServletUtils.setResponse(httpServletResponse, systemResourcePacker.packErrors(HttpStatus.UNAUTHORIZED,
-                LocaleI18nUtils.getString(BaseErrorConstants.NO_PERMISSION)));
+            ServletUtils.setResponse(httpServletResponse,
+                systemResourcePacker.packErrors(HttpStatus.UNAUTHORIZED,
+                    LocaleI18nUtils.getString(BaseErrorConstants.NO_PERMISSION), ErrorCode.NOT_LOGIN.errorCode(),
+                    ErrorCode.NOT_LOGIN.errorMsg()));
         } catch (Exception e) {
             throw new ServletException();
         }

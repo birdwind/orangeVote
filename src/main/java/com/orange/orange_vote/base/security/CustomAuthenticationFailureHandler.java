@@ -1,5 +1,6 @@
 package com.orange.orange_vote.base.security;
 
+import com.orange.orange_vote.base.enums.ErrorCode;
 import com.orange.orange_vote.base.system.converter.SystemResourcePacker;
 import com.orange.orange_vote.base.utils.LocaleI18nUtils;
 import com.orange.orange_vote.base.utils.ServletUtils;
@@ -26,8 +27,10 @@ public class CustomAuthenticationFailureHandler implements AuthenticationFailure
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response,
         AuthenticationException exception) {
         try {
-            ServletUtils.setResponse(response, systemResourcePacker.packErrors(HttpStatus.UNAUTHORIZED,
-                LocaleI18nUtils.getString(ErrorConstants.MEMBER_NOT_FOUND)));
+            ServletUtils.setResponse(response,
+                systemResourcePacker.packErrors(HttpStatus.UNAUTHORIZED,
+                    LocaleI18nUtils.getString(ErrorConstants.MEMBER_NOT_FOUND), ErrorCode.LOGIN_ERROR.errorCode(),
+                    ErrorCode.LOGIN_ERROR.errorMsg()));
 
         } catch (IOException e) {
             e.printStackTrace();

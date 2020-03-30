@@ -8,6 +8,7 @@ import org.springframework.security.core.userdetails.User;
 import java.io.Serializable;
 import java.security.Principal;
 import java.util.Collection;
+import java.util.Set;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -20,6 +21,8 @@ public class SystemUser extends User {
     private Serializable core;
 
     private String session;
+
+    private Set<String> urls;
 
     public SystemUser(String username, String password, boolean enabled, boolean accountNonExpired,
         boolean credentialsNonExpired, boolean accountNonLocked, Collection<? extends GrantedAuthority> authorities) {

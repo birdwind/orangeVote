@@ -1,6 +1,5 @@
 package com.orange.orange_vote.entity.model;
 
-import com.orange.orange_vote.base.annotation.I18nPrefix;
 import com.orange.orange_vote.base.repo.AbstractModel;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -20,44 +19,53 @@ import lombok.Setter;
 
 @Getter
 @Setter
+@Table(name = "`module_function_relate`")
 @Entity
-@Table(name = "`member_role_relate`")
-@I18nPrefix(value = "MemberRoleRelate")
-public class MemberRoleRelate extends AbstractModel {
+public class ModuleFunctionRelate extends AbstractModel {
 
     private static final long serialVersionUID = 1L;
 
+    public ModuleFunctionRelate() {
+        this.moduleFunctionRelateId = 0;
+    }
+
+    public ModuleFunctionRelate(Module module, Function function) {
+        this.moduleFunctionRelateId = 0;
+        this.module = module;
+        this.function = function;
+    }
+
     @Id
-    @Column(name = "relate_id", updatable = false, nullable = false)
+    @Column(name = "module_function_relate_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer relateId;
-
-    @Column(name = "relate_uuid", updatable = false, nullable = false)
-    private String relateUuid;
+    private Integer moduleFunctionRelateId;
 
     @OneToOne
-    @JoinColumn(name = "member_id", nullable = false)
-    private Member member;
+    @JoinColumn(name = "module_id")
+    private Module module;
 
     @OneToOne
-    @JoinColumn(name = "role_id", nullable = false)
-    private Role role;
+    @JoinColumn(name = "function_id")
+    private Function function;
 
     @CreationTimestamp
-    @Column(name = "create_date", updatable = false)
+    @Column(name = "create_date")
     @Temporal(TemporalType.TIMESTAMP)
     private Date createDate;
 
     @UpdateTimestamp
-    @Column(name = "update_date", updatable = false)
+    @Column(name = "update_date")
     @Temporal(TemporalType.TIMESTAMP)
     private Date updateDate;
 
-    @Column(name = "status", nullable = false)
-    private Boolean status;
-
     @Override
     public Integer getId() {
-        return this.relateId;
+        return this.moduleFunctionRelateId;
     }
+
+    @Override
+    public void setStatus(Boolean status) {
+
+    }
+
 }

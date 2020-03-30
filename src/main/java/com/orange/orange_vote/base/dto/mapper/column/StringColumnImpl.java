@@ -1,8 +1,10 @@
 package com.orange.orange_vote.base.dto.mapper.column;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
+@Getter
+@Setter
 final class StringColumnImpl extends AbstractColumn implements StringColumn {
     private String value;
 

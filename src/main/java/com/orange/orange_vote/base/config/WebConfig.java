@@ -1,5 +1,6 @@
 package com.orange.orange_vote.base.config;
 
+import com.orange.orange_vote.base.interceptor.FunctionOperatorInterceptor;
 import com.orange.orange_vote.base.interceptor.LoginInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
@@ -19,9 +20,14 @@ public class WebConfig implements WebMvcConfigurer {
     @Autowired
     private LoginInterceptor loginInterceptor;
 
+    @Autowired
+    private FunctionOperatorInterceptor functionOperatorInterceptor;
+
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(loginInterceptor).addPathPatterns("/**");
+
+        registry.addInterceptor(functionOperatorInterceptor).addPathPatterns("/**").excludePathPatterns("/login");
     }
 
     @Bean
@@ -29,7 +35,6 @@ public class WebConfig implements WebMvcConfigurer {
         ResourceBundleMessageSource messageSource = new ResourceBundleMessageSource();
         messageSource.setBasename("messages");
         messageSource.setDefaultEncoding("UTF-8");
-        System.out.println("test");
         return messageSource;
     }
 

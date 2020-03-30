@@ -1,12 +1,11 @@
-package com.orange.orange_vote.entity.serviceImpl;
+package com.orange.orange_vote.entity.service.impl;
 
-import com.orange.orange_vote.RoleService;
+import com.orange.orange_vote.entity.service.RoleService;
 import com.orange.orange_vote.entity.dao.RoleDao;
 import com.orange.orange_vote.entity.model.Role;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
-import java.util.Optional;
 import javax.transaction.Transactional;
 
 @Service
