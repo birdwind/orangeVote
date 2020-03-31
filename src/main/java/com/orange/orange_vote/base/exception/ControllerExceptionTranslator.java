@@ -15,8 +15,10 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.HttpMediaTypeNotSupportedException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -56,7 +58,7 @@ public class ControllerExceptionTranslator {
     // AOP (或其他) 拋出表單驗證錯誤
     @ResponseBody
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public SystemResource methodArgumentNotValidException(MethodArgumentNotValidException e) {
+    public String methodArgumentNotValidException(MethodArgumentNotValidException e) {
         BindingResult result = e.getBindingResult();
         SystemResource systemResource =
             systemResourcePacker.packFieldErrors(systemFieldErrorConverter.convert(result.getFieldErrors()),
@@ -66,7 +68,7 @@ public class ControllerExceptionTranslator {
         // SystemLog log = new SystemLog();
         // log.setResponseContent(systemResource.toJson());
         // systemLogService.saveSystemLog(log);
-        return systemResource;
+        return systemResource.toJson();
     }
 
     // relate綁定錯誤
@@ -93,6 +95,13 @@ public class ControllerExceptionTranslator {
         return systemResource;
     }
 
+    @ResponseBody
+    @ExceptionHandler(MissingServletRequestParameterException.class)
+    public SystemResource exception(MissingServletRequestParameterException e) {
+        return systemResourcePacker.packErrors(HttpStatus.PRECONDITION_FAILED, e.getMessage(),
+            ErrorCode.FIELD_MISS.errorCode(), ErrorCode.FIELD_MISS.errorMsg());
+    }
+
     // 資源訪問異常
     @ResponseBody
     @ExceptionHandler(AccessResourceException.class)
@@ -105,6 +114,13 @@ public class ControllerExceptionTranslator {
     @ResponseBody
     @ExceptionHandler(HttpMessageNotReadableException.class)
     public SystemResource httpMessageNotReadableException(HttpMessageNotReadableException e) {
+        return systemResourcePacker.packErrors(HttpStatus.BAD_REQUEST, e.getMessage(),
+            ErrorCode.BAD_REQUEST.errorCode(), ErrorCode.BAD_REQUEST.errorMsg());
+    }
+
+    @ResponseBody
+    @ExceptionHandler(HttpMediaTypeNotSupportedException.class)
+    public SystemResource httpMediaTypeNotSupportedException(HttpMediaTypeNotSupportedException e) {
         return systemResourcePacker.packErrors(HttpStatus.BAD_REQUEST, e.getMessage(),
             ErrorCode.BAD_REQUEST.errorCode(), ErrorCode.BAD_REQUEST.errorMsg());
     }

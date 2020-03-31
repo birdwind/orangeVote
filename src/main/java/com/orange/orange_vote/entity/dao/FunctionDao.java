@@ -12,7 +12,7 @@ public interface FunctionDao extends BaseRepository<Function, Integer> {
     Optional<List<Function>> findAllFunctionsByModuleId(Integer moduleId);
 
 
-    @Query("SELECT mfr.function FROM ModuleFunctionRelate mfr WHERE mfr.function.status = true"
+    @Query("SELECT mfr.function FROM ModuleFunctionRelate mfr WHERE mfr.function.status = true "
             + "AND mfr.module.moduleId = ?1")
     Optional<List<Function>> findFunctionsByModuleId(Integer moduleId);
 

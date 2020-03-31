@@ -1,7 +1,7 @@
 package com.orange.orange_vote.base.security.view.converter;
 
 import com.orange.orange_vote.base.security.view.LoginView;
-import com.orange.orange_vote.base.view.converter.abstracts.AbstractViewConverter;
+import com.orange.orange_vote.base.dto.mapper.converter.abstracts.AbstractViewConverter;
 import com.orange.orange_vote.entity.model.Member;
 import org.springframework.stereotype.Component;
 

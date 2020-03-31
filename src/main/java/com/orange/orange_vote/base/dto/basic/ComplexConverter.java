@@ -1,7 +1,3 @@
-/*
- * Copyright (c) 2019. Create by Terry Huang (黃昭維)
- */
-
 package com.orange.orange_vote.base.dto.basic;
 
 public interface ComplexConverter<S, T> extends BaseConverter<S, T> {

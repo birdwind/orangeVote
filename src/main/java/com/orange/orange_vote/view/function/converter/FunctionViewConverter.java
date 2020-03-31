@@ -3,7 +3,7 @@ package com.orange.orange_vote.view.function.converter;
 import com.orange.orange_vote.base.dto.mapper.provider.PrimitiveProvider;
 import com.orange.orange_vote.base.enums.OperatorType;
 import com.orange.orange_vote.base.utils.LocaleI18nUtils;
-import com.orange.orange_vote.base.view.converter.abstracts.AbstractViewConverter;
+import com.orange.orange_vote.base.dto.mapper.converter.abstracts.AbstractViewConverter;
 import com.orange.orange_vote.entity.model.Function;
 import com.orange.orange_vote.view.function.FunctionView;
 import org.springframework.stereotype.Component;

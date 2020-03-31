@@ -108,14 +108,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         return new PlainTextPasswordEncoder();
     }
 
-    private static void responseText(HttpServletResponse response, String content) throws IOException {
-        response.setContentType(MediaType.APPLICATION_JSON_UTF8_VALUE);
-        byte[] bytes = content.getBytes(StandardCharsets.UTF_8);
-        response.setContentLength(bytes.length);
-        response.getOutputStream().write(bytes);
-        response.flushBuffer();
-    }
-
     public class PlainTextPasswordEncoder implements PasswordEncoder {
 
         @Override

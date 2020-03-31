@@ -1,5 +1,6 @@
 package com.orange.orange_vote.base.system.converter;
 
+import com.orange.orange_vote.base.constans.BaseErrorConstants;
 import com.orange.orange_vote.base.dto.basic.SimpleConverter;
 import com.orange.orange_vote.base.system.SystemFieldError;
 import org.apache.commons.lang3.StringUtils;
@@ -22,6 +23,15 @@ public class SystemFieldErrorConverter implements SimpleConverter<FieldError, Sy
 //        target.setDefaultMessage(LocaleI18nUtils.getString(message));
         target.setDefaultMessage(message);
         target.setRejectedValue(getRejectValue(source.getRejectedValue()));
+
+        return target;
+    }
+
+    public SystemFieldError convert(String missFieldName){
+        SystemFieldError target = new SystemFieldError();
+        target.setField(missFieldName);
+        target.setRejectedValue("");
+        target.setDefaultMessage(BaseErrorConstants.FIELD_MISS);
 
         return target;
     }

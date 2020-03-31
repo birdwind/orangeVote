@@ -2,7 +2,7 @@ package com.orange.orange_vote.view.module.converter;
 
 import com.orange.orange_vote.base.dto.mapper.provider.PrimitiveProvider;
 import com.orange.orange_vote.base.utils.LocaleI18nUtils;
-import com.orange.orange_vote.base.view.converter.abstracts.AbstractViewConverter;
+import com.orange.orange_vote.base.dto.mapper.converter.abstracts.AbstractViewConverter;
 import com.orange.orange_vote.entity.model.Module;
 import com.orange.orange_vote.entity.service.FunctionService;
 import com.orange.orange_vote.view.function.converter.FunctionViewConverter;

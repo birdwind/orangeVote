@@ -8,7 +8,7 @@ import com.orange.orange_vote.base.system.converter.SystemResourcePacker;
 import com.orange.orange_vote.base.utils.CipherUtils;
 import com.orange.orange_vote.base.utils.LocaleI18nUtils;
 import com.orange.orange_vote.base.utils.ServletUtils;
-import com.orange.orange_vote.constans.ErrorConstants;
+import com.orange.orange_vote.constans.MemberErrorConstants;
 import com.orange.orange_vote.entity.model.Member;
 import com.orange.orange_vote.entity.service.FunctionOperatorRelateService;
 import com.orange.orange_vote.entity.service.MemberService;
@@ -53,7 +53,7 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
         SystemUser systemUser = (SystemUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
         Member member = memberService.getMemberByUsername(systemUser.getUsername())
-            .orElseThrow(() -> new BadCredentialsException(LocaleI18nUtils.getString(ErrorConstants.MEMBER_NOT_FOUND)));
+            .orElseThrow(() -> new BadCredentialsException(LocaleI18nUtils.getString(MemberErrorConstants.MEMBER_NOT_FOUND)));
 
         String sessionString = CipherUtils.bcrypt(member.getMemberId().toString());
 
@@ -65,12 +65,12 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
         // 根據 function, operator, function_operator_relate 3張表格
         // 產生該帳號能夠存取的 URL
         // URL 格式如下: GET - /page/member/form, PUT - /api/member/, POST - /api/member/
-        Set<String> urls =
+        List<String> urls =
             functionOperatorRelateService.getFunctionOperatorRelatesByFunctionIds(functionIds).parallelStream()
                 .map(relate -> OperatorMethod.getName(relate.getOperator().getMethod()) + " - "
                     + OperatorType.getUrl(relate.getOperator().getType()) + relate.getFunction().getBackUrl()
                     + relate.getOperator().getUrl())
-                .collect(Collectors.toSet());
+                .collect(Collectors.toList());
 
         memberService.updateSession(sessionString, member.getMemberId());
         member.setSession(sessionString);

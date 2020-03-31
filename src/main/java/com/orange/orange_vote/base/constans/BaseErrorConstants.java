@@ -38,6 +38,8 @@ public class BaseErrorConstants {
 
     public static final String END_TIME_IS_TOO_EARLY = "Error.Invalid.EndTime.TooEarly";
 
+    public static final String FIELD_MISS = "Error.Field.MissField";
+
     // 系統錯誤
     public static final String FORM_ERROR = "Error.System.FormError";
 

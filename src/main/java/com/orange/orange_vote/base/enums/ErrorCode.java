@@ -12,7 +12,7 @@ public enum ErrorCode implements BaseEnum {
         BaseErrorConstants.NOT_LOGIN), RESOURCE_NOTFUND(3, BaseErrorConstants.RESOURCE_NOT_FOUND), API_NOT_FOUND(4,
             BaseErrorConstants.API_NOT_FOUND), BAD_REQUEST(5, BaseErrorConstants.BAD_REQUEST), DATA_INCOMPLETE(6,
                 BaseErrorConstants.DATA_INCOMPLETE), SERVER_ERROR(7, BaseErrorConstants.SERVER_ERROR), LOGIN_ERROR(9,
-                    BaseErrorConstants.LOGIN_SUCCESS), EXPIRED_SESSION(10, BaseErrorConstants.EXPIRED_SESSION);
+                    BaseErrorConstants.LOGIN_SUCCESS), EXPIRED_SESSION(10, BaseErrorConstants.EXPIRED_SESSION), FIELD_MISS(11, BaseErrorConstants.FIELD_MISS);
 
     private static Map<Integer, ErrorCode> map;
 
