@@ -1,17 +1,17 @@
-/*
- * Copyright (c) 2019. Create by Terry Huang (黃昭維)
- */
-
-package com.gss.pfd.snbdc.rbac.base.dto.form;
+package com.orange.orange_vote.base.view.abstracts;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.orange.orange_vote.base.view.BaseForm;
+import com.orange.orange_vote.base.view.EntityExclusionStrategy;
+import com.orange.orange_vote.base.view.SuperClassExclusionStrategy;
 
 public abstract class AbstractForm implements BaseForm {
 
     public String toJson() {
-        Gson gson = new GsonBuilder()
-            .setExclusionStrategies(new EntityExclusionStrategy(), new SuperClassExclusionStrategy()).create();
+        GsonBuilder gsonBuilder = new GsonBuilder();
+        gsonBuilder.setExclusionStrategies(new EntityExclusionStrategy(), new SuperClassExclusionStrategy());
+        Gson gson = gsonBuilder.create();
         return gson.toJson(this);
     }
 

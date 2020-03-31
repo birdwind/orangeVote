@@ -1,28 +1,42 @@
-package com.orange.orange_vote.view.function.converter;
+package com.orange.orange_vote.view.team.converter;
 
-import com.orange.orange_vote.base.dto.mapper.provider.PrimitiveProvider;
-import com.orange.orange_vote.base.enums.OperatorType;
-import com.orange.orange_vote.base.utils.LocaleI18nUtils;
-import com.orange.orange_vote.base.view.converter.abstracts.AbstractViewConverter;
-import com.orange.orange_vote.entity.model.Function;
-import com.orange.orange_vote.view.function.FunctionView;
+import com.orange.orange_vote.base.dto.mapper.converter.abstracts.AbstractFormConverter;
+import com.orange.orange_vote.base.security.model.SystemUser;
+import com.orange.orange_vote.entity.model.Team;
+import com.orange.orange_vote.entity.service.TeamService;
+import com.orange.orange_vote.view.team.TeamForm;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import java.util.Date;
+import java.util.UUID;
 
 @Component
-public class FunctionViewConverter extends AbstractViewConverter<Function, FunctionView> {
+public class TeamFormConverter extends AbstractFormConverter<TeamForm, Team> {
 
-    private final PrimitiveProvider<Function> backUrlProvider =
-        (source, field) -> OperatorType.PAGE.url() + source.getBackUrl();
-
-    private final PrimitiveProvider<Function> functionValueProvider =
-        (source, field) -> LocaleI18nUtils.getString(source.getFunctionValue());
+    @Autowired
+    private TeamService teamService;
 
     @Override
-    public FunctionView convert(Function source) {
-        addValueProvider("backUrl", backUrlProvider);
-        addValueProvider("functionValue", functionValueProvider);
+    public Team convert(TeamForm source) {
+        Team target;
+        if (source.getTeam() == null) {
+            target = simpleMapping(source, Team.class);
+            target.setTeamUuid(UUID.randomUUID().toString());
+            target.setTeamNo(teamService.generateFunctionNo());
+            target.setCreator(SystemUser.getMember());
+            target.setStatus(true);
+        }else{
+            target = source.getTeam();
+            target.setVerification(source.getVerification());
+            target.setUpdateDate(new Date());
+        }
+        return target;
+    }
 
-        return complexMapping(source, FunctionView.class);
+    public Team convert(TeamForm source, Boolean status) {
+        Team target = convert(source);
+        target.setStatus(status);
+        return target;
     }
 
 }

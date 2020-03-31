@@ -1,4 +1,4 @@
-package com.orange.orange_vote.base.view.converter.abstracts;
+package com.orange.orange_vote.base.dto.mapper.converter.abstracts;
 
 import com.google.common.collect.Maps;
 import com.orange.orange_vote.base.annotation.Ignore;
@@ -10,14 +10,14 @@ import com.orange.orange_vote.base.dto.mapper.column.Column;
 import com.orange.orange_vote.base.dto.mapper.column.DateStringColumn;
 import com.orange.orange_vote.base.dto.mapper.column.NumberColumn;
 import com.orange.orange_vote.base.dto.mapper.column.StringColumn;
-import com.orange.orange_vote.base.dto.mapper.converter.BooleanColumnConverter;
-import com.orange.orange_vote.base.dto.mapper.converter.CollectionColumnConverter;
-import com.orange.orange_vote.base.dto.mapper.converter.ColumnConverter;
-import com.orange.orange_vote.base.dto.mapper.converter.DateStringColumnConverter;
+import com.orange.orange_vote.base.dto.column.converter.BooleanColumnConverter;
+import com.orange.orange_vote.base.dto.column.converter.CollectionColumnConverter;
+import com.orange.orange_vote.base.dto.column.converter.ColumnConverter;
+import com.orange.orange_vote.base.dto.column.converter.DateStringColumnConverter;
 import com.orange.orange_vote.base.dto.mapper.converter.HeaderConverter;
-import com.orange.orange_vote.base.dto.mapper.converter.NumberColumnConverter;
-import com.orange.orange_vote.base.dto.mapper.converter.PrimitiveColumnConverter;
-import com.orange.orange_vote.base.dto.mapper.converter.StringColumnConverter;
+import com.orange.orange_vote.base.dto.column.converter.NumberColumnConverter;
+import com.orange.orange_vote.base.dto.column.converter.PrimitiveColumnConverter;
+import com.orange.orange_vote.base.dto.column.converter.StringColumnConverter;
 import com.orange.orange_vote.base.dto.mapper.provider.ValueProvider;
 import com.orange.orange_vote.base.enums.ViewTypeEnum;
 import com.orange.orange_vote.base.repo.BaseModel;

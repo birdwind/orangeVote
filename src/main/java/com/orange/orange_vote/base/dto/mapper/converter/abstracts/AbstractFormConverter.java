@@ -1,4 +1,4 @@
-package com.orange.orange_vote.base.view.converter.abstracts;
+package com.orange.orange_vote.base.dto.mapper.converter.abstracts;
 
 import com.orange.orange_vote.base.dto.basic.SimpleConverter;
 import com.orange.orange_vote.base.repo.BaseModel;

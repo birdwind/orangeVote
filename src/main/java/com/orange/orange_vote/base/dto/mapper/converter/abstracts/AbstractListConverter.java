@@ -1,8 +1,8 @@
-package com.orange.orange_vote.base.view.converter.abstracts;
+package com.orange.orange_vote.base.dto.mapper.converter.abstracts;
 
 import com.orange.orange_vote.base.repo.BaseModel;
 import com.orange.orange_vote.base.view.abstracts.AbstractListItem;
-import com.orange.orange_vote.base.view.converter.BaseListConverter;
+import com.orange.orange_vote.base.dto.mapper.converter.BaseListConverter;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;

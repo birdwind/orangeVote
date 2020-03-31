@@ -1,14 +1,10 @@
-/*
- * Copyright (c) 2019. Create by Terry Huang (黃昭維)
- */
+package com.orange.orange_vote.view.team.converter;
 
-package com.gss.pfd.snbdc.rbac.web.view.function.converter;
-
-import com.gss.pfd.snbdc.rbac.base.dto.converter.abstracts.AbstractResourcePacker;
-import com.gss.pfd.snbdc.rbac.web.view.function.FunctionResource;
+import com.orange.orange_vote.base.view.abstracts.AbstractResourcePacker;
+import com.orange.orange_vote.view.team.TeamResource;
 import org.springframework.stereotype.Component;
 
 @Component
-public class FunctionResourcePacker extends AbstractResourcePacker<FunctionResource> {
+public class TeamResourcePacker extends AbstractResourcePacker<TeamResource> {
 
 }
