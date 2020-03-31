@@ -1,4 +1,4 @@
-package com.orange.orange_vote.base.dto.mapper.converter;
+package com.orange.orange_vote.base.dto.mapper;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;

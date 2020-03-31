@@ -1,7 +1,7 @@
 package com.orange.orange_vote.base.dto.mapper.converter.abstracts;
 
 import com.google.common.collect.Maps;
-import com.orange.orange_vote.base.dto.mapper.converter.BaseVoteConverter;
+import com.orange.orange_vote.base.dto.mapper.BaseVoteConverter;
 import com.orange.orange_vote.base.enums.ViewTypeEnum;
 import com.orange.orange_vote.base.repo.BaseModel;
 import com.orange.orange_vote.base.utils.LocaleI18nUtils;

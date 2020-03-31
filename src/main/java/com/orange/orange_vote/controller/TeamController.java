@@ -44,5 +44,4 @@ public class TeamController {
             .pack(teamViewConverter.convert(teamService.updateTeam(teamFormConverter.convert(teamForm, status))))
             .toJson();
     }
-
 }

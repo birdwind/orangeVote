@@ -14,7 +14,7 @@ import com.orange.orange_vote.base.dto.column.converter.BooleanColumnConverter;
 import com.orange.orange_vote.base.dto.column.converter.CollectionColumnConverter;
 import com.orange.orange_vote.base.dto.column.converter.ColumnConverter;
 import com.orange.orange_vote.base.dto.column.converter.DateStringColumnConverter;
-import com.orange.orange_vote.base.dto.mapper.converter.HeaderConverter;
+import com.orange.orange_vote.base.dto.mapper.HeaderConverter;
 import com.orange.orange_vote.base.dto.column.converter.NumberColumnConverter;
 import com.orange.orange_vote.base.dto.column.converter.PrimitiveColumnConverter;
 import com.orange.orange_vote.base.dto.column.converter.StringColumnConverter;

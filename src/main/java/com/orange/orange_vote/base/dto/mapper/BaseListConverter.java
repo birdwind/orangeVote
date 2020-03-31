@@ -1,4 +1,4 @@
-package com.orange.orange_vote.base.dto.mapper.converter;
+package com.orange.orange_vote.base.dto.mapper;
 
 import com.orange.orange_vote.base.dto.basic.BaseConverter;
 import com.orange.orange_vote.base.repo.BaseModel;
