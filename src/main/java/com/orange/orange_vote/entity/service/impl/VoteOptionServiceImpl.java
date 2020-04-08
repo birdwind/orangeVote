@@ -1,5 +1,6 @@
 package com.orange.orange_vote.entity.service.impl;
 
+import com.orange.orange_vote.base.repo.BaseModel;
 import com.orange.orange_vote.base.security.model.SystemUser;
 import com.orange.orange_vote.entity.dao.VoteOptionDao;
 import com.orange.orange_vote.entity.model.Member;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Service;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import javax.transaction.Transactional;
 
 @Service
@@ -34,5 +36,10 @@ public class VoteOptionServiceImpl implements VoteOptionService {
     @Override
     public List<VoteOption> saveAll(Collection<VoteOption> voteOptions) {
         return voteOptionDao.saveAll(voteOptions);
+    }
+
+    @Override
+    public List<VoteOption> deleteAll(Collection<VoteOption> voteOptions) {
+        return voteOptionDao.saveAll(voteOptions.stream().peek(BaseModel::delete).collect(Collectors.toList()));
     }
 }

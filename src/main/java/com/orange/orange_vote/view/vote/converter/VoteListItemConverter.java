@@ -33,5 +33,7 @@ public class VoteListItemConverter extends AbstractListConverter<Vote, VoteListI
         item.setContent(source.getContent());
         item.setMultiSelection(source.getMultiSelection());
         item.setOption(voteOptionListItemConverter.convert(source.getVoteOptions()));
+        item.setIsSign(source.getIsSign());
+        item.setIsAllowAdd(source.getIsAllowAdd());
     }
 }

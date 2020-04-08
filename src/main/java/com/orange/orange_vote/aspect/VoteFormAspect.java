@@ -36,33 +36,41 @@ public class VoteFormAspect extends CreateUpdateFormAspect<VoteForm, VoteForm> {
     @Override
     protected void postAuthenticate(VoteForm form, BindingResult errors) throws EntityNotFoundException {
         Vote vote = voteService.getVotesByVoteUuid(form.getVoteUuid()).orElseThrow(() -> {
-            return new EntityNotFoundException("voteUuid", VoteErrorConstants.VOTEOPTION_NOT_FOUND);
+            return new EntityNotFoundException("voteUuid", VoteErrorConstants.VOTE_NOT_FOUND);
         });
 
         checkTeamExist(form, errors);
 
         AtomicInteger index = new AtomicInteger();
-        form.getOptions().forEach(voteOptionForm -> {
-            int i = index.getAndIncrement();
-            VoteOption voteOption = voteOptionService
-                .getVoteOptionByVoteOptionUuidAndVote(voteOptionForm.getOptionUuid(), vote).orElse(null);
-            if (voteOption == null) {
-                errors.rejectValue("optionUuid[" + i + "]", VoteErrorConstants.VOTEOPTION_NOT_FOUND);
-            } else {
-                voteOptionForm.setVoteOption(voteOption);
-            }
-        });
+        if(form.getOptions() != null) {
+            form.getOptions().forEach(voteOptionForm -> {
+                int i = index.getAndIncrement();
+                VoteOption voteOption = voteOptionService
+                        .getVoteOptionByVoteOptionUuidAndVote(voteOptionForm.getOptionUuid(), vote).orElse(null);
+                if (voteOption == null && voteOptionForm.getOptionUuid() != null) {
+                    errors.rejectValue("options[" + i + "]", VoteErrorConstants.VOTEOPTION_NOT_FOUND);
+                } else {
+                    voteOptionForm.setVoteOption(voteOption);
+                }
+            });
+        }
+
         index.set(0);
-        form.getDeleteOptions().forEach(voteOptionDeleteForm -> {
-            int i = index.getAndIncrement();
-            VoteOption voteOption = voteOptionService
-                .getVoteOptionByVoteOptionUuidAndVote(voteOptionDeleteForm.getOptionUuid(), vote).orElse(null);
-            if (voteOption == null) {
-                errors.rejectValue("optionUuid[" + i + "]", VoteErrorConstants.VOTEOPTION_NOT_FOUND);
-            } else {
-                voteOptionDeleteForm.setVoteOption(voteOption);
-            }
-        });
+        if(form.getDeleteOptions() != null) {
+            form.getDeleteOptions().forEach(voteOptionDeleteForm -> {
+                int i = index.getAndIncrement();
+                VoteOption voteOption = voteOptionService
+                        .getVoteOptionByVoteOptionUuidAndVote(voteOptionDeleteForm.getOptionUuid(), vote).orElse(null);
+                if (voteOption == null) {
+                    errors.rejectValue("deleteOptions[" + i + "]", VoteErrorConstants.VOTEOPTION_NOT_FOUND);
+                } else {
+                    voteOptionDeleteForm.setVoteOption(voteOption);
+                }
+            });
+        }
+
+        form.setVote(vote);
+
     }
 
     private void checkTeamExist(VoteForm form, BindingResult errors) {

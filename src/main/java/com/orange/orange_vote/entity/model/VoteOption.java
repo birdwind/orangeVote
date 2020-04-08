@@ -38,12 +38,26 @@ public class VoteOption extends AbstractModel {
     @Column(name = "option_uuid", updatable = false, nullable = false)
     private String voteOptionUuid;
 
-    @Column(name = "option_value", updatable = false, nullable = false)
+    @Column(name = "option_value", nullable = false)
     private String voteOptionValue;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "creator", nullable = false)
+    private Member creator;
+
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "vote_id", updatable = false, nullable = false)
     private Vote vote;
+
+    @CreationTimestamp
+    @Column(name = "create_date", updatable = false)
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date createDate;
+
+    @UpdateTimestamp
+    @Column(name = "update_date")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date updateDate;
 
     @Column(name = "status", nullable = false)
     private Boolean status;

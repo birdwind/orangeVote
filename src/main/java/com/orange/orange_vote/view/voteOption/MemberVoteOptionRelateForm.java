@@ -20,10 +20,14 @@ public class MemberVoteOptionRelateForm extends AbstractForm {
     @NotNull
     private String voteUuid;
 
-    @NotNull
     private List<String> optionUuids;
+
+    private List<VoteOptionForm> addOptions;
 
     @JsonIgnore
     private List<VoteOption> voteOptions;
+
+    @JsonIgnore
+    private Vote vote;
 
 }

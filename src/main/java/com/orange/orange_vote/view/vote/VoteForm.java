@@ -39,6 +39,15 @@ public class VoteForm extends AbstractForm {
     @NotNull
     private String teamUuid;
 
+    @NotNull
+    private Boolean isAllowAdd;
+
+    @NotNull
+    private Boolean isOpen;
+
+    @NotNull
+    private Boolean isSign;
+
     private List<VoteOptionForm> options;
 
     private List<VoteOptionDeleteForm> deleteOptions;

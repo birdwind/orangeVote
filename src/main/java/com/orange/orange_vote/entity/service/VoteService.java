@@ -11,8 +11,12 @@ public interface VoteService {
 
     List<Vote> getAllVotesByMemberId(Integer memberId);
 
+    List<Vote> getAllVotesByMemberIdAndIsOpen(Integer memberId);
+
     Optional<Vote> getVotesByVoteUuid(String voteUuid);
 
     Vote saveVote(Vote vote, Team team);
+
+    Vote updateVote(Vote vote, Team team);
 
 }

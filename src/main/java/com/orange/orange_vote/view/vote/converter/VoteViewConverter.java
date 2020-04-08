@@ -2,10 +2,12 @@ package com.orange.orange_vote.view.vote.converter;
 
 import com.orange.orange_vote.base.dto.mapper.converter.abstracts.AbstractViewConverter;
 import com.orange.orange_vote.entity.model.Vote;
+import com.orange.orange_vote.entity.model.VoteOption;
 import com.orange.orange_vote.view.vote.VoteView;
 import com.orange.orange_vote.view.voteOption.converter.VoteOptionListItemConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import java.util.stream.Collectors;
 
 @Component
 public class VoteViewConverter extends AbstractViewConverter<Vote, VoteView> {
@@ -16,7 +18,8 @@ public class VoteViewConverter extends AbstractViewConverter<Vote, VoteView> {
     @Override
     public VoteView convert(Vote source) {
         VoteView voteView = complexMapping(source, VoteView.class);
-        voteView.setVoteOptions(voteOptionListItemConverter.convert(source.getAddVoteOptions()));
+        voteView.setVoteOptions(voteOptionListItemConverter.convert(source.getVoteOptions().stream()
+            .filter(VoteOption::getStatus).collect(Collectors.toList())));
         return voteView;
     }
 }

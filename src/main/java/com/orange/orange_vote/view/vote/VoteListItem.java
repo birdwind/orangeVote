@@ -16,5 +16,9 @@ public class VoteListItem extends AbstractListItem {
 
     private Integer multiSelection;
 
+    private Boolean isAllowAdd;
+
+    private Boolean isSign;
+
     private List<VoteOptionListItem> option;
 }

@@ -9,4 +9,6 @@ public class VoteErrorConstants {
     public static final String VOTEOPTION_NOT_FOUND = "Error.Vote.Option.NotFound";
 
     public static final String VOTEOPTION_MULTISELECT = "Error.Vote.Option.MultiSelect";
+
+    public static final String VOTEOPTION_NOT_ALLOW_ADD = "Error.Vote.Option.NotAllowAdd";
 }

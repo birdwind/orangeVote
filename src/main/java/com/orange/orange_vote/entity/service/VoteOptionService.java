@@ -14,4 +14,6 @@ public interface VoteOptionService {
 
     List<VoteOption> saveAll(Collection<VoteOption> voteOptions);
 
+    List<VoteOption> deleteAll(Collection<VoteOption> voteOptions);
+
 }

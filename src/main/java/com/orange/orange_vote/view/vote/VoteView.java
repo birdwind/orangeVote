@@ -28,6 +28,15 @@ public class VoteView implements BaseView {
     @ViewType(both = ViewTypeEnum.TEXT)
     private Integer multiSelection;
 
+    @ViewType(both = ViewTypeEnum.BOOLEAN)
+    private Boolean isAllowAdd;
+
+    @ViewType(both = ViewTypeEnum.BOOLEAN)
+    private Boolean isOpen;
+
+    @ViewType(both = ViewTypeEnum.BOOLEAN)
+    private Boolean isSign;
+
     @DateTimeFormatter(value = DateTimeFormatType.MINUTE)
     @ViewType(both = ViewTypeEnum.TEXT)
     private Date expiredDate;

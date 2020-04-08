@@ -6,10 +6,9 @@ import com.orange.orange_vote.entity.model.Member;
 import com.orange.orange_vote.entity.model.Vote;
 import com.orange.orange_vote.entity.service.VoteService;
 import com.orange.orange_vote.view.vote.VoteForm;
-import com.orange.orange_vote.view.voteOption.converter.VoteOptionFormConverter;
-import com.orange.orange_vote.view.voteOption.converter.VoteOptionFormDeleteConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import java.util.Date;
 import java.util.UUID;
 
 @Component
@@ -17,9 +16,6 @@ public class VoteFormConverter extends AbstractFormConverter<VoteForm, Vote> {
 
     @Autowired
     private VoteService voteService;
-
-    @Autowired
-    private VoteOptionFormDeleteConverter voteOptionFormDeleteConverter;
 
     @Override
     public Vote convert(VoteForm source) {
@@ -33,7 +29,13 @@ public class VoteFormConverter extends AbstractFormConverter<VoteForm, Vote> {
             target.setCreator(member);
         } else {
             target.setContent(source.getContent());
-            target.setDeleteVoteOptions(voteOptionFormDeleteConverter.convert(source.getDeleteOptions()));
+            target.setVoteName(source.getVoteName());
+            target.setMultiSelection(source.getMultiSelection());
+            target.setExpiredDate(source.getExpiredDate());
+            target.setIsAllowAdd(source.getIsAllowAdd());
+            target.setIsOpen(source.getIsOpen());
+            target.setIsSign(source.getIsSign());
+            target.setUpdateDate(new Date());
         }
 
         return target;

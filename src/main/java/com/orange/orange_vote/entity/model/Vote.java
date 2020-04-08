@@ -3,6 +3,7 @@ package com.orange.orange_vote.entity.model;
 import com.orange.orange_vote.base.annotation.I18nPrefix;
 import com.orange.orange_vote.base.repo.AbstractModel;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.Where;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.Column;
@@ -33,6 +34,9 @@ public class Vote extends AbstractModel {
     public Vote(){
         this.voteId = 0;
         this.status = true;
+        this.isAllowAdd = false;
+        this.isOpen = true;
+        this.isSign = false;
     }
 
     @Id
@@ -63,18 +67,34 @@ public class Vote extends AbstractModel {
     @JoinColumn(name = "creator")
     private Member creator;
 
+    @Column(name = "is_allow_add", nullable = false)
+    private Boolean isAllowAdd;
+
+    @Column(name = "is_open", nullable = false)
+    private Boolean isOpen;
+
+    @Column(name = "is_sign", nullable = false)
+    private Boolean isSign;
+
     @CreationTimestamp
     @Column(name = "create_date", updatable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private Date createDate;
 
+    @CreationTimestamp
+    @Column(name = "update_date", updatable = false)
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date updateDate;
+
     @Column(name = "status", nullable = false)
     private Boolean status;
 
     @OneToMany(fetch = FetchType.LAZY, targetEntity = VoteTeamRelate.class, mappedBy = "vote")
+    @Where(clause = "status = true")
     private List<VoteTeamRelate> voteTeamRelates;
 
     @OneToMany(fetch = FetchType.LAZY, targetEntity = VoteOption.class, mappedBy = "vote")
+    @Where(clause = "status = true")
     private List<VoteOption> voteOptions;
 
     @Override

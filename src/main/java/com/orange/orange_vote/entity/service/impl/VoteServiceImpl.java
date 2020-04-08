@@ -8,7 +8,6 @@ import com.orange.orange_vote.entity.dao.VoteTeamRelateDao;
 import com.orange.orange_vote.entity.model.Member;
 import com.orange.orange_vote.entity.model.Team;
 import com.orange.orange_vote.entity.model.Vote;
-import com.orange.orange_vote.entity.model.VoteOption;
 import com.orange.orange_vote.entity.model.VoteTeamRelate;
 import com.orange.orange_vote.entity.service.VoteService;
 import com.orange.orange_vote.enums.NumberEnum;
@@ -49,6 +48,11 @@ public class VoteServiceImpl implements VoteService {
     }
 
     @Override
+    public List<Vote> getAllVotesByMemberIdAndIsOpen(Integer memberId) {
+        return voteDao.findVotesByMemberIdAndIsOpen(memberId, new Date()).orElse(Lists.newArrayList());
+    }
+
+    @Override
     public Optional<Vote> getVotesByVoteUuid(String voteUuid) {
         Member member = SystemUser.getMember();
         return voteDao.findVoteByVoteUuidAndMemberId(voteUuid, member.getMemberId());
@@ -58,6 +62,20 @@ public class VoteServiceImpl implements VoteService {
     public Vote saveVote(Vote vote, Team team) {
         Vote tempVote = voteDao.save(vote);
         voteTeamRelateDao.save(new VoteTeamRelate(team, tempVote));
+        return tempVote;
+    }
+
+    @Override
+    public Vote updateVote(Vote vote, Team team) {
+        Vote tempVote = voteDao.save(vote);
+        if (team != tempVote.getVoteTeamRelates().stream().map(VoteTeamRelate::getTeam).findFirst().orElse(null)) {
+            VoteTeamRelate voteTeamRelate = vote.getVoteTeamRelates().stream().findFirst().orElse(null);
+            if(voteTeamRelate != null){
+                voteTeamRelate.delete();
+                voteTeamRelateDao.save(voteTeamRelate);
+            }
+            voteTeamRelateDao.save(new VoteTeamRelate(team, tempVote));
+        }
         return tempVote;
     }
 }

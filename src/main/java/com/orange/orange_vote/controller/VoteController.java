@@ -3,7 +3,9 @@ package com.orange.orange_vote.controller;
 import com.orange.orange_vote.base.annotation.AuthForm;
 import com.orange.orange_vote.base.security.model.SystemUser;
 import com.orange.orange_vote.entity.model.Member;
+import com.orange.orange_vote.entity.model.MemberVoteOptionRelate;
 import com.orange.orange_vote.entity.model.Vote;
+import com.orange.orange_vote.entity.model.VoteOption;
 import com.orange.orange_vote.entity.service.MemberVoteOptionRelateService;
 import com.orange.orange_vote.entity.service.VoteOptionService;
 import com.orange.orange_vote.entity.service.VoteService;
@@ -15,6 +17,7 @@ import com.orange.orange_vote.view.vote.converter.VoteViewConverter;
 import com.orange.orange_vote.view.voteOption.MemberVoteOptionRelateForm;
 import com.orange.orange_vote.view.voteOption.converter.MemberVoteOptionRelateFormConverter;
 import com.orange.orange_vote.view.voteOption.converter.VoteOptionFormConverter;
+import com.orange.orange_vote.view.voteOption.converter.VoteOptionFormDeleteConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,6 +26,8 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
+import java.util.List;
+import java.util.stream.Collectors;
 import javax.validation.Valid;
 
 @RestController
@@ -45,6 +50,9 @@ public class VoteController {
     private VoteOptionFormConverter voteOptionFormConverter;
 
     @Autowired
+    private VoteOptionFormDeleteConverter voteOptionFormDeleteConverter;
+
+    @Autowired
     private MemberVoteOptionRelateFormConverter memberVoteOptionRelateFormConverter;
 
     @Autowired
@@ -60,23 +68,26 @@ public class VoteController {
     public String voteList() {
         Member member = SystemUser.getMember();
         return voteResourcePacker
-            .pack(voteListItemConverter.convert(voteService.getAllVotesByMemberId(member.getMemberId()))).toJson();
+            .pack(voteListItemConverter.convert(voteService.getAllVotesByMemberIdAndIsOpen(member.getMemberId())))
+            .toJson();
     }
 
     @Transactional
     @PutMapping(value = "")
     public String createVote(@AuthForm @Valid @RequestPart(value = "vote") VoteForm voteForm) {
         Vote vote = voteService.saveVote(voteFormConverter.convert(voteForm), voteForm.getTeam());
-        voteOptionService.saveAll(voteOptionFormConverter.convertList(voteForm.getOptions(), vote));
+        vote.setVoteOptions(
+            voteOptionService.saveAll(voteOptionFormConverter.convertList(voteForm.getOptions(), vote)));
         return voteResourcePacker.pack(voteViewConverter.convert(vote)).toJson();
     }
 
     @Transactional
     @PostMapping(value = "")
     public String updateVote(@AuthForm @Valid @RequestPart(value = "vote") VoteForm voteForm) {
-        return voteResourcePacker.pack(
-            voteViewConverter.convert(voteService.saveVote(voteFormConverter.convert(voteForm), voteForm.getTeam())))
-            .toJson();
+        Vote vote = voteService.updateVote(voteFormConverter.convert(voteForm), voteForm.getTeam());
+        voteOptionService.saveAll(voteOptionFormConverter.convertList(voteForm.getOptions(), vote));
+        voteOptionService.deleteAll(voteOptionFormDeleteConverter.convertList(voteForm.getDeleteOptions(), vote));
+        return voteResourcePacker.pack(voteViewConverter.convert(vote)).toJson();
     }
 
     @Transactional
@@ -84,8 +95,18 @@ public class VoteController {
     public String choseVoteOption(
         @AuthForm @Valid @RequestPart(value = "vote") MemberVoteOptionRelateForm memberVoteOptionRelateForm) {
         Member member = SystemUser.getMember();
-        memberVoteOptionRelateService
-            .saveAll(memberVoteOptionRelateFormConverter.convertToList(memberVoteOptionRelateForm));
+        // 新增選項
+        List<VoteOption> voteOptions = voteOptionService.saveAll(voteOptionFormConverter
+            .convertList(memberVoteOptionRelateForm.getAddOptions(), memberVoteOptionRelateForm.getVote()));
+
+        // 建立票數與投票者關聯
+        List<MemberVoteOptionRelate> memberVoteOptionRelates =
+            memberVoteOptionRelateFormConverter.convertToList(memberVoteOptionRelateForm);
+        memberVoteOptionRelates.addAll(voteOptions.stream()
+            .map(voteOption -> new MemberVoteOptionRelate(member, voteOption)).collect(Collectors.toList()));
+
+        memberVoteOptionRelateService.saveAll(memberVoteOptionRelates);
+
         return voteResourcePacker
             .pack(voteListItemConverter.convert(voteService.getAllVotesByMemberId(member.getMemberId()))).toJson();
     }
