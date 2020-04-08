@@ -17,6 +17,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -28,6 +29,11 @@ import lombok.Setter;
 public class Vote extends AbstractModel {
 
     private static final long serialVersionUID = 1L;
+
+    public Vote(){
+        this.voteId = 0;
+        this.status = true;
+    }
 
     @Id
     @Column(name = "vote_id", updatable = false, nullable = false)
@@ -66,13 +72,19 @@ public class Vote extends AbstractModel {
     private Boolean status;
 
     @OneToMany(fetch = FetchType.LAZY, targetEntity = VoteTeamRelate.class, mappedBy = "vote")
-    List<VoteTeamRelate> voteTeamRelates;
+    private List<VoteTeamRelate> voteTeamRelates;
 
     @OneToMany(fetch = FetchType.LAZY, targetEntity = VoteOption.class, mappedBy = "vote")
-    List<VoteOption> voteOptions;
+    private List<VoteOption> voteOptions;
 
     @Override
     public Integer getId() {
         return this.voteId;
     }
+
+    @Transient
+    private List<VoteOption> deleteVoteOptions;
+
+    @Transient
+    private List<VoteOption> addVoteOptions;
 }

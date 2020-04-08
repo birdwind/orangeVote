@@ -2,9 +2,7 @@ package com.orange.orange_vote.entity.model;
 
 import com.orange.orange_vote.base.annotation.I18nPrefix;
 import com.orange.orange_vote.base.repo.AbstractModel;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
-import java.util.Date;
+import java.util.UUID;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -13,8 +11,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -26,6 +22,18 @@ import lombok.Setter;
 public class VoteTeamRelate extends AbstractModel {
 
     private static final long serialVersionUID = 1L;
+
+    public VoteTeamRelate() {
+        this.relateId = 0;
+        this.relateUuid = UUID.randomUUID().toString();
+        this.status = true;
+    }
+
+    public VoteTeamRelate(Team team, Vote vote) {
+        this();
+        this.team = team;
+        this.vote = vote;
+    }
 
     @Id
     @Column(name = "relate_id", updatable = false, nullable = false)

@@ -16,13 +16,13 @@ public class TeamForm extends AbstractForm {
 
     private static final long serialVersionUID = 1L;
 
-    @NullOrNotBlank(message = BaseErrorConstants.NULL)
+    @NullOrNotBlank
     private String teamUuid;
 
-    @NullOrNotBlank(message = BaseErrorConstants.NULL)
+    @NullOrNotBlank
     private String teamValue;
 
-    @NullOrNotBlank(message = BaseErrorConstants.NULL)
+    @NullOrNotBlank
     private String verification;
 
     @JsonIgnore

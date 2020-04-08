@@ -27,7 +27,7 @@ public class TeamFormConverter extends AbstractFormConverter<TeamForm, Team> {
             target.setStatus(true);
         }else{
             target = source.getTeam();
-            target.setVerification(source.getVerification());
+            target.setPassCode(source.getVerification());
             target.setUpdateDate(new Date());
         }
         return target;

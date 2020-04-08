@@ -18,7 +18,7 @@ public class TeamView implements BaseView {
     private String teamValue;
 
     @ViewType(update = ViewTypeEnum.TEXT)
-    private String verification;
+    private String passCode;
 
     @ViewType(create = ViewTypeEnum.HIDDEN, update = ViewTypeEnum.BOOLEAN)
     private Boolean status;

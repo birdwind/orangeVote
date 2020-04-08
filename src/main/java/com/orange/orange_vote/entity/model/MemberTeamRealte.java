@@ -4,6 +4,7 @@ import com.orange.orange_vote.base.annotation.I18nPrefix;
 import com.orange.orange_vote.base.repo.AbstractModel;
 import org.hibernate.annotations.CreationTimestamp;
 import java.util.Date;
+import java.util.UUID;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -25,6 +26,19 @@ import lombok.Setter;
 public class MemberTeamRealte extends AbstractModel {
 
     private static final long serialVersionUID = 1L;
+
+    public MemberTeamRealte(){
+        this.relateId = 0;
+        this.status = true;
+    }
+
+    public MemberTeamRealte(Member member, Team team){
+        this();
+        this.relateUuid = UUID.randomUUID().toString();
+        this.member = member;
+        this.team = team;
+        this.createDate = new Date();
+    }
 
     @Id
     @Column(name = "relate_id", updatable = false, nullable = false)

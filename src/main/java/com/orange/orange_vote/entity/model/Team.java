@@ -39,8 +39,8 @@ public class Team extends AbstractModel {
     @Column(name = "team_value", updatable = false, nullable = false)
     private String teamValue;
 
-    @Column(name = "verification")
-    private String verification;
+    @Column(name = "pass_code")
+    private String passCode;
 
     @OneToOne
     @JoinColumn(name = "creator")

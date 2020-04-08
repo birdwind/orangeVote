@@ -1,7 +1,7 @@
 package com.orange.orange_vote.enums;
 
 public enum NumberEnum {
-    MEMBER("mem-"), ROLE("role-"), MODULE("module-"), FUNCTION("fun-"), TEAM("team-");
+    MEMBER("mem-"), ROLE("role-"), MODULE("module-"), FUNCTION("fun-"), TEAM("team-"), VOTE("vote-");
 
     private String value;
 
