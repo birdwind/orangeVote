@@ -54,7 +54,7 @@ public class TeamController {
     }
 
     @GetMapping(value = "")
-    public String joinTeam(@RequestParam(value = "passCode") String passCode,
+    public String joinTeam(@RequestParam(value = "pass_ode") String passCode,
         @RequestParam(value = "teamUuid") String teamUuid) {
         Team team = teamService.getTeamByPassCode(passCode, teamUuid);
         return teamResourcePacker.pack(teamViewConverter.convert(teamService.joinTeam(team))).toJson();

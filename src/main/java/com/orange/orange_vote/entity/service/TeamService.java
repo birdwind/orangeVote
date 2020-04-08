@@ -6,7 +6,7 @@ import java.util.Optional;
 
 public interface TeamService {
 
-    String generateFunctionNo();
+    String generateTeamNo();
 
     Optional<Team> getTeamByTeamValue(String teamValue);
 

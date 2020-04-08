@@ -17,4 +17,10 @@ public interface MemberDao extends BaseRepository<Member, Integer> {
 
     @Query(value = "SELECT m FROM Member m WHERE m.status = true AND m.session = ?1")
     Optional<Member> findMemberCoreBySession(String session);
+
+    @Query(value = "SELECT COUNT(m) FROM Member m")
+    Integer countMembers();
+
+    @Query(value = "SELECT m FROM Member m WHERE m.memberUuid = ?1")
+    Optional<Member> findMemberByMemberUuid(String memberUuid);
 }
