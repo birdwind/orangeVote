@@ -5,6 +5,7 @@ import com.orange.orange_vote.base.repo.AbstractModel;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import java.util.Date;
+import java.util.UUID;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -26,6 +27,20 @@ import lombok.Setter;
 public class MemberRoleRelate extends AbstractModel {
 
     private static final long serialVersionUID = 1L;
+
+    public MemberRoleRelate(){
+        this.relateId = 0;
+        this.relateUuid = UUID.randomUUID().toString();
+        this.status = true;
+        this.createDate = new Date();
+        this.updateDate = new Date();
+    }
+
+    public MemberRoleRelate(Member member, Role role){
+        this();
+        this.member = member;
+        this.role = role;
+    }
 
     @Id
     @Column(name = "relate_id", updatable = false, nullable = false)
@@ -49,7 +64,7 @@ public class MemberRoleRelate extends AbstractModel {
     private Date createDate;
 
     @UpdateTimestamp
-    @Column(name = "update_date", updatable = false)
+    @Column(name = "update_date")
     @Temporal(TemporalType.TIMESTAMP)
     private Date updateDate;
 

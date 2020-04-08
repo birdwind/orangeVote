@@ -29,7 +29,7 @@ public class TeamServiceImpl implements TeamService {
     private AtomicInteger counter = new AtomicInteger(-1);
 
     @Override
-    public String generateFunctionNo() {
+    public String generateTeamNo() {
         if (counter.get() == -1) {
             counter.set(teamDao.countTeams());
         }

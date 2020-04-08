@@ -22,7 +22,7 @@ public class TeamFormConverter extends AbstractFormConverter<TeamForm, Team> {
         if (source.getTeam() == null) {
             target = simpleMapping(source, Team.class);
             target.setTeamUuid(UUID.randomUUID().toString());
-            target.setTeamNo(teamService.generateFunctionNo());
+            target.setTeamNo(teamService.generateTeamNo());
             target.setCreator(SystemUser.getMember());
             target.setStatus(true);
         }else{

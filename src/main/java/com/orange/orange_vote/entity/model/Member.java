@@ -4,7 +4,9 @@ import com.orange.orange_vote.base.annotation.I18nPrefix;
 import com.orange.orange_vote.base.repo.AbstractModel;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import java.util.Date;
+import java.util.UUID;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -25,6 +27,24 @@ public class Member extends AbstractModel {
 
     private static final long serialVersionUID = 1L;
 
+    public Member() {
+        this.memberId = 0;
+        this.memberUuid = UUID.randomUUID().toString();
+        this.status = true;
+        this.updateDate = new Date();
+        this.createDate = new Date();
+    }
+
+    public Member(String orangeId, String password, String name) {
+        this();
+        this.orangeId = orangeId;
+        this.username = orangeId;
+        this.name = name;
+
+        // 加密
+        encodePasssword(password);
+    }
+
     @Id
     @Column(name = "member_id", updatable = false, nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -36,7 +56,10 @@ public class Member extends AbstractModel {
     @Column(name = "member_no", updatable = false, nullable = false)
     private String memberNo;
 
-    @Column(name = "username", updatable = false, nullable = false)
+    @Column(name = "name", updatable = false, nullable = false)
+    private String name;
+
+    @Column(name = "username", nullable = false)
     private String username;
 
     @Column(name = "nickname")
@@ -57,11 +80,11 @@ public class Member extends AbstractModel {
     private Date createDate;
 
     @UpdateTimestamp
-    @Column(name = "update_date", updatable = false)
+    @Column(name = "update_date")
     @Temporal(TemporalType.TIMESTAMP)
     private Date updateDate;
 
-    @Column(name = "token", updatable = false, nullable = false, unique = true)
+    @Column(name = "token", updatable = false, unique = true)
     private String token;
 
     @Column(name = "session")
@@ -73,5 +96,10 @@ public class Member extends AbstractModel {
     @Override
     public Integer getId() {
         return this.memberId;
+    }
+
+    public void encodePasssword(String password){
+        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+        this.password = bCryptPasswordEncoder.encode(password.trim());
     }
 }

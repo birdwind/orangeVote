@@ -7,4 +7,6 @@ public class MemberErrorConstants {
 
     public static final String MEMBER_SUSPENDED = "Error.Member.Suspended";
 
+    public static final String MEMBER_PASSWORD_INVALID = "Error.Member.Password.InValid";
+
 }
