@@ -107,7 +107,8 @@ public class VoteController {
 
         memberVoteOptionRelateService.saveAll(memberVoteOptionRelates);
 
-        return voteResourcePacker
-            .pack(voteListItemConverter.convert(voteService.getAllVotesByMemberId(member.getMemberId()))).toJson();
+        return voteResourcePacker.pack(voteViewConverter.convert(voteService
+            .getVoteByVoteUuidAndMemberId(memberVoteOptionRelateForm.getVoteUuid(), member.getMemberId()).orElse(null)))
+            .toJson();
     }
 }

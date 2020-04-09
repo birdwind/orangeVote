@@ -47,6 +47,11 @@ public class TeamServiceImpl implements TeamService {
     }
 
     @Override
+    public Optional<Team> getAllTeamByTeamUuid(String teamUuid) {
+        return teamDao.findAllTeamByTeamUuid(teamUuid);
+    }
+
+    @Override
     public List<Team> getAllTeam() {
         Member member = SystemUser.getMember();
         return teamDao.findAllTeams(member).orElse(Lists.newArrayList());

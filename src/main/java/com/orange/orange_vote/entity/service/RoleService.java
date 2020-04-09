@@ -13,6 +13,4 @@ public interface RoleService {
 
     List<Role> getAllRoles();
 
-    Optional<MemberRoleRelate> getMemberRoleRelateByRoleUuidAndMemberId(String roleUuid, Integer memberId);
-
 }

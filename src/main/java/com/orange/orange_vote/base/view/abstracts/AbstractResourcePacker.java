@@ -118,6 +118,15 @@ public abstract class AbstractResourcePacker<R extends BaseResource> implements 
         return resource;
     }
 
+    @Override
+    public R packNotFoundErrors(String response) {
+        R resource = getInstance();
+        setError(resource, response, HttpStatus.PRECONDITION_FAILED, ErrorCode.DATA_INCOMPLETE.errorCode(),
+            ErrorCode.DATA_INCOMPLETE.errorMsg());
+        setOtherProperties(null, resource, HttpStatus.PRECONDITION_FAILED);
+        return resource;
+    }
+
     private void set(R resource, Object response) {
         set(resource, response, null, null);
     }

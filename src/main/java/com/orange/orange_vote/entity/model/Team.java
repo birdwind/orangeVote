@@ -52,7 +52,7 @@ public class Team extends AbstractModel {
     private Date createDate;
 
     @UpdateTimestamp
-    @Column(name = "update_date", updatable = false)
+    @Column(name = "update_date")
     @Temporal(TemporalType.TIMESTAMP)
     private Date updateDate;
 

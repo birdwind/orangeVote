@@ -15,16 +15,21 @@ public interface VoteDao extends BaseRepository<Vote, Integer> {
     Optional<List<Vote>> findVotesByMemberId(Integer memberId, Date expiredDate);
 
     @Query(value = "SELECT v FROM Vote v JOIN VoteTeamRelate vtr ON vtr.vote = v AND vtr.status = true "
-            + "JOIN MemberTeamRealte mtr ON mtr.team = vtr.team AND mtr.status = true "
-            + "WHERE v.status = true AND mtr.member.memberId = ?1 AND v.expiredDate > ?2 AND v.isOpen = true ")
+        + "JOIN MemberTeamRealte mtr ON mtr.team = vtr.team AND mtr.status = true "
+        + "WHERE v.status = true AND mtr.member.memberId = ?1 AND v.expiredDate > ?2 AND v.isOpen = true ")
     Optional<List<Vote>> findVotesByMemberIdAndIsOpen(Integer memberId, Date expiredDate);
 
     @Query(value = "SELECT COUNT(v) FROM Vote v")
     Integer countVotes();
 
-    @Query(value = "SELECT v FROM Vote v JOIN VoteTeamRelate vtr ON vtr.vote = v " +
-            "JOIN MemberTeamRealte mtr ON mtr.team = vtr.team " +
-            "WHERE v.status = true AND mtr.member.memberId = ?2 AND v.voteUuid = ?1")
+    @Query(value = "SELECT v FROM Vote v JOIN VoteTeamRelate vtr ON vtr.vote = v "
+        + "JOIN MemberTeamRealte mtr ON mtr.team = vtr.team "
+        + "WHERE v.status = true AND v.creator.memberId = ?2 AND v.voteUuid = ?1")
+    Optional<Vote> findVoteByVoteUuidAndCreatorId(String voteUuid, Integer memberId);
+
+    @Query(value = "SELECT v FROM Vote v JOIN VoteTeamRelate vtr ON vtr.vote = v AND vtr.status = true "
+        + "JOIN MemberTeamRealte mtr ON mtr.team = vtr.team AND mtr.status = true "
+        + "WHERE v.status = true AND v.voteUuid = ?1 AND mtr.member.memberId = ?2 ")
     Optional<Vote> findVoteByVoteUuidAndMemberId(String voteUuid, Integer memberId);
 
 }

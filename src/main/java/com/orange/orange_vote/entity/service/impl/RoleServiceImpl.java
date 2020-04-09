@@ -36,8 +36,4 @@ public class RoleServiceImpl implements RoleService {
         return roleDao.findAllRoles();
     }
 
-    @Override
-    public Optional<MemberRoleRelate> getMemberRoleRelateByRoleUuidAndMemberId(String roleUuid, Integer memberId) {
-        return memberRoleRelateDao.findMemberRoleRelateByRoleUuidAndMemberId(roleUuid, memberId);
-    }
 }

@@ -1,6 +1,7 @@
 package com.orange.orange_vote.controller;
 
 import com.orange.orange_vote.base.annotation.AuthForm;
+import com.orange.orange_vote.constans.TeamErrorConstants;
 import com.orange.orange_vote.entity.model.Team;
 import com.orange.orange_vote.entity.service.TeamService;
 import com.orange.orange_vote.view.team.TeamForm;
@@ -54,9 +55,12 @@ public class TeamController {
     }
 
     @GetMapping(value = "")
-    public String joinTeam(@RequestParam(value = "pass_ode") String passCode,
+    public String joinTeam(@RequestParam(value = "pass_code") String passCode,
         @RequestParam(value = "teamUuid") String teamUuid) {
         Team team = teamService.getTeamByPassCode(passCode, teamUuid);
+        if (team == null) {
+            return teamResourcePacker.packNotFoundErrors(TeamErrorConstants.TEAM_NOT_FOUND).toJson();
+        }
         return teamResourcePacker.pack(teamViewConverter.convert(teamService.joinTeam(team))).toJson();
     }
 

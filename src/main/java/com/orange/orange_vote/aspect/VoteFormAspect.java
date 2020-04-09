@@ -2,8 +2,10 @@ package com.orange.orange_vote.aspect;
 
 import com.orange.orange_vote.base.aop.CreateUpdateFormAspect;
 import com.orange.orange_vote.base.exception.EntityNotFoundException;
+import com.orange.orange_vote.base.security.model.SystemUser;
 import com.orange.orange_vote.constans.TeamErrorConstants;
 import com.orange.orange_vote.constans.VoteErrorConstants;
+import com.orange.orange_vote.entity.model.Member;
 import com.orange.orange_vote.entity.model.Team;
 import com.orange.orange_vote.entity.model.Vote;
 import com.orange.orange_vote.entity.model.VoteOption;
@@ -35,18 +37,20 @@ public class VoteFormAspect extends CreateUpdateFormAspect<VoteForm, VoteForm> {
 
     @Override
     protected void postAuthenticate(VoteForm form, BindingResult errors) throws EntityNotFoundException {
-        Vote vote = voteService.getVotesByVoteUuid(form.getVoteUuid()).orElseThrow(() -> {
-            return new EntityNotFoundException("voteUuid", VoteErrorConstants.VOTE_NOT_FOUND);
-        });
+        Member member = SystemUser.getMember();
+        Vote vote =
+            voteService.getVoteByVoteUuidAndCreatorId(form.getVoteUuid(), member.getMemberId()).orElseThrow(() -> {
+                return new EntityNotFoundException("voteUuid", VoteErrorConstants.VOTE_NOT_FOUND);
+            });
 
         checkTeamExist(form, errors);
 
         AtomicInteger index = new AtomicInteger();
-        if(form.getOptions() != null) {
+        if (form.getOptions() != null) {
             form.getOptions().forEach(voteOptionForm -> {
                 int i = index.getAndIncrement();
                 VoteOption voteOption = voteOptionService
-                        .getVoteOptionByVoteOptionUuidAndVote(voteOptionForm.getOptionUuid(), vote).orElse(null);
+                    .getVoteOptionByVoteOptionUuidAndVote(voteOptionForm.getOptionUuid(), vote).orElse(null);
                 if (voteOption == null && voteOptionForm.getOptionUuid() != null) {
                     errors.rejectValue("options[" + i + "]", VoteErrorConstants.VOTEOPTION_NOT_FOUND);
                 } else {
@@ -56,11 +60,11 @@ public class VoteFormAspect extends CreateUpdateFormAspect<VoteForm, VoteForm> {
         }
 
         index.set(0);
-        if(form.getDeleteOptions() != null) {
+        if (form.getDeleteOptions() != null) {
             form.getDeleteOptions().forEach(voteOptionDeleteForm -> {
                 int i = index.getAndIncrement();
                 VoteOption voteOption = voteOptionService
-                        .getVoteOptionByVoteOptionUuidAndVote(voteOptionDeleteForm.getOptionUuid(), vote).orElse(null);
+                    .getVoteOptionByVoteOptionUuidAndVote(voteOptionDeleteForm.getOptionUuid(), vote).orElse(null);
                 if (voteOption == null) {
                     errors.rejectValue("deleteOptions[" + i + "]", VoteErrorConstants.VOTEOPTION_NOT_FOUND);
                 } else {

@@ -9,4 +9,8 @@ public class MemberErrorConstants {
 
     public static final String MEMBER_PASSWORD_INVALID = "Error.Member.Password.InValid";
 
+    public static final String MEMBER_ORANGEID_DUPLICATE = "Error.Member.OrangeId.Duplicate";
+
+    public static final String MEMBER_USERNAME_DUPLICATE = "Error.Member.Username.Duplicate";
+
 }

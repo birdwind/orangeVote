@@ -12,6 +12,8 @@ public interface TeamService {
 
     Optional<Team> getTeamByTeamUuid(String teamUuid);
 
+    Optional<Team> getAllTeamByTeamUuid(String teamUuid);
+
     List<Team> getAllTeam();
 
     Team saveTeam(Team team);

@@ -27,7 +27,7 @@ public class TeamFormAspect extends CreateUpdateFormAspect<TeamForm, TeamForm> {
 
     @Override
     protected void postAuthenticate(TeamForm form, BindingResult errors) throws EntityNotFoundException {
-        Team team = teamService.getTeamByTeamUuid(form.getTeamUuid()).orElse(null);
+        Team team = teamService.getAllTeamByTeamUuid(form.getTeamUuid()).orElse(null);
         if (team == null) {
             errors.rejectValue("teamUuid", TeamErrorConstants.TEAM_NOT_FOUND);
         }else{

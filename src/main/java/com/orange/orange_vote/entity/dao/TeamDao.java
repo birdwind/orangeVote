@@ -24,6 +24,8 @@ public interface TeamDao extends BaseRepository<Team, Integer> {
     @Query(value = "SELECT t FROM Team t WHERE t.status = true AND t.passCode = ?1 AND t.teamUuid = ?2")
     Optional<Team> findTeamByPassCode(String passCode, String teamUuid);
 
+    @Query(value = "SELECT t FROM Team t WHERE t.teamUuid = ?1")
+    Optional<Team> findAllTeamByTeamUuid(String teamUuid);
 
 
 }

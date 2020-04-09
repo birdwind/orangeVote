@@ -4,14 +4,18 @@ import com.orange.orange_vote.base.annotation.I18nPrefix;
 import com.orange.orange_vote.base.repo.AbstractModel;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.hibernate.annotations.Where;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -92,6 +96,10 @@ public class Member extends AbstractModel {
 
     @Column(name = "status", nullable = false)
     private Boolean status;
+
+    @OneToMany(fetch = FetchType.LAZY, targetEntity = MemberTeamRealte.class, mappedBy = "member")
+    @Where(clause = "status = true")
+    private List<MemberTeamRealte> memberTeamRealtes;
 
     @Override
     public Integer getId() {

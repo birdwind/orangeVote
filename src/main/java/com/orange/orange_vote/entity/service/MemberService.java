@@ -3,6 +3,7 @@ package com.orange.orange_vote.entity.service;
 import com.orange.orange_vote.entity.model.Member;
 import com.orange.orange_vote.entity.model.MemberRoleRelate;
 import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 
 public interface MemberService {
@@ -15,9 +16,11 @@ public interface MemberService {
 
     Optional<Member> getMemberCoreBySession(String session);
 
-    Member save(Member member, Collection<MemberRoleRelate> memberRoleRelates);
+    Member saveWithRoleRelate(Member member, Collection<MemberRoleRelate> memberRoleRelates);
 
-//    Member update(Member member, Collection<MemberRoleRelate> memberRoleRelates);
+    List<Member> delete(Collection<Member> member);
 
     Optional<Member> getMemberByMemberUuid(String memberUuid);
+
+    Optional<Member> getMemberByOrangeId(String orangeId);
 }

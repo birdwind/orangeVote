@@ -19,7 +19,7 @@ public class MemberRoleRelateForm extends AbstractForm {
 
     private static final long serialVersionUID = 1L;
 
-    private String memberUuid;
+    private String relateUuid;
 
     private List<String> roleUuids;
 

@@ -3,7 +3,9 @@ package com.orange.orange_vote.aspect;
 import com.google.common.collect.Lists;
 import com.orange.orange_vote.base.aop.UpdateFormAspect;
 import com.orange.orange_vote.base.exception.EntityNotFoundException;
+import com.orange.orange_vote.base.security.model.SystemUser;
 import com.orange.orange_vote.constans.VoteErrorConstants;
+import com.orange.orange_vote.entity.model.Member;
 import com.orange.orange_vote.entity.model.Vote;
 import com.orange.orange_vote.entity.model.VoteOption;
 import com.orange.orange_vote.entity.service.MemberVoteOptionRelateService;
@@ -31,9 +33,11 @@ public class MemberVoteOptionRelateFormAspect extends UpdateFormAspect<MemberVot
     @Override
     protected void postAuthenticate(MemberVoteOptionRelateForm form, BindingResult errors)
         throws EntityNotFoundException {
-        Vote vote = voteService.getVotesByVoteUuid(form.getVoteUuid()).orElseThrow(() -> {
-            return new EntityNotFoundException("voteUuid", VoteErrorConstants.VOTEOPTION_NOT_FOUND);
-        });
+        Member member = SystemUser.getMember();
+        Vote vote =
+            voteService.getVoteByVoteUuidAndMemberId(form.getVoteUuid(), member.getMemberId()).orElseThrow(() -> {
+                return new EntityNotFoundException("voteUuid", VoteErrorConstants.VOTEOPTION_NOT_FOUND);
+            });
 
         // 檢查是否已投過票
         if (memberVoteOptionRelateService.isVoteAlready(vote.getVoteId())) {
@@ -41,7 +45,7 @@ public class MemberVoteOptionRelateFormAspect extends UpdateFormAspect<MemberVot
             return;
         }
 
-        if(!vote.getIsAllowAdd() && form.getAddOptions() != null){
+        if (!vote.getIsAllowAdd() && form.getAddOptions() != null) {
             errors.rejectValue("addOptions", VoteErrorConstants.VOTEOPTION_NOT_ALLOW_ADD);
             return;
         }
@@ -50,7 +54,7 @@ public class MemberVoteOptionRelateFormAspect extends UpdateFormAspect<MemberVot
         if (vote.getMultiSelection() < (form.getOptionUuids() == null ? 0 : form.getOptionUuids().size())
             + (form.getAddOptions() == null ? 0 : form.getAddOptions().size())) {
             errors.rejectValue("optionUuids", VoteErrorConstants.VOTEOPTION_MULTISELECT);
-            if(form.getAddOptions() != null) {
+            if (form.getAddOptions() != null) {
                 errors.rejectValue("addOptions", VoteErrorConstants.VOTEOPTION_MULTISELECT);
             }
             return;
@@ -58,12 +62,12 @@ public class MemberVoteOptionRelateFormAspect extends UpdateFormAspect<MemberVot
 
         List<VoteOption> voteOptions = Lists.newArrayList();
 
-        if(form.getOptionUuids() != null) {
+        if (form.getOptionUuids() != null) {
             AtomicInteger index = new AtomicInteger();
             form.getOptionUuids().forEach(optionUuid -> {
                 int i = index.getAndIncrement();
                 VoteOption voteOption =
-                        voteOptionService.getVoteOptionByVoteOptionUuidAndVote(optionUuid, vote).orElse(null);
+                    voteOptionService.getVoteOptionByVoteOptionUuidAndVote(optionUuid, vote).orElse(null);
                 if (voteOption == null) {
                     errors.rejectValue("optionUuids[" + i + "]", VoteErrorConstants.VOTEOPTION_NOT_FOUND);
                 } else {

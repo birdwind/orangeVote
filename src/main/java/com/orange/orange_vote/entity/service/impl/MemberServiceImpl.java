@@ -1,5 +1,6 @@
 package com.orange.orange_vote.entity.service.impl;
 
+import com.orange.orange_vote.base.repo.BaseModel;
 import com.orange.orange_vote.entity.dao.MemberDao;
 import com.orange.orange_vote.entity.dao.MemberRoleRelateDao;
 import com.orange.orange_vote.entity.model.Member;
@@ -9,6 +10,7 @@ import com.orange.orange_vote.enums.NumberEnum;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
@@ -50,7 +52,7 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public Member save(Member member, Collection<MemberRoleRelate> memberRoleRelates) {
+    public Member saveWithRoleRelate(Member member, Collection<MemberRoleRelate> memberRoleRelates) {
         Member newMember = memberDao.save(member);
         memberRoleRelateDao.saveAll(
             memberRoleRelates.stream().peek(relate -> relate.setMember(newMember)).collect(Collectors.toList()));
@@ -58,7 +60,17 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
+    public List<Member> delete(Collection<Member> members) {
+        return memberDao.saveAll(members.stream().peek(BaseModel::delete).collect(Collectors.toList()));
+    }
+
+    @Override
     public Optional<Member> getMemberByMemberUuid(String memberUuid) {
         return memberDao.findMemberByMemberUuid(memberUuid);
+    }
+
+    @Override
+    public Optional<Member> getMemberByOrangeId(String orangeId) {
+        return memberDao.findMemberByOrOrangeId(orangeId);
     }
 }

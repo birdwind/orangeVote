@@ -29,4 +29,6 @@ public interface BasePacker<R extends BaseResource> {
 
     R packFieldErrors(Collection<? extends BaseFieldError> errors, Integer errorCode, String errorMsg);
 
+    R packNotFoundErrors(String response);
+
 }

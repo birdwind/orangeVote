@@ -1,18 +1,27 @@
 package com.orange.orange_vote.validator;
 
-import com.orange.orange_vote.base.validator.UpdateFormValidator;
+import com.google.common.collect.Lists;
+import com.orange.orange_vote.base.validator.UpdateDeleteFormValidator;
 import com.orange.orange_vote.constans.MemberErrorConstants;
+import com.orange.orange_vote.view.member.MemberDeleteForm;
 import com.orange.orange_vote.view.member.MemberUpdateForm;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.BindingResult;
 
 @Component
-public class MemberFormValidator extends UpdateFormValidator<MemberUpdateForm> {
+public class MemberFormValidator extends UpdateDeleteFormValidator<MemberUpdateForm, MemberDeleteForm> {
 
     @Override
     protected void postValidate(MemberUpdateForm form, BindingResult errors) {
-        if (isValid(form.getModifyPassword())) {
+        if (!isValid(form.getModifyPassword())) {
             errors.rejectValue("modifyPassword", MemberErrorConstants.MEMBER_PASSWORD_INVALID);
+        }
+    }
+
+    @Override
+    protected void deleteValidate(MemberDeleteForm form, BindingResult errors) {
+        if (form.getMemberUuids() == null) {
+            form.setMemberUuids(Lists.newArrayList());
         }
     }
 
