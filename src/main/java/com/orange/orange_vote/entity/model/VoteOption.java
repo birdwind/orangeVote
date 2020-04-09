@@ -3,7 +3,11 @@ package com.orange.orange_vote.entity.model;
 import com.orange.orange_vote.base.annotation.I18nPrefix;
 import com.orange.orange_vote.base.repo.AbstractModel;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.Formula;
+import org.hibernate.annotations.JoinFormula;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.hibernate.annotations.Where;
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.Column;
@@ -61,6 +65,14 @@ public class VoteOption extends AbstractModel {
 
     @Column(name = "status", nullable = false)
     private Boolean status;
+
+    @OneToMany(fetch = FetchType.LAZY, targetEntity = MemberVoteOptionRelate.class, mappedBy = "voteOption")
+    @Where(clause = "status = true")
+    private List<MemberVoteOptionRelate> memberVoteOptionRelates;
+
+    @Formula(value = "(SELECT COUNT(*) FROM member_vote_option_relate AS mvor "
+        + "WHERE mvor.status = 1 AND mvor.vote_option_id = option_id)")
+    private BigDecimal selectedCount;
 
     @Override
     public Integer getId() {

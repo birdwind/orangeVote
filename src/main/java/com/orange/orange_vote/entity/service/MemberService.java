@@ -23,4 +23,6 @@ public interface MemberService {
     Optional<Member> getMemberByMemberUuid(String memberUuid);
 
     Optional<Member> getMemberByOrangeId(String orangeId);
+
+    Member save(Member member);
 }

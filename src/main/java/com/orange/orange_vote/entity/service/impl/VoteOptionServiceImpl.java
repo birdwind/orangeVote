@@ -9,6 +9,7 @@ import com.orange.orange_vote.entity.model.VoteOption;
 import com.orange.orange_vote.entity.service.VoteOptionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
@@ -41,5 +42,10 @@ public class VoteOptionServiceImpl implements VoteOptionService {
     @Override
     public List<VoteOption> deleteAll(Collection<VoteOption> voteOptions) {
         return voteOptionDao.saveAll(voteOptions.stream().peek(BaseModel::delete).collect(Collectors.toList()));
+    }
+
+    @Override
+    public BigDecimal countOptionBeSelectedByVoteId(Integer voteId) {
+        return voteOptionDao.countOptionBeSelectedByVoteId(voteId);
     }
 }

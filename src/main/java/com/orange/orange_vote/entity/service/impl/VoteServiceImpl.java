@@ -41,13 +41,8 @@ public class VoteServiceImpl implements VoteService {
     }
 
     @Override
-    public List<Vote> getAllVotesByMemberId(Integer memberId) {
-        return voteDao.findVotesByMemberId(memberId, new Date()).orElse(Lists.newArrayList());
-    }
-
-    @Override
-    public List<Vote> getAllVotesByMemberIdAndIsOpen(Integer memberId) {
-        return voteDao.findVotesByMemberIdAndIsOpen(memberId, new Date()).orElse(Lists.newArrayList());
+    public List<Vote> getAllIsVisableVotesByMemberId(Integer memberId) {
+        return voteDao.findVotesIsVisableByMemberIdAndIsOpen(memberId, new Date()).orElse(Lists.newArrayList());
     }
 
     @Override
@@ -79,5 +74,20 @@ public class VoteServiceImpl implements VoteService {
     @Override
     public Optional<Vote> getVoteByVoteUuidAndMemberId(String voteUuid, Integer memberId) {
         return voteDao.findVoteByVoteUuidAndMemberId(voteUuid, memberId);
+    }
+
+    @Override
+    public Optional<Vote> getVoteByVoteUuidAndMemberIdAndCreatorId(String voteUuid, Integer memberId) {
+        return voteDao.findVoteByVoteUuidAndMemberIdAndCreatorId(voteUuid, memberId);
+    }
+
+    @Override
+    public List<Vote> getVotedByMemberId(Integer memberId) {
+        return voteDao.findVotedByMemberId(memberId);
+    }
+
+    @Override
+    public List<Vote> getVotesByCreatorId(Integer creatorId) {
+        return voteDao.findVotesByCreatorId(creatorId);
     }
 }

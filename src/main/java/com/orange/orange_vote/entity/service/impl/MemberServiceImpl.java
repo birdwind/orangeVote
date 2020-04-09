@@ -73,4 +73,9 @@ public class MemberServiceImpl implements MemberService {
     public Optional<Member> getMemberByOrangeId(String orangeId) {
         return memberDao.findMemberByOrOrangeId(orangeId);
     }
+
+    @Override
+    public Member save(Member member) {
+        return memberDao.save(member);
+    }
 }

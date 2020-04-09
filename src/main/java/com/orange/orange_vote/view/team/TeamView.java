@@ -1,6 +1,8 @@
 package com.orange.orange_vote.view.team;
 
 import com.orange.orange_vote.base.annotation.ViewType;
+import com.orange.orange_vote.base.dto.mapper.column.BooleanColumn;
+import com.orange.orange_vote.base.dto.mapper.column.StringColumn;
 import com.orange.orange_vote.base.enums.ViewTypeEnum;
 import com.orange.orange_vote.base.view.BaseView;
 import lombok.Getter;
@@ -15,12 +17,12 @@ public class TeamView implements BaseView {
     private String teamUuid;
 
     @ViewType(create = ViewTypeEnum.TEXT, update = ViewTypeEnum.TEXT)
-    private String teamValue;
+    private StringColumn teamValue;
 
     @ViewType(update = ViewTypeEnum.TEXT)
-    private String passCode;
+    private StringColumn passCode;
 
     @ViewType(create = ViewTypeEnum.HIDDEN, update = ViewTypeEnum.BOOLEAN)
-    private Boolean status;
+    private BooleanColumn status;
 
 }

@@ -9,9 +9,7 @@ public interface VoteService {
 
     String generateFunctionNo();
 
-    List<Vote> getAllVotesByMemberId(Integer memberId);
-
-    List<Vote> getAllVotesByMemberIdAndIsOpen(Integer memberId);
+    List<Vote> getAllIsVisableVotesByMemberId(Integer memberId);
 
     Optional<Vote> getVoteByVoteUuidAndCreatorId(String voteUuid, Integer memberId);
 
@@ -20,5 +18,11 @@ public interface VoteService {
     Vote updateVote(Vote vote, Team team);
 
     Optional<Vote> getVoteByVoteUuidAndMemberId(String voteUuid, Integer memberId);
+
+    Optional<Vote> getVoteByVoteUuidAndMemberIdAndCreatorId(String voteUuid, Integer memberId);
+
+    List<Vote> getVotedByMemberId(Integer memberId);
+
+    List<Vote> getVotesByCreatorId(Integer creatorId);
 
 }

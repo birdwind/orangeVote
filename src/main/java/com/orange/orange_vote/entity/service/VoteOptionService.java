@@ -2,6 +2,7 @@ package com.orange.orange_vote.entity.service;
 
 import com.orange.orange_vote.entity.model.Vote;
 import com.orange.orange_vote.entity.model.VoteOption;
+import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
@@ -15,5 +16,7 @@ public interface VoteOptionService {
     List<VoteOption> saveAll(Collection<VoteOption> voteOptions);
 
     List<VoteOption> deleteAll(Collection<VoteOption> voteOptions);
+
+    BigDecimal countOptionBeSelectedByVoteId(Integer voteId);
 
 }

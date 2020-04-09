@@ -15,6 +15,6 @@ public interface RoleDao extends BaseRepository<Role, Integer> {
     @Query(value = "SELECT r FROM Role r WHERE r.status = true AND r.roleUuid = ?1")
     Optional<Role> findRoleByRoleUuid(String roleUuid);
 
-    @Query(value = "SELECT r FROM Role r WHERE r.status = true")
+    @Query(value = "SELECT r FROM Role r WHERE r.status = true AND r.isVisable = true ")
     List<Role> findAllRoles();
 }

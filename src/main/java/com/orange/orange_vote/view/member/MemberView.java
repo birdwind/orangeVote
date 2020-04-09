@@ -1,6 +1,7 @@
 package com.orange.orange_vote.view.member;
 
 import com.orange.orange_vote.base.annotation.ViewType;
+import com.orange.orange_vote.base.dto.mapper.column.StringColumn;
 import com.orange.orange_vote.base.enums.ViewTypeEnum;
 import com.orange.orange_vote.base.view.BaseView;
 import lombok.Getter;
@@ -15,18 +16,18 @@ public class MemberView implements BaseView {
     private String memberUuid;
 
     @ViewType(create = ViewTypeEnum.TEXT, update = ViewTypeEnum.LABEL)
-    private String name;
+    private StringColumn name;
 
     @ViewType(both = ViewTypeEnum.TEXT)
-    private String username;
+    private StringColumn username;
 
     @ViewType(both = ViewTypeEnum.TEXT)
-    private String nickname;
+    private StringColumn nickname;
 
     @ViewType(create = ViewTypeEnum.TEXT, update = ViewTypeEnum.LABEL)
-    private String orangeId;
+    private StringColumn orangeId;
 
     @ViewType(both = ViewTypeEnum.TEXT)
-    private String school;
+    private StringColumn school;
 
 }

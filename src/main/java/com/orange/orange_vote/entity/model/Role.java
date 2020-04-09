@@ -50,6 +50,9 @@ public class Role extends AbstractModel {
     @Temporal(TemporalType.TIMESTAMP)
     private Date updateDate;
 
+    @Column(name = "is_visable", nullable = false, updatable = false)
+    private Boolean isVisable;
+
     @Column(name = "status", nullable = false)
     private Boolean status;
 

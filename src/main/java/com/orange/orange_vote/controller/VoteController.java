@@ -10,10 +10,12 @@ import com.orange.orange_vote.entity.service.MemberVoteOptionRelateService;
 import com.orange.orange_vote.entity.service.VoteOptionService;
 import com.orange.orange_vote.entity.service.VoteService;
 import com.orange.orange_vote.view.vote.VoteForm;
+import com.orange.orange_vote.view.vote.converter.VoteDetailViewConverter;
 import com.orange.orange_vote.view.vote.converter.VoteFormConverter;
 import com.orange.orange_vote.view.vote.converter.VoteListItemConverter;
 import com.orange.orange_vote.view.vote.converter.VoteResourcePacker;
 import com.orange.orange_vote.view.vote.converter.VoteViewConverter;
+import com.orange.orange_vote.view.vote.converter.VotedListItemConverter;
 import com.orange.orange_vote.view.voteOption.MemberVoteOptionRelateForm;
 import com.orange.orange_vote.view.voteOption.converter.MemberVoteOptionRelateFormConverter;
 import com.orange.orange_vote.view.voteOption.converter.VoteOptionFormConverter;
@@ -21,6 +23,7 @@ import com.orange.orange_vote.view.voteOption.converter.VoteOptionFormDeleteConv
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -56,6 +59,12 @@ public class VoteController {
     private MemberVoteOptionRelateFormConverter memberVoteOptionRelateFormConverter;
 
     @Autowired
+    private VoteDetailViewConverter voteDetailViewConverter;
+
+    @Autowired
+    private VotedListItemConverter votedListItemConverter;
+
+    @Autowired
     private VoteService voteService;
 
     @Autowired
@@ -68,7 +77,7 @@ public class VoteController {
     public String voteList() {
         Member member = SystemUser.getMember();
         return voteResourcePacker
-            .pack(voteListItemConverter.convert(voteService.getAllVotesByMemberIdAndIsOpen(member.getMemberId())))
+            .pack(voteListItemConverter.convert(voteService.getAllIsVisableVotesByMemberId(member.getMemberId())))
             .toJson();
     }
 
@@ -110,5 +119,24 @@ public class VoteController {
         return voteResourcePacker.pack(voteViewConverter.convert(voteService
             .getVoteByVoteUuidAndMemberId(memberVoteOptionRelateForm.getVoteUuid(), member.getMemberId()).orElse(null)))
             .toJson();
+    }
+
+    @GetMapping(value = "/detail/{voteUuid}")
+    public String voteDetail(@PathVariable(value = "voteUuid") Vote vote) {
+        return voteResourcePacker.pack(voteDetailViewConverter.convert(vote)).toJson();
+    }
+
+    @GetMapping(value = "/voted")
+    public String votedList() {
+        Member member = SystemUser.getMember();
+        return voteResourcePacker
+            .pack(votedListItemConverter.convert(voteService.getVotedByMemberId(member.getMemberId()))).toJson();
+    }
+
+    @GetMapping(value = "/create/list")
+    public String createdVoteList() {
+        Member member = SystemUser.getMember();
+        return voteResourcePacker
+                .pack(votedListItemConverter.convert(voteService.getVotesByCreatorId(member.getMemberId()))).toJson();
     }
 }
