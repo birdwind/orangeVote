@@ -151,11 +151,11 @@ public abstract class AbstractResourcePacker<R extends BaseResource> implements 
 
     private void setError(R resource, Object response, HttpStatus httpStatus, Integer errorCode, String errorMsg) {
         if (response != null) {
-            resource.setResponse((Serializable) response);
+            resource.setResponseError((Serializable) response);
             resource.setErrorMsg(errorMsg);
             resource.setErrorCode(errorCode);
         } else {
-            resource.setResponse(httpStatus.toString());
+            resource.setResponseError(httpStatus.toString());
             resource.setErrorMsg(ErrorCode.RESOURCE_NOTFUND.errorMsg());
             resource.setErrorCode(ErrorCode.RESOURCE_NOTFUND.errorCode());
         }

@@ -7,6 +7,8 @@ import com.orange.orange_vote.base.dto.mapper.converter.abstracts.AbstractViewCo
 import com.orange.orange_vote.entity.model.Function;
 import com.orange.orange_vote.view.function.FunctionView;
 import org.springframework.stereotype.Component;
+import java.util.Collection;
+import java.util.List;
 
 @Component
 public class FunctionViewConverter extends AbstractViewConverter<Function, FunctionView> {
@@ -24,5 +26,4 @@ public class FunctionViewConverter extends AbstractViewConverter<Function, Funct
 
         return complexMapping(source, FunctionView.class);
     }
-
 }

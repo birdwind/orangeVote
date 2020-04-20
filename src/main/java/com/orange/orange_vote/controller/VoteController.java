@@ -87,7 +87,8 @@ public class VoteController {
         Vote vote = voteService.saveVote(voteFormConverter.convert(voteForm), voteForm.getTeam());
         vote.setVoteOptions(
             voteOptionService.saveAll(voteOptionFormConverter.convertList(voteForm.getOptions(), vote)));
-        return voteResourcePacker.pack(voteViewConverter.convert(vote)).toJson();
+        return voteResourcePacker.pack(voteViewConverter.convertToList(vote)).toJson();
+//        return voteResourcePacker.pack(voteViewConverter.convert(vote)).toJson();
     }
 
     @Transactional

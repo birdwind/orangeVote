@@ -31,6 +31,6 @@ spring:
       max-file-size: -1
       max-request-size: -1
   session:
-    timeout: 999999999
+    timeout: 0
 server:
   port: 5278

@@ -18,4 +18,10 @@ public interface BaseConverter<S, T> {
                 .collect(Collectors.toList());
     }
 
+    default List<T> convertToList(S source){
+        List<T> list = Lists.newArrayList();
+        list.add(convert(source));
+        return list;
+    }
+
 }
