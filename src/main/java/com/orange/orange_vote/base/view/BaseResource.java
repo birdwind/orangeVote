@@ -43,4 +43,8 @@ public interface BaseResource extends BaseView {
     Serializable getResponseError();
 
     void setResponseError(Serializable responseError);
+
+    Serializable getResponseFieldError();
+
+    void setResponseFieldError(Serializable responseFieldError);
 }

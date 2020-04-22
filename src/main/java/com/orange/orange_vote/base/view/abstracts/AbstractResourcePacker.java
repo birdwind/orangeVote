@@ -37,23 +37,27 @@ public abstract class AbstractResourcePacker<R extends BaseResource> implements 
 
     @Override
     public R pack() {
-        R resource = getInstance();
-        set(resource, Lists.newArrayList());
-        return resource;
+        return pack(Lists.newArrayList(), null, null);
     }
 
     @Override
     public R pack(Integer errorCode, String errorMsg) {
-        R resource = getInstance();
-        set(resource, Lists.newArrayList(), errorCode, errorMsg);
-        return resource;
+        return pack(Lists.newArrayList(), errorCode, errorMsg);
+    }
+
+    @Override
+    public R pack(BaseView view) {
+        return pack(Lists.newArrayList(view), null, null);
+    }
+
+    @Override
+    public R pack(BaseView view, Integer errorCode, String errorMsg) {
+        return pack(Lists.newArrayList(view), errorCode, errorMsg);
     }
 
     @Override
     public <V extends BaseView> R pack(Collection<V> views) {
-        R resource = getInstance();
-        set(resource, views);
-        return resource;
+        return pack(views, null, null);
     }
 
     @Override
@@ -64,47 +68,24 @@ public abstract class AbstractResourcePacker<R extends BaseResource> implements 
     }
 
     @Override
-    public R pack(BaseView view) {
-        R resource = getInstance();
-        set(resource, view);
-        return resource;
-    }
-
-    @Override
-    public R pack(BaseView view, Integer errorCode, String errorMsg) {
-        R resource = getInstance();
-        set(resource, view, errorCode, errorMsg);
-        return resource;
-    }
-
-    @Override
     public R packErrors() {
-        R resource = getInstance();
-        setError(resource, HttpStatus.NOT_FOUND.toString());
-        setOtherProperties(null, resource, HttpStatus.NOT_FOUND);
-        return resource;
+        return packErrors(HttpStatus.NOT_FOUND, null, null);
     }
 
     @Override
     public R packErrors(HttpStatus httpStatus, Integer errorCode, String errorMsg) {
-        R resource = getInstance();
-        setError(resource, httpStatus.toString(), httpStatus, errorCode, errorMsg);
-        setOtherProperties(null, resource, httpStatus);
-        return resource;
+        return packErrors(httpStatus, httpStatus.toString(), errorCode, errorMsg);
     }
 
     @Override
     public R packErrors(HttpStatus httpStatus, String response, Integer errorCode, String errorMsg) {
-        R resource = getInstance();
-        setError(resource, response, httpStatus, errorCode, errorMsg);
-        setOtherProperties(null, resource, httpStatus);
-        return resource;
+        return packErrors(null, httpStatus, response, errorCode, errorMsg);
     }
 
     @Override
     public R packErrors(String url, HttpStatus httpStatus, String response, Integer errorCode, String errorMsg) {
         R resource = getInstance();
-        setError(resource, httpStatus.toString(), httpStatus, errorCode, errorMsg);
+        setError(resource, response, httpStatus, errorCode, errorMsg);
         setOtherProperties(url, resource, httpStatus);
         return resource;
     }
@@ -113,7 +94,9 @@ public abstract class AbstractResourcePacker<R extends BaseResource> implements 
     @Override
     public R packFieldErrors(Collection<? extends BaseFieldError> errors, Integer errorCode, String errorMsg) {
         R resource = getInstance();
-        setError(resource, errors, HttpStatus.PRECONDITION_FAILED, errorCode, errorMsg);
+        resource.setResponseFieldError((Serializable) errors);
+        resource.setErrorCode(errorCode);
+        resource.setErrorMsg(errorMsg);
         setOtherProperties(null, resource, HttpStatus.PRECONDITION_FAILED);
         return resource;
     }
@@ -127,10 +110,6 @@ public abstract class AbstractResourcePacker<R extends BaseResource> implements 
         return resource;
     }
 
-    private void set(R resource, Object response) {
-        set(resource, response, null, null);
-    }
-
     private void set(R resource, Object response, Integer errorCode, String errorMsg) {
         if (response != null) {
             resource.setResponse((Serializable) response);
@@ -138,9 +117,9 @@ public abstract class AbstractResourcePacker<R extends BaseResource> implements 
             resource.setErrorMsg(errorMsg == null ? ErrorCode.SUCCESS.errorMsg() : errorMsg);
             setOtherProperties(null, resource, HttpStatus.OK);
         } else {
+            resource.setResponseError("Resource Not Found");
             resource.setErrorCode(ErrorCode.RESOURCE_NOTFUND.errorCode());
             resource.setErrorMsg(ErrorCode.RESOURCE_NOTFUND.errorMsg());
-            // resource.setResponse("Resource Not Found");
             setOtherProperties(null, resource, HttpStatus.NOT_FOUND);
         }
     }

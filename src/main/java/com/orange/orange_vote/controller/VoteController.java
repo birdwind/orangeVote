@@ -10,6 +10,7 @@ import com.orange.orange_vote.entity.service.MemberVoteOptionRelateService;
 import com.orange.orange_vote.entity.service.VoteOptionService;
 import com.orange.orange_vote.entity.service.VoteService;
 import com.orange.orange_vote.view.vote.VoteForm;
+import com.orange.orange_vote.view.vote.VoteResource;
 import com.orange.orange_vote.view.vote.converter.VoteDetailViewConverter;
 import com.orange.orange_vote.view.vote.converter.VoteFormConverter;
 import com.orange.orange_vote.view.vote.converter.VoteListItemConverter;
@@ -34,7 +35,7 @@ import java.util.stream.Collectors;
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping(value = {"/api/vote"})
+@RequestMapping(value = {"/api/vote"}, produces = "application/json;charset=utf-8")
 public class VoteController {
 
     @Autowired
@@ -74,35 +75,34 @@ public class VoteController {
     private MemberVoteOptionRelateService memberVoteOptionRelateService;
 
     @GetMapping(value = "/list")
-    public String voteList() {
+    public VoteResource voteList() {
         Member member = SystemUser.getMember();
         return voteResourcePacker
-            .pack(voteListItemConverter.convert(voteService.getAllIsVisableVotesByMemberId(member.getMemberId())))
-            .toJson();
+            .pack(voteListItemConverter.convert(voteService.getAllIsVisableVotesByMemberId(member.getMemberId())));
     }
 
     @Transactional
     @PutMapping(value = "")
-    public String createVote(@AuthForm @Valid @RequestPart(value = "vote") VoteForm voteForm) {
+    public VoteResource createVote(@AuthForm @Valid @RequestPart(value = "vote") VoteForm voteForm) {
         Vote vote = voteService.saveVote(voteFormConverter.convert(voteForm), voteForm.getTeam());
         vote.setVoteOptions(
             voteOptionService.saveAll(voteOptionFormConverter.convertList(voteForm.getOptions(), vote)));
-        return voteResourcePacker.pack(voteViewConverter.convertToList(vote)).toJson();
-//        return voteResourcePacker.pack(voteViewConverter.convert(vote)).toJson();
+        return voteResourcePacker.pack(voteViewConverter.convertToList(vote));
+        // return voteResourcePacker.pack(voteViewConverter.convert(vote);
     }
 
     @Transactional
     @PostMapping(value = "")
-    public String updateVote(@AuthForm @Valid @RequestPart(value = "vote") VoteForm voteForm) {
+    public VoteResource updateVote(@AuthForm @Valid @RequestPart(value = "vote") VoteForm voteForm) {
         Vote vote = voteService.updateVote(voteFormConverter.convert(voteForm), voteForm.getTeam());
         voteOptionService.saveAll(voteOptionFormConverter.convertList(voteForm.getOptions(), vote));
         voteOptionService.deleteAll(voteOptionFormDeleteConverter.convertList(voteForm.getDeleteOptions(), vote));
-        return voteResourcePacker.pack(voteViewConverter.convert(vote)).toJson();
+        return voteResourcePacker.pack(voteViewConverter.convert(vote));
     }
 
     @Transactional
     @PostMapping(value = "/option")
-    public String choseVoteOption(
+    public VoteResource choseVoteOption(
         @AuthForm @Valid @RequestPart(value = "vote") MemberVoteOptionRelateForm memberVoteOptionRelateForm) {
         Member member = SystemUser.getMember();
         // 新增選項
@@ -117,27 +117,27 @@ public class VoteController {
 
         memberVoteOptionRelateService.saveAll(memberVoteOptionRelates);
 
-        return voteResourcePacker.pack(voteViewConverter.convert(voteService
-            .getVoteByVoteUuidAndMemberId(memberVoteOptionRelateForm.getVoteUuid(), member.getMemberId()).orElse(null)))
-            .toJson();
+        return voteResourcePacker.pack(voteViewConverter.convert(
+            voteService.getVoteByVoteUuidAndMemberId(memberVoteOptionRelateForm.getVoteUuid(), member.getMemberId())
+                .orElse(null)));
     }
 
     @GetMapping(value = "/detail/{voteUuid}")
-    public String voteDetail(@PathVariable(value = "voteUuid") Vote vote) {
-        return voteResourcePacker.pack(voteDetailViewConverter.convert(vote)).toJson();
+    public VoteResource voteDetail(@PathVariable(value = "voteUuid") Vote vote) {
+        return voteResourcePacker.pack(voteDetailViewConverter.convert(vote));
     }
 
     @GetMapping(value = "/voted")
-    public String votedList() {
+    public VoteResource votedList() {
         Member member = SystemUser.getMember();
         return voteResourcePacker
-            .pack(votedListItemConverter.convert(voteService.getVotedByMemberId(member.getMemberId()))).toJson();
+            .pack(votedListItemConverter.convert(voteService.getVotedByMemberId(member.getMemberId())));
     }
 
     @GetMapping(value = "/create/list")
-    public String createdVoteList() {
+    public VoteResource createdVoteList() {
         Member member = SystemUser.getMember();
         return voteResourcePacker
-                .pack(votedListItemConverter.convert(voteService.getVotesByCreatorId(member.getMemberId()))).toJson();
+            .pack(votedListItemConverter.convert(voteService.getVotesByCreatorId(member.getMemberId())));
     }
 }

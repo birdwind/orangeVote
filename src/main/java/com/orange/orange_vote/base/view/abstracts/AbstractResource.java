@@ -32,6 +32,8 @@ public abstract class AbstractResource implements BaseResource {
 
     private Serializable responseError;
 
+    private Serializable responseFieldError;
+
     public String toJson() {
         Gson gson = new Gson();
         return gson.toJson(this);
