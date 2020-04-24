@@ -1,6 +1,7 @@
 package com.orange.orange_vote.entity.service.impl;
 
 import com.orange.orange_vote.entity.dao.MemberVoteOptionRelateDao;
+import com.orange.orange_vote.entity.model.Member;
 import com.orange.orange_vote.entity.model.MemberVoteOptionRelate;
 import com.orange.orange_vote.entity.service.MemberVoteOptionRelateService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,9 +23,9 @@ public class MemberVoteOptionRelateServiceImpl implements MemberVoteOptionRelate
     }
 
     @Override
-    public Boolean isVoteAlready(Integer voteId) {
+    public Boolean isVoteAlready(Integer voteId, Member member) {
         List<MemberVoteOptionRelate> memberVoteOptionRelates =
-            memberVoteOptionRelateDao.findVoteAlreadyByVoteId(voteId).orElse(null);
+            memberVoteOptionRelateDao.findVoteAlreadyByVoteId(voteId, member).orElse(null);
         return memberVoteOptionRelates != null;
     }
 }

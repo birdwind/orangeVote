@@ -8,6 +8,7 @@ import com.orange.orange_vote.validator.MemberFormValidator;
 import com.orange.orange_vote.view.member.MemberUpdateForm;
 import com.orange.orange_vote.view.member.converter.MemberUpdateFormConverter;
 import com.orange.orange_vote.view.member.converter.MemberViewConverter;
+import com.orange.orange_vote.view.personal.PersonalResource;
 import com.orange.orange_vote.view.personal.converter.PersonalResourcePacker;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.WebDataBinder;
@@ -19,8 +20,8 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping(value = {"/api/personal"})
-public class PersonalController {
+@RequestMapping(value = {"/api/personal"}, produces = "application/json;charset=utf-8")
+public class PersonalApiController {
 
     @Autowired
     private PersonalResourcePacker personalResourcePacker;
@@ -45,8 +46,8 @@ public class PersonalController {
 
     //TODO:還沒測試
     @PostMapping(value = "")
-    public String updatePersonal(@AuthForm @Valid @RequestPart(value = "member") MemberUpdateForm memberUpdateForm) {
+    public PersonalResource updatePersonal(@AuthForm @Valid @RequestPart(value = "member") MemberUpdateForm memberUpdateForm) {
         Member member = memberUpdateFormConverter.convert(memberUpdateForm, SystemUser.getMember());
-        return personalResourcePacker.pack(memberViewConverter.convert(memberService.save(member))).toJson();
+        return personalResourcePacker.pack(memberViewConverter.convert(memberService.save(member)));
     }
 }

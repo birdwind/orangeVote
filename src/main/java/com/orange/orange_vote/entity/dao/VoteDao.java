@@ -9,7 +9,7 @@ import java.util.Optional;
 
 public interface VoteDao extends BaseRepository<Vote, Integer> {
 
-    @Query(value = "SELECT v FROM Vote v JOIN VoteTeamRelate vtr ON vtr.vote = v AND vtr.status = true "
+    @Query(value = "SELECT distinct (v) FROM Vote v JOIN VoteTeamRelate vtr ON vtr.vote = v AND vtr.status = true "
         + "JOIN MemberTeamRealte mtr ON mtr.team = vtr.team AND mtr.status = true "
         + "WHERE v.status = true AND mtr.member.memberId = ?1 AND v.expiredDate > ?2 AND v.isOpen = true ")
     Optional<List<Vote>> findVotesIsVisableByMemberIdAndIsOpen(Integer memberId, Date expiredDate);

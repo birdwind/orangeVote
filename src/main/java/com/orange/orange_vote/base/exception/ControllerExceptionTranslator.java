@@ -166,8 +166,9 @@ public class ControllerExceptionTranslator {
         httpServletResponse.sendError(HttpStatus.NOT_FOUND.value());
     }
 
+    @ResponseBody
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
-    public void handleMethodArgumentTypeMismatchException(MethodArgumentTypeMismatchException e,
+    public SystemResource handleMethodArgumentTypeMismatchException(MethodArgumentTypeMismatchException e,
         HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws IOException {
         Throwable cause = getNestedCause(e);
         HttpStatus status = HttpStatus.NOT_FOUND;
@@ -179,7 +180,9 @@ public class ControllerExceptionTranslator {
 
         httpServletRequest.setAttribute("error", cause.getMessage());
 
-        httpServletResponse.sendError(status.value());
+//        httpServletResponse.sendError(status.value());
+        return systemResourcePacker.packErrors(status, cause.getMessage(), ErrorCode.RESOURCE_NOTFUND.errorCode(),
+                ErrorCode.RESOURCE_NOTFUND.errorMsg());
     }
 
     @ResponseBody

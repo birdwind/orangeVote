@@ -14,11 +14,15 @@ public class VoteListItem extends AbstractListItem {
 
     private String content;
 
+    private String team;
+
     private Integer multiSelection;
 
     private Boolean isAllowAdd;
 
     private Boolean isSign;
+
+    private Boolean isVoted;
 
     private List<VoteOptionListItem> option;
 }

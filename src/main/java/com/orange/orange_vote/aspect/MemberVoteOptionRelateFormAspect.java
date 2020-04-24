@@ -40,7 +40,7 @@ public class MemberVoteOptionRelateFormAspect extends UpdateFormAspect<MemberVot
             });
 
         // 檢查是否已投過票
-        if (memberVoteOptionRelateService.isVoteAlready(vote.getVoteId())) {
+        if (memberVoteOptionRelateService.isVoteAlready(vote.getVoteId(), member)) {
             errors.rejectValue("voteUuid", VoteErrorConstants.VOTE_ALREADY);
             return;
         }

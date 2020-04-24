@@ -5,12 +5,15 @@ import com.orange.orange_vote.base.repo.AbstractModel;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -58,6 +61,9 @@ public class Team extends AbstractModel {
 
     @Column(name = "status", nullable = false)
     private Boolean status;
+
+    @OneToMany(targetEntity = MemberTeamRealte.class, fetch = FetchType.LAZY, mappedBy = "team")
+    private List<MemberTeamRealte> memberTeamRealteList;
 
     @Override
     public Integer getId() {

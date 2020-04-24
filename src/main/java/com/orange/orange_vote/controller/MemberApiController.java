@@ -9,6 +9,7 @@ import com.orange.orange_vote.validator.MemberFormValidator;
 import com.orange.orange_vote.validator.MemberRoleRelateFormValidator;
 import com.orange.orange_vote.view.member.MemberCreateForm;
 import com.orange.orange_vote.view.member.MemberDeleteForm;
+import com.orange.orange_vote.view.member.MemberResource;
 import com.orange.orange_vote.view.member.MemberRoleRelateForm;
 import com.orange.orange_vote.view.member.MemberUpdateForm;
 import com.orange.orange_vote.view.member.converter.MemberCreateFormConverter;
@@ -30,8 +31,8 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping(value = {"/api/member"})
-public class MemberController {
+@RequestMapping(value = {"/api/member"}, produces = "application/json;charset=utf-8")
+public class MemberApiController {
 
     @Autowired
     private MemberResourcePacker memberResourcePacker;
@@ -70,25 +71,25 @@ public class MemberController {
     }
 
     @PutMapping(value = "")
-    public String createMember(@AuthForm @Valid @RequestPart(value = "member") MemberCreateForm memberCreateForm,
-        @AuthForm @Valid @RequestPart(value = "role_relate") MemberRoleRelateForm memberRoleRelateForm) {
+    public MemberResource createMember(@AuthForm @Valid @RequestPart(value = "member") MemberCreateForm memberCreateForm,
+                                       @AuthForm @Valid @RequestPart(value = "role_relate") MemberRoleRelateForm memberRoleRelateForm) {
         Member member = memberCreateFormConverter.convert(memberCreateForm);
         member = memberService.saveWithRoleRelate(member, memberRoleRelateFormConverter.convert(memberRoleRelateForm, member));
-        return memberResourcePacker.pack(memberViewConverter.convert(member)).toJson();
+        return memberResourcePacker.pack(memberViewConverter.convert(member));
     }
 
     @PostMapping(value = "")
-    public String updateMember(@AuthForm @Valid @RequestPart(value = "member") MemberUpdateForm memberUpdateForm,
+    public MemberResource updateMember(@AuthForm @Valid @RequestPart(value = "member") MemberUpdateForm memberUpdateForm,
         @AuthForm @Valid @RequestPart(value = "role_relate") MemberRoleRelateForm memberRoleRelateForm) {
         Member member = memberUpdateFormConverter.convert(memberUpdateForm);
         member = memberService.saveWithRoleRelate(member, memberRoleRelateFormConverter.convert(memberRoleRelateForm, member));
-        return memberResourcePacker.pack(memberViewConverter.convert(member)).toJson();
+        return memberResourcePacker.pack(memberViewConverter.convert(member));
     }
 
     @DeleteMapping(value = "")
-    public String deleteMember(@AuthForm @Valid @RequestPart(value = "member") MemberDeleteForm memberDeleteForm){
+    public MemberResource deleteMember(@AuthForm @Valid @RequestPart(value = "member") MemberDeleteForm memberDeleteForm){
         memberService.delete(memberDeleteForm.getMembers());
-        return memberResourcePacker.pack().toJson();
+        return memberResourcePacker.pack();
     }
 
 }

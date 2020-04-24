@@ -9,7 +9,7 @@ import java.util.Optional;
 public interface VoteOptionDao extends BaseRepository<VoteOption, Integer> {
 
     @Query(value = "SELECT vo FROM VoteOption vo JOIN MemberVoteOptionRelate mvor "
-        + "ON mvor.voteOption.voteOptionId = vo.voteOptionId AND mvor.member.memberId = ?3 "
+        + "ON mvor.voteOption.voteOptionId = vo.voteOptionId AND mvor.member.memberId = ?3 AND mvor.status = true "
         + "WHERE vo.vote.voteId = ?1 AND vo.voteOptionId = ?2 AND vo.status = true")
     VoteOption findVoteOptionBeSelect(Integer voteId, Integer voteOptionId, Integer memberId);
 

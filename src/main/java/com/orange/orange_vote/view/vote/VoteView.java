@@ -24,29 +24,25 @@ public class VoteView implements BaseView {
 
     private String voteUuid;
 
-    @ViewType(both = ViewTypeEnum.TEXT)
-    private StringColumn voteName;
+    private String voteName;
 
-    @ViewType(both = ViewTypeEnum.TEXT)
-    private StringColumn content;
+    private String content;
 
-    @ViewType(both = ViewTypeEnum.UNSIGNED_INTEGER)
-    private NumberColumn multiSelection;
+    private String team;
 
-    @ViewType(both = ViewTypeEnum.BOOLEAN)
-    private BooleanColumn isAllowAdd;
+    private Integer multiSelection;
 
-    @ViewType(both = ViewTypeEnum.BOOLEAN)
-    private BooleanColumn isOpen;
+    private Boolean isAllowAdd;
 
-    @ViewType(both = ViewTypeEnum.BOOLEAN)
-    private BooleanColumn isSign;
+    private Boolean isOpen;
+
+    private Boolean isSign;
+
+    private Boolean isVoted;
 
     @DateTimeFormatter(value = DateTimeFormatType.MINUTE)
-    @ViewType(both = ViewTypeEnum.TEXT)
-    private DateStringColumn expiredDate;
+    private String expiredDate;
 
-    @ViewType(both = ViewTypeEnum.LABEL)
     private List<VoteOptionListItem> voteOptions;
 
 }

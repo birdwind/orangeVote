@@ -36,7 +36,7 @@ import javax.validation.Valid;
 
 @RestController
 @RequestMapping(value = {"/api/vote"}, produces = "application/json;charset=utf-8")
-public class VoteController {
+public class VoteApiController {
 
     @Autowired
     private VoteResourcePacker voteResourcePacker;
@@ -77,8 +77,10 @@ public class VoteController {
     @GetMapping(value = "/list")
     public VoteResource voteList() {
         Member member = SystemUser.getMember();
+        // return voteResourcePacker
+//         .pack(voteListItemConverter.convert(voteService.getAllIsVisableVotesByMemberId(member.getMemberId())));
         return voteResourcePacker
-            .pack(voteListItemConverter.convert(voteService.getAllIsVisableVotesByMemberId(member.getMemberId())));
+            .pack(voteViewConverter.convert(voteService.getAllIsVisableVotesByMemberId(member.getMemberId()), member));
     }
 
     @Transactional
