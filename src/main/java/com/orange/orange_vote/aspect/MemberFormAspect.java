@@ -3,7 +3,7 @@ package com.orange.orange_vote.aspect;
 import com.google.common.collect.Lists;
 import com.orange.orange_vote.base.aop.CreateUpdateDeleteFormAspect;
 import com.orange.orange_vote.base.exception.EntityNotFoundException;
-import com.orange.orange_vote.constans.MemberErrorConstants;
+import com.orange.orange_vote.constans.MemberErrorConstantsEnums;
 import com.orange.orange_vote.entity.model.Member;
 import com.orange.orange_vote.entity.service.MemberService;
 import com.orange.orange_vote.view.member.MemberCreateForm;
@@ -26,18 +26,22 @@ public class MemberFormAspect
     protected void putAuthenticate(MemberCreateForm form, BindingResult errors) throws EntityNotFoundException {
         Member member = memberService.getMemberByOrangeId(form.getOrangeId()).orElse(null);
         if (member != null) {
-            errors.rejectValue("orangeId", MemberErrorConstants.MEMBER_ORANGEID_DUPLICATE);
+            errors.rejectValue("orangeId", MemberErrorConstantsEnums.MEMBER_ORANGEID_DUPLICATE.valueOfCode(),
+                MemberErrorConstantsEnums.MEMBER_ORANGEID_DUPLICATE.valueOfName());
         }
     }
 
     @Override
     protected void postAuthenticate(MemberUpdateForm form, BindingResult errors) throws EntityNotFoundException {
         Member member = memberService.getMemberByMemberUuid(form.getMemberUuid())
-            .orElseThrow(() -> new EntityNotFoundException("memberUuid", MemberErrorConstants.MEMBER_NOT_FOUND));
+            .orElseThrow(() -> new EntityNotFoundException("memberUuid",
+                MemberErrorConstantsEnums.MEMBER_NOT_FOUND.valueOfCode(),
+                MemberErrorConstantsEnums.MEMBER_NOT_FOUND.valueOfName()));
         form.setMember(member);
 
-        if(memberService.getMemberByUsername(form.getUsername()).isPresent()){
-            errors.rejectValue("username", MemberErrorConstants.MEMBER_USERNAME_DUPLICATE);
+        if (memberService.getMemberByUsername(form.getUsername()).isPresent()) {
+            errors.rejectValue("username", MemberErrorConstantsEnums.MEMBER_USERNAME_DUPLICATE.valueOfCode(),
+                MemberErrorConstantsEnums.MEMBER_USERNAME_DUPLICATE.valueOfName());
         }
 
     }
@@ -50,7 +54,8 @@ public class MemberFormAspect
             int i = index.getAndIncrement();
             Member member = memberService.getMemberByMemberUuid(memberUuid).orElse(null);
             if (member == null) {
-                errors.rejectValue("memberUuids[" + i + "]", MemberErrorConstants.MEMBER_NOT_FOUND);
+                errors.rejectValue("memberUuids[" + i + "]", MemberErrorConstantsEnums.MEMBER_NOT_FOUND.valueOfCode(),
+                    MemberErrorConstantsEnums.MEMBER_NOT_FOUND.valueOfName());
             } else {
                 members.add(member);
             }

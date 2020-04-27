@@ -1,5 +1,6 @@
 package com.orange.orange_vote.base.security;
 
+import com.orange.orange_vote.constans.MemberErrorConstantsEnums;
 import com.orange.orange_vote.entity.service.MemberService;
 import com.orange.orange_vote.entity.service.RoleService;
 import com.orange.orange_vote.base.constans.BaseErrorConstants;
@@ -7,7 +8,6 @@ import com.orange.orange_vote.base.security.model.Authority;
 import com.orange.orange_vote.base.security.model.SystemUser;
 import com.orange.orange_vote.base.system.converter.SystemResourcePacker;
 import com.orange.orange_vote.base.utils.LocaleI18nUtils;
-import com.orange.orange_vote.constans.MemberErrorConstants;
 import com.orange.orange_vote.entity.model.Member;
 import com.orange.orange_vote.entity.model.Role;
 import org.apache.commons.lang3.StringUtils;
@@ -44,10 +44,10 @@ public class CustomUserDetailsServiceImpl implements UserDetailsService {
         }
 
         Member member = memberService.getMemberByUsername(username)
-            .orElseThrow(() -> new BadCredentialsException(LocaleI18nUtils.getString(MemberErrorConstants.MEMBER_NOT_FOUND)));
+            .orElseThrow(() -> new BadCredentialsException(LocaleI18nUtils.getString(MemberErrorConstantsEnums.MEMBER_NOT_FOUND.valueOfName())));
 
         if (!member.getStatus())
-            throw new BadCredentialsException(LocaleI18nUtils.getString(MemberErrorConstants.MEMBER_SUSPENDED));
+            throw new BadCredentialsException(LocaleI18nUtils.getString(MemberErrorConstantsEnums.MEMBER_SUSPENDED.valueOfName()));
 
         // 取得帳號擁有的所有角色
         List<Role> roles = roleService.getRolesByMemberId(member.getMemberId());

@@ -3,8 +3,8 @@ package com.orange.orange_vote.aspect;
 import com.google.common.collect.Lists;
 import com.orange.orange_vote.base.aop.CreateUpdateFormAspect;
 import com.orange.orange_vote.base.exception.EntityNotFoundException;
-import com.orange.orange_vote.constans.MemberErrorConstants;
-import com.orange.orange_vote.constans.RoleErrorConstants;
+import com.orange.orange_vote.constans.MemberErrorConstantsEnums;
+import com.orange.orange_vote.constans.RoleErrorConstantsEnums;
 import com.orange.orange_vote.entity.model.Member;
 import com.orange.orange_vote.entity.model.MemberRoleRelate;
 import com.orange.orange_vote.entity.model.Role;
@@ -39,8 +39,8 @@ public class MemberRoleRelateFormAspect extends CreateUpdateFormAspect<MemberRol
 
     @Override
     protected void postAuthenticate(MemberRoleRelateForm form, BindingResult errors) throws EntityNotFoundException {
-        Member member = memberService.getMemberByMemberUuid(form.getRelateUuid())
-            .orElseThrow(() -> new EntityNotFoundException("relateUuid", MemberErrorConstants.MEMBER_NOT_FOUND));
+        Member member = memberService.getMemberByMemberUuid(form.getRelateUuid()).orElseThrow(
+            () -> new EntityNotFoundException("relateUuid", MemberErrorConstantsEnums.MEMBER_NOT_FOUND.valueOfName()));
         authenticate(form, errors, member);
         List<MemberRoleRelate> memberRoleRelates = Lists.newArrayList();
         index.set(0);
@@ -49,7 +49,8 @@ public class MemberRoleRelateFormAspect extends CreateUpdateFormAspect<MemberRol
             MemberRoleRelate memberRoleRelate = memberRoleRelateService
                 .getMemberRoleRelateByRoleUuidAndMemberId(roleUuid, member.getMemberId()).orElse(null);
             if (memberRoleRelate == null) {
-                errors.rejectValue("deleteRoleUuids[" + i + "]", RoleErrorConstants.ROLE_NOTFOUND);
+                errors.rejectValue("deleteRoleUuids[" + i + "]", RoleErrorConstantsEnums.ROLE_NOTFOUND.valueOfCode(),
+                    RoleErrorConstantsEnums.ROLE_NOTFOUND.valueOfName());
             } else {
                 memberRoleRelates.add(memberRoleRelate);
             }
@@ -68,11 +69,14 @@ public class MemberRoleRelateFormAspect extends CreateUpdateFormAspect<MemberRol
                 MemberRoleRelate memberRoleRelate = memberRoleRelateService
                     .getMemberRoleRelateByRoleUuidAndMemberId(roleUuid, member.getMemberId()).orElse(null);
                 if (memberRoleRelate != null) {
-                    errors.rejectValue("roleUuids[" + i + "]", RoleErrorConstants.MEMBER_ROLE_DUPLICATE);
+                    errors.rejectValue("roleUuids[" + i + "]",
+                        RoleErrorConstantsEnums.MEMBER_ROLE_DUPLICATE.valueOfCode(),
+                        RoleErrorConstantsEnums.MEMBER_ROLE_DUPLICATE.valueOfName());
                 }
             }
             if (role == null) {
-                errors.rejectValue("roleUuids[" + i + "]", RoleErrorConstants.ROLE_NOTFOUND);
+                errors.rejectValue("roleUuids[" + i + "]", RoleErrorConstantsEnums.ROLE_NOTFOUND.valueOfCode(),
+                    RoleErrorConstantsEnums.ROLE_NOTFOUND.valueOfName());
             } else {
                 roles.add(role);
             }

@@ -78,6 +78,9 @@ public class Member extends AbstractModel {
     @Column(name = "school")
     private String school;
 
+    @Column(name = "major")
+    private String major;
+
     @CreationTimestamp
     @Column(name = "create_date", updatable = false)
     @Temporal(TemporalType.TIMESTAMP)

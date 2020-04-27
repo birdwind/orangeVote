@@ -8,7 +8,7 @@ import com.orange.orange_vote.base.system.converter.SystemResourcePacker;
 import com.orange.orange_vote.base.utils.CipherUtils;
 import com.orange.orange_vote.base.utils.LocaleI18nUtils;
 import com.orange.orange_vote.base.utils.ServletUtils;
-import com.orange.orange_vote.constans.MemberErrorConstants;
+import com.orange.orange_vote.constans.MemberErrorConstantsEnums;
 import com.orange.orange_vote.entity.model.Member;
 import com.orange.orange_vote.entity.service.FunctionOperatorRelateService;
 import com.orange.orange_vote.entity.service.MemberService;
@@ -53,7 +53,7 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
         SystemUser systemUser = (SystemUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
         Member member = memberService.getMemberByUsername(systemUser.getUsername())
-            .orElseThrow(() -> new BadCredentialsException(LocaleI18nUtils.getString(MemberErrorConstants.MEMBER_NOT_FOUND)));
+            .orElseThrow(() -> new BadCredentialsException(LocaleI18nUtils.getString(MemberErrorConstantsEnums.MEMBER_NOT_FOUND.valueOfName())));
 
         String sessionString = CipherUtils.bcrypt(member.getMemberId().toString());
 

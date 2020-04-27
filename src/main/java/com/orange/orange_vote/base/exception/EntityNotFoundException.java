@@ -24,7 +24,7 @@ public class EntityNotFoundException extends BaseThrowable {
         this.code = code;
     }
 
-    public EntityNotFoundException(String field, String value, String code) {
+    public EntityNotFoundException(String field, String code, String value) {
         super("entity not found");
 
         this.field = field;

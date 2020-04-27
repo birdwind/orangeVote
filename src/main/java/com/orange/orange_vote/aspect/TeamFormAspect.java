@@ -2,7 +2,7 @@ package com.orange.orange_vote.aspect;
 
 import com.orange.orange_vote.base.aop.CreateUpdateFormAspect;
 import com.orange.orange_vote.base.exception.EntityNotFoundException;
-import com.orange.orange_vote.constans.TeamErrorConstants;
+import com.orange.orange_vote.constans.TeamErrorConstantsEnums;
 import com.orange.orange_vote.entity.model.Team;
 import com.orange.orange_vote.entity.service.TeamService;
 import com.orange.orange_vote.view.team.TeamForm;
@@ -21,7 +21,8 @@ public class TeamFormAspect extends CreateUpdateFormAspect<TeamForm, TeamForm> {
     protected void putAuthenticate(TeamForm form, BindingResult errors) throws EntityNotFoundException {
         Optional<Team> teamOptional = teamService.getTeamByTeamValue(form.getTeamValue());
         if (teamOptional.isPresent()) {
-            errors.rejectValue("teamValue", TeamErrorConstants.TEAM_VALUE_DUPLICATE);
+            errors.rejectValue("teamValue", TeamErrorConstantsEnums.TEAM_VALUE_DUPLICATE.valueOfCode(),
+                TeamErrorConstantsEnums.TEAM_VALUE_DUPLICATE.valueOfName());
         }
     }
 
@@ -29,8 +30,9 @@ public class TeamFormAspect extends CreateUpdateFormAspect<TeamForm, TeamForm> {
     protected void postAuthenticate(TeamForm form, BindingResult errors) throws EntityNotFoundException {
         Team team = teamService.getAllTeamByTeamUuid(form.getTeamUuid()).orElse(null);
         if (team == null) {
-            errors.rejectValue("teamUuid", TeamErrorConstants.TEAM_NOT_FOUND);
-        }else{
+            errors.rejectValue("teamUuid", TeamErrorConstantsEnums.TEAM_NOT_FOUND.valueOfCode(),
+                TeamErrorConstantsEnums.TEAM_NOT_FOUND.valueOfName());
+        } else {
             form.setTeam(team);
         }
     }

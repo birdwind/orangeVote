@@ -1,9 +1,8 @@
 package com.orange.orange_vote.controller;
 
 import com.orange.orange_vote.base.annotation.AuthForm;
-import com.orange.orange_vote.constans.TeamErrorConstants;
+import com.orange.orange_vote.constans.TeamErrorConstantsEnums;
 import com.orange.orange_vote.entity.model.Team;
-import com.orange.orange_vote.entity.model.Vote;
 import com.orange.orange_vote.entity.service.TeamService;
 import com.orange.orange_vote.view.team.TeamForm;
 import com.orange.orange_vote.view.team.TeamResource;
@@ -42,10 +41,14 @@ public class TeamApiController {
     @Autowired
     private TeamService teamService;
 
+    @Transactional
     @PutMapping(value = "")
     public TeamResource createTeam(@AuthForm @Valid @RequestPart(value = "team") TeamForm teamForm) {
+        Team team = teamFormConverter.convert(teamForm);
+        team = teamService.saveTeam(team);
+        teamService.joinTeam(team);
         return teamResourcePacker
-            .pack(teamViewConverter.convert(teamService.saveTeam(teamFormConverter.convert(teamForm))));
+            .pack(teamViewConverter.convert(team));
     }
 
     @Transactional
@@ -56,18 +59,19 @@ public class TeamApiController {
             .pack(teamViewConverter.convert(teamService.updateTeam(teamFormConverter.convert(teamForm, status))));
     }
 
+    @Transactional
     @GetMapping(value = "/{teamUuid}")
     public TeamResource joinTeam(@RequestParam(value = "pass_code") String passCode,
                                  @PathVariable(value = "teamUuid") Team team) {
         Team teamWithPassCode = teamService.getTeamByPassCode(passCode, team.getTeamUuid());
         if (teamWithPassCode == null) {
-            return teamResourcePacker.packNotFoundErrors(TeamErrorConstants.TEAM_NOT_FOUND);
+            return teamResourcePacker.packNotFoundErrors(TeamErrorConstantsEnums.TEAM_NOT_FOUND.valueOfName());
         }
         return teamResourcePacker.pack(teamViewConverter.convert(teamService.joinTeam(team)));
     }
 
     @GetMapping(value = "/list")
     public TeamResource teamList() {
-        return teamResourcePacker.pack(teamListItemConverter.convert(teamService.getAllTeam()));
+        return teamResourcePacker.pack(teamViewConverter.convert(teamService.getAllTeam()));
     }
 }

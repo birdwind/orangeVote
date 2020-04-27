@@ -181,8 +181,8 @@ public class ControllerExceptionTranslator {
         httpServletRequest.setAttribute("error", cause.getMessage());
 
 //        httpServletResponse.sendError(status.value());
-        return systemResourcePacker.packErrors(status, cause.getMessage(), ErrorCode.RESOURCE_NOTFUND.errorCode(),
-                ErrorCode.RESOURCE_NOTFUND.errorMsg());
+        return systemResourcePacker.packErrors(status, cause.getMessage(), ErrorCode.RESOURCE_NOTFOUND.errorCode(),
+                ErrorCode.RESOURCE_NOTFOUND.errorMsg());
     }
 
     @ResponseBody

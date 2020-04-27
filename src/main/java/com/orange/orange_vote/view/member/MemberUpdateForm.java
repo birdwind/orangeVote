@@ -25,12 +25,15 @@ public class MemberUpdateForm extends AbstractForm {
     @NotNull
     private String nickname;
 
-    @NullOrNotBlank
-    @Size(min = 8)
-    private String modifyPassword;
+//    @NullOrNotBlank
+//    @Size(min = 8)
+//    private String modifyPassword;
 
     @NullOrNotBlank
     private String school;
+
+    @NullOrNotBlank
+    private String major;
 
     @JsonIgnore
     private Member member;

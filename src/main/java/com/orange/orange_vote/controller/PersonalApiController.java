@@ -12,6 +12,7 @@ import com.orange.orange_vote.view.personal.PersonalResource;
 import com.orange.orange_vote.view.personal.converter.PersonalResourcePacker;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -50,4 +51,12 @@ public class PersonalApiController {
         Member member = memberUpdateFormConverter.convert(memberUpdateForm, SystemUser.getMember());
         return personalResourcePacker.pack(memberViewConverter.convert(memberService.save(member)));
     }
+
+    @GetMapping(value = "")
+    public PersonalResource getPersonalInfo(){
+        Member member = SystemUser.getMember();
+        return personalResourcePacker.pack(memberViewConverter.convert(member));
+    }
+
+
 }

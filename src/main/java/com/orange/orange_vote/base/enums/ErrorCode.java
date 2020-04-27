@@ -9,10 +9,10 @@ import java.util.Optional;
 
 public enum ErrorCode implements BaseEnum {
     SUCCESS(0, "Success"), NO_PERMISSION(1, BaseErrorConstants.NO_PERMISSION), NOT_LOGIN(2,
-        BaseErrorConstants.NOT_LOGIN), RESOURCE_NOTFUND(3, BaseErrorConstants.RESOURCE_NOT_FOUND), API_NOT_FOUND(4,
+        BaseErrorConstants.NOT_LOGIN), RESOURCE_NOTFOUND(3, BaseErrorConstants.RESOURCE_NOT_FOUND), API_NOT_FOUND(4,
             BaseErrorConstants.API_NOT_FOUND), BAD_REQUEST(5, BaseErrorConstants.BAD_REQUEST), DATA_INCOMPLETE(6,
-                BaseErrorConstants.DATA_INCOMPLETE), SERVER_ERROR(7, BaseErrorConstants.SERVER_ERROR), LOGIN_ERROR(9,
-                    BaseErrorConstants.LOGIN_SUCCESS), EXPIRED_SESSION(10, BaseErrorConstants.EXPIRED_SESSION), FIELD_MISS(11, BaseErrorConstants.FIELD_MISS);
+                BaseErrorConstants.DATA_INCOMPLETE), SERVER_ERROR(7, BaseErrorConstants.SERVER_ERROR), LOGIN_ERROR(8,
+                    BaseErrorConstants.LOGIN_ERROR), EXPIRED_SESSION(9, BaseErrorConstants.EXPIRED_SESSION), FIELD_MISS(10, BaseErrorConstants.FIELD_MISS);
 
     private static Map<Integer, ErrorCode> map;
 

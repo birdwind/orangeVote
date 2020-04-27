@@ -15,9 +15,9 @@ public class MemberUpdateFormConverter extends AbstractFormConverter<MemberUpdat
     public Member convert(MemberUpdateForm source) {
         Member target = simpleMapping(source, member != null ? member : source.getMember());
         target.setUpdateDate(new Date());
-        if (source.getModifyPassword() != null) {
-            target.encodePasssword(source.getModifyPassword());
-        }
+//        if (source.getModifyPassword() != null) {
+//            target.encodePasssword(source.getModifyPassword());
+//        }
         return target;
     }
 

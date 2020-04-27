@@ -3,8 +3,8 @@ package com.orange.orange_vote.aspect;
 import com.orange.orange_vote.base.aop.CreateUpdateFormAspect;
 import com.orange.orange_vote.base.exception.EntityNotFoundException;
 import com.orange.orange_vote.base.security.model.SystemUser;
-import com.orange.orange_vote.constans.TeamErrorConstants;
-import com.orange.orange_vote.constans.VoteErrorConstants;
+import com.orange.orange_vote.constans.TeamErrorConstantsEnums;
+import com.orange.orange_vote.constans.VoteErrorConstantsEnums;
 import com.orange.orange_vote.entity.model.Member;
 import com.orange.orange_vote.entity.model.Team;
 import com.orange.orange_vote.entity.model.Vote;
@@ -40,7 +40,8 @@ public class VoteFormAspect extends CreateUpdateFormAspect<VoteForm, VoteForm> {
         Member member = SystemUser.getMember();
         Vote vote =
             voteService.getVoteByVoteUuidAndCreatorId(form.getVoteUuid(), member.getMemberId()).orElseThrow(() -> {
-                return new EntityNotFoundException("voteUuid", VoteErrorConstants.VOTE_NOT_FOUND);
+                return new EntityNotFoundException("voteUuid", VoteErrorConstantsEnums.VOTE_NOT_FOUND.valueOfCode(),
+                    VoteErrorConstantsEnums.VOTE_NOT_FOUND.valueOfName());
             });
 
         checkTeamExist(form, errors);
@@ -52,7 +53,8 @@ public class VoteFormAspect extends CreateUpdateFormAspect<VoteForm, VoteForm> {
                 VoteOption voteOption = voteOptionService
                     .getVoteOptionByVoteOptionUuidAndVote(voteOptionForm.getOptionUuid(), vote).orElse(null);
                 if (voteOption == null && voteOptionForm.getOptionUuid() != null) {
-                    errors.rejectValue("options[" + i + "]", VoteErrorConstants.VOTEOPTION_NOT_FOUND);
+                    errors.rejectValue("options[" + i + "]", VoteErrorConstantsEnums.VOTEOPTION_NOT_FOUND.valueOfCode(),
+                        VoteErrorConstantsEnums.VOTEOPTION_NOT_FOUND.valueOfName());
                 } else {
                     voteOptionForm.setVoteOption(voteOption);
                 }
@@ -66,7 +68,9 @@ public class VoteFormAspect extends CreateUpdateFormAspect<VoteForm, VoteForm> {
                 VoteOption voteOption = voteOptionService
                     .getVoteOptionByVoteOptionUuidAndVote(voteOptionDeleteForm.getOptionUuid(), vote).orElse(null);
                 if (voteOption == null) {
-                    errors.rejectValue("deleteOptions[" + i + "]", VoteErrorConstants.VOTEOPTION_NOT_FOUND);
+                    errors.rejectValue("deleteOptions[" + i + "]",
+                        VoteErrorConstantsEnums.VOTEOPTION_NOT_FOUND.valueOfCode(),
+                        VoteErrorConstantsEnums.VOTEOPTION_NOT_FOUND.valueOfName());
                 } else {
                     voteOptionDeleteForm.setVoteOption(voteOption);
                 }
@@ -80,7 +84,8 @@ public class VoteFormAspect extends CreateUpdateFormAspect<VoteForm, VoteForm> {
     private void checkTeamExist(VoteForm form, BindingResult errors) {
         Team team = teamService.getTeamByTeamUuid(form.getTeamUuid()).orElse(null);
         if (team == null) {
-            errors.rejectValue("teamUuid", TeamErrorConstants.TEAM_NOT_FOUND);
+            errors.rejectValue("teamUuid", TeamErrorConstantsEnums.TEAM_NOT_FOUND.valueOfCode(),
+                TeamErrorConstantsEnums.TEAM_NOT_FOUND.valueOfName());
         } else {
             form.setTeam(team);
         }

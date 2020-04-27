@@ -105,7 +105,7 @@ public class FunctionOperatorInterceptor implements HandlerInterceptor {
         if (notFound) {
             return systemResourcePacker.packErrors(HttpStatus.NOT_FOUND,
                 LocaleI18nUtils.getString(BaseErrorConstants.RESOURCE_NOT_FOUND),
-                ErrorCode.RESOURCE_NOTFUND.errorCode(), ErrorCode.RESOURCE_NOTFUND.errorMsg());
+                ErrorCode.RESOURCE_NOTFOUND.errorCode(), ErrorCode.RESOURCE_NOTFOUND.errorMsg());
         } else {
             return systemResourcePacker.packErrors(HttpStatus.FORBIDDEN,
                 LocaleI18nUtils.getString(BaseErrorConstants.NO_PERMISSION), ErrorCode.NO_PERMISSION.errorCode(),

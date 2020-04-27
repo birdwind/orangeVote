@@ -118,8 +118,8 @@ public abstract class AbstractResourcePacker<R extends BaseResource> implements 
             setOtherProperties(null, resource, HttpStatus.OK);
         } else {
             resource.setResponseError("Resource Not Found");
-            resource.setErrorCode(ErrorCode.RESOURCE_NOTFUND.errorCode());
-            resource.setErrorMsg(ErrorCode.RESOURCE_NOTFUND.errorMsg());
+            resource.setErrorCode(ErrorCode.RESOURCE_NOTFOUND.errorCode());
+            resource.setErrorMsg(ErrorCode.RESOURCE_NOTFOUND.errorMsg());
             setOtherProperties(null, resource, HttpStatus.NOT_FOUND);
         }
     }
@@ -131,8 +131,8 @@ public abstract class AbstractResourcePacker<R extends BaseResource> implements 
             resource.setErrorCode(errorCode);
         } else {
             resource.setResponseError(httpStatus.toString());
-            resource.setErrorMsg(ErrorCode.RESOURCE_NOTFUND.errorMsg());
-            resource.setErrorCode(ErrorCode.RESOURCE_NOTFUND.errorCode());
+            resource.setErrorMsg(ErrorCode.RESOURCE_NOTFOUND.errorMsg());
+            resource.setErrorCode(ErrorCode.RESOURCE_NOTFOUND.errorCode());
         }
     }
 
