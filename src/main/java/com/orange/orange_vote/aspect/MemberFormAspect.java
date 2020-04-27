@@ -39,7 +39,8 @@ public class MemberFormAspect
                 MemberErrorConstantsEnums.MEMBER_NOT_FOUND.valueOfName()));
         form.setMember(member);
 
-        if (memberService.getMemberByUsername(form.getUsername()).isPresent()) {
+        Member memberTemp = memberService.getMemberByUsername(form.getUsername()).orElse(null);
+        if (memberTemp != null && !memberTemp.getMemberId().equals(member.getMemberId())) {
             errors.rejectValue("username", MemberErrorConstantsEnums.MEMBER_USERNAME_DUPLICATE.valueOfCode(),
                 MemberErrorConstantsEnums.MEMBER_USERNAME_DUPLICATE.valueOfName());
         }
