@@ -12,6 +12,8 @@ public abstract class AbstractResource implements BaseResource {
 
     private static final long serialVersionUID = 1L;
 
+    private String apiVersion;
+
     private Boolean status;
 
     private Integer errorCode;

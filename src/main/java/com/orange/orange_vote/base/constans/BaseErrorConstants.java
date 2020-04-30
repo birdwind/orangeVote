@@ -1,6 +1,9 @@
 package com.orange.orange_vote.base.constans;
 
 public class BaseErrorConstants {
+
+    public static final String API_VERSION = "0.0.1";
+
     // 共用錯誤
     public static final String NULL = "Error.Invalid.Null";
 

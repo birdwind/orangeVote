@@ -4,6 +4,10 @@ import java.io.Serializable;
 
 public interface BaseResource extends BaseView {
 
+    String getApiVersion();
+
+    void setApiVersion(String apiVersion);
+
     Boolean getStatus();
 
     void setStatus(Boolean status);

@@ -1,6 +1,7 @@
 package com.orange.orange_vote.base.view.abstracts;
 
 import com.google.common.collect.Lists;
+import com.orange.orange_vote.base.constans.BaseErrorConstants;
 import com.orange.orange_vote.base.enums.ErrorCode;
 import com.orange.orange_vote.base.utils.DateTimeUtils;
 import com.orange.orange_vote.base.utils.ServletUtils;
@@ -144,6 +145,7 @@ public abstract class AbstractResourcePacker<R extends BaseResource> implements 
         resource.setRequestUrl(url == null ? ServletUtils.getRequestUrl() : url);
         resource.setMethod(request.getMethod());
         resource.setTimeStamp(DateTimeUtils.getCurrentTimestamp());
+        resource.setApiVersion(BaseErrorConstants.API_VERSION);
     }
 
 }
