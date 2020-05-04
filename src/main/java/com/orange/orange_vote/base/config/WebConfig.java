@@ -56,7 +56,7 @@ public class WebConfig implements WebMvcConfigurer {
     }
 
     @Bean
-    public Docket api() {
+    public Docket apiDoc() {
         return new Docket(DocumentationType.SWAGGER_2).apiInfo(apiInfo()).select()
             .apis(RequestHandlerSelectors.basePackage("com.orange.orange_vote.controller")).paths(PathSelectors.any())
             .build();
