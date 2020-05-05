@@ -29,9 +29,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import javax.validation.Valid;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 
 @RestController
 @RequestMapping(value = {"/api/member"}, produces = "application/json;charset=utf-8")
+@Api(tags = "會員模組")
 public class MemberApiController {
 
     @Autowired
@@ -71,15 +74,17 @@ public class MemberApiController {
     }
 
     @PutMapping(value = "")
-    public MemberResource createMember(@AuthForm @Valid @RequestPart(value = "member") MemberCreateForm memberCreateForm,
-                                       @AuthForm @Valid @RequestPart(value = "role_relate") MemberRoleRelateForm memberRoleRelateForm) {
+    @ApiOperation(value = "新增會員")
+    public MemberResource createMember(@AuthForm @Valid MemberCreateForm memberCreateForm,
+                                       @AuthForm @Valid MemberRoleRelateForm memberRoleRelateForm) {
         Member member = memberCreateFormConverter.convert(memberCreateForm);
         member = memberService.saveWithRoleRelate(member, memberRoleRelateFormConverter.convert(memberRoleRelateForm, member));
         return memberResourcePacker.pack(memberViewConverter.convert(member));
     }
 
     @PostMapping(value = "")
-    public MemberResource updateMember(@AuthForm @Valid @RequestPart(value = "member") MemberUpdateForm memberUpdateForm,
+    @ApiOperation(value = "更新會員")
+    public MemberResource updateMember(@AuthForm @Valid MemberUpdateForm memberUpdateForm,
         @AuthForm @Valid @RequestPart(value = "role_relate") MemberRoleRelateForm memberRoleRelateForm) {
         Member member = memberUpdateFormConverter.convert(memberUpdateForm);
         member = memberService.saveWithRoleRelate(member, memberRoleRelateFormConverter.convert(memberRoleRelateForm, member));
@@ -87,7 +92,8 @@ public class MemberApiController {
     }
 
     @DeleteMapping(value = "")
-    public MemberResource deleteMember(@AuthForm @Valid @RequestPart(value = "member") MemberDeleteForm memberDeleteForm){
+    @ApiOperation(value = "刪除會員")
+    public MemberResource deleteMember(@AuthForm @Valid MemberDeleteForm memberDeleteForm){
         memberService.delete(memberDeleteForm.getMembers());
         return memberResourcePacker.pack();
     }
