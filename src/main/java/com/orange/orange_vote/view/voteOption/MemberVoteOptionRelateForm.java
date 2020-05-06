@@ -22,7 +22,7 @@ public class MemberVoteOptionRelateForm extends AbstractForm {
 
     private List<String> optionUuids;
 
-    private List<VoteOptionForm> addOptions;
+    private List<String> addOptions;
 
     @JsonIgnore
     private List<VoteOption> voteOptions;

@@ -5,6 +5,7 @@ import com.orange.orange_vote.base.annotation.NullOrNotBlank;
 import com.orange.orange_vote.base.view.abstracts.AbstractForm;
 import com.orange.orange_vote.entity.model.Team;
 import com.orange.orange_vote.entity.model.Vote;
+import com.orange.orange_vote.entity.model.VoteOption;
 import com.orange.orange_vote.view.voteOption.VoteOptionDeleteForm;
 import com.orange.orange_vote.view.voteOption.VoteOptionForm;
 import java.util.Date;
@@ -16,7 +17,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class VoteForm extends AbstractForm {
+public class VoteUpdateForm extends AbstractForm {
 
     private static final long serialVersionUID = 1L;
 
@@ -50,12 +51,15 @@ public class VoteForm extends AbstractForm {
 
     private List<VoteOptionForm> options;
 
-    private List<VoteOptionDeleteForm> deleteOptions;
+    private List<String> deleteOptionUuids;
 
     @JsonIgnore
     private Vote vote;
 
     @JsonIgnore
     private Team team;
+
+    @JsonIgnore
+    private List<VoteOption> voteOptionList;
 
 }

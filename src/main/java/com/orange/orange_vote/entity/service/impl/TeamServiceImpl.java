@@ -5,7 +5,7 @@ import com.orange.orange_vote.base.security.model.SystemUser;
 import com.orange.orange_vote.entity.dao.MemberTeamRelateDao;
 import com.orange.orange_vote.entity.dao.TeamDao;
 import com.orange.orange_vote.entity.model.Member;
-import com.orange.orange_vote.entity.model.MemberTeamRealte;
+import com.orange.orange_vote.entity.model.MemberTeamRelate;
 import com.orange.orange_vote.entity.model.Team;
 import com.orange.orange_vote.entity.service.TeamService;
 import com.orange.orange_vote.enums.NumberEnum;
@@ -78,9 +78,9 @@ public class TeamServiceImpl implements TeamService {
             return null;
         }
         Member member = SystemUser.getMember();
-        MemberTeamRealte memberTeamRealte =
+        MemberTeamRelate memberTeamRelate =
             memberTeamRelateDao.checkExistRelate(member.getMemberId(), team.getTeamId());
-        return memberTeamRealte != null ? memberTeamRealte.getTeam()
-            : memberTeamRelateDao.save(new MemberTeamRealte(member, team)).getTeam();
+        return memberTeamRelate != null ? memberTeamRelate.getTeam()
+            : memberTeamRelateDao.save(new MemberTeamRelate(member, team)).getTeam();
     }
 }

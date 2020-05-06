@@ -1,26 +1,32 @@
 package com.orange.orange_vote.controller;
 
 import com.orange.orange_vote.base.annotation.AuthForm;
+import com.orange.orange_vote.base.repo.BaseModel;
 import com.orange.orange_vote.base.security.model.SystemUser;
+import com.orange.orange_vote.constans.TeamErrorConstantsEnums;
 import com.orange.orange_vote.entity.model.Member;
 import com.orange.orange_vote.entity.model.MemberVoteOptionRelate;
+import com.orange.orange_vote.entity.model.Team;
 import com.orange.orange_vote.entity.model.Vote;
 import com.orange.orange_vote.entity.model.VoteOption;
 import com.orange.orange_vote.entity.service.MemberVoteOptionRelateService;
+import com.orange.orange_vote.entity.service.TeamService;
 import com.orange.orange_vote.entity.service.VoteOptionService;
 import com.orange.orange_vote.entity.service.VoteService;
-import com.orange.orange_vote.view.vote.VoteForm;
+import com.orange.orange_vote.view.team.TeamResource;
+import com.orange.orange_vote.view.team.converter.TeamViewConverter;
+import com.orange.orange_vote.view.vote.VoteCreateForm;
 import com.orange.orange_vote.view.vote.VoteResource;
+import com.orange.orange_vote.view.vote.VoteUpdateForm;
+import com.orange.orange_vote.view.vote.converter.VoteCreateFormConverter;
 import com.orange.orange_vote.view.vote.converter.VoteDetailViewConverter;
-import com.orange.orange_vote.view.vote.converter.VoteFormConverter;
-import com.orange.orange_vote.view.vote.converter.VoteListItemConverter;
 import com.orange.orange_vote.view.vote.converter.VoteResourcePacker;
+import com.orange.orange_vote.view.vote.converter.VoteUpdateFormConverter;
 import com.orange.orange_vote.view.vote.converter.VoteViewConverter;
 import com.orange.orange_vote.view.vote.converter.VotedListItemConverter;
 import com.orange.orange_vote.view.voteOption.MemberVoteOptionRelateForm;
 import com.orange.orange_vote.view.voteOption.converter.MemberVoteOptionRelateFormConverter;
 import com.orange.orange_vote.view.voteOption.converter.VoteOptionFormConverter;
-import com.orange.orange_vote.view.voteOption.converter.VoteOptionFormDeleteConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,33 +34,34 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestPart;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 import java.util.stream.Collectors;
 import javax.validation.Valid;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 
 @RestController
 @RequestMapping(value = {"/api/vote"}, produces = "application/json;charset=utf-8")
+@Api(tags = "投票模組")
 public class VoteApiController {
 
     @Autowired
     private VoteResourcePacker voteResourcePacker;
 
     @Autowired
-    private VoteListItemConverter voteListItemConverter;
-
-    @Autowired
     private VoteViewConverter voteViewConverter;
 
     @Autowired
-    private VoteFormConverter voteFormConverter;
+    private VoteCreateFormConverter voteCreateFormConverter;
+
+    @Autowired
+    private VoteUpdateFormConverter voteUpdateFormConverter;
 
     @Autowired
     private VoteOptionFormConverter voteOptionFormConverter;
-
-    @Autowired
-    private VoteOptionFormDeleteConverter voteOptionFormDeleteConverter;
 
     @Autowired
     private MemberVoteOptionRelateFormConverter memberVoteOptionRelateFormConverter;
@@ -66,6 +73,9 @@ public class VoteApiController {
     private VotedListItemConverter votedListItemConverter;
 
     @Autowired
+    private TeamViewConverter teamViewConverter;
+
+    @Autowired
     private VoteService voteService;
 
     @Autowired
@@ -74,47 +84,56 @@ public class VoteApiController {
     @Autowired
     private MemberVoteOptionRelateService memberVoteOptionRelateService;
 
+    @Autowired
+    private TeamService teamService;
+
     @GetMapping(value = "/list")
+    @ApiOperation(value = "獲取投票列表")
     public VoteResource voteList() {
         Member member = SystemUser.getMember();
-        // return voteResourcePacker
-//         .pack(voteListItemConverter.convert(voteService.getAllIsVisableVotesByMemberId(member.getMemberId())));
-        return voteResourcePacker
-            .pack(voteViewConverter.convert(voteService.getAllIsVisableVotesByMemberId(member.getMemberId()), member));
+        List<Vote> voteList = voteService.getAllIsVisableVotesByMemberId(member.getMemberId());
+        return voteResourcePacker.pack(voteViewConverter.convert(voteList));
     }
 
     @Transactional
     @PutMapping(value = "")
-    public VoteResource createVote(@AuthForm @Valid @RequestPart(value = "vote") VoteForm voteForm) {
-        Vote vote = voteService.saveVote(voteFormConverter.convert(voteForm), voteForm.getTeam());
-        vote.setVoteOptions(
-            voteOptionService.saveAll(voteOptionFormConverter.convertList(voteForm.getOptions(), vote)));
-        return voteResourcePacker.pack(voteViewConverter.convertToList(vote));
-        // return voteResourcePacker.pack(voteViewConverter.convert(vote);
-    }
-
-    @Transactional
-    @PostMapping(value = "")
-    public VoteResource updateVote(@AuthForm @Valid @RequestPart(value = "vote") VoteForm voteForm) {
-        Vote vote = voteService.updateVote(voteFormConverter.convert(voteForm), voteForm.getTeam());
-        voteOptionService.saveAll(voteOptionFormConverter.convertList(voteForm.getOptions(), vote));
-        voteOptionService.deleteAll(voteOptionFormDeleteConverter.convertList(voteForm.getDeleteOptions(), vote));
+    @ApiOperation(value = "新增投票")
+    public VoteResource createVote(@AuthForm @Valid VoteCreateForm voteCreateForm) {
+        Vote voteLocal = voteCreateFormConverter.convert(voteCreateForm);
+        Vote vote = voteService.saveVote(voteLocal, voteCreateForm.getTeam());
+        List<VoteOption> voteOptionLocal = voteOptionFormConverter.convertList(voteCreateForm.getOptions(), vote);
+        List<VoteOption> voteOptionList = voteOptionService.saveAll(voteOptionLocal);
+        vote.setVoteOptions(voteOptionList);
         return voteResourcePacker.pack(voteViewConverter.convert(vote));
     }
 
     @Transactional
+    @PostMapping(value = "")
+    @ApiOperation(value = "更新投票")
+    public VoteResource updateVote(@AuthForm @Valid VoteUpdateForm voteUpdateForm) {
+        Vote vote = voteService.updateVote(voteUpdateFormConverter.convert(voteUpdateForm), voteUpdateForm.getTeam());
+        List<VoteOption> voteOptionLocalList = voteOptionFormConverter.convertList(voteUpdateForm.getOptions(), vote);
+        voteOptionLocalList
+            .addAll(voteUpdateForm.getVoteOptionList().stream().peek(BaseModel::delete).collect(Collectors.toList()));
+        voteOptionService.saveAll(voteOptionLocalList);
+        return voteResourcePacker.pack();
+    }
+
+    @Transactional
     @PostMapping(value = "/option")
-    public VoteResource choseVoteOption(
-        @AuthForm @Valid @RequestPart(value = "vote") MemberVoteOptionRelateForm memberVoteOptionRelateForm) {
+    @ApiOperation(value = "執行投票")
+    public VoteResource choseVoteOption(@AuthForm @Valid MemberVoteOptionRelateForm memberVoteOptionRelateForm) {
         Member member = SystemUser.getMember();
         // 新增選項
-        List<VoteOption> voteOptions = voteOptionService.saveAll(voteOptionFormConverter
-            .convertList(memberVoteOptionRelateForm.getAddOptions(), memberVoteOptionRelateForm.getVote()));
+        List<VoteOption> voteOptionLocalList = memberVoteOptionRelateForm.getAddOptions().stream()
+            .map(optionValue -> new VoteOption(member, optionValue, memberVoteOptionRelateForm.getVote()))
+            .collect(Collectors.toList());
+        List<VoteOption> voteOptionList = voteOptionService.saveAll(voteOptionLocalList);
 
         // 建立票數與投票者關聯
         List<MemberVoteOptionRelate> memberVoteOptionRelates =
             memberVoteOptionRelateFormConverter.convertToList(memberVoteOptionRelateForm);
-        memberVoteOptionRelates.addAll(voteOptions.stream()
+        memberVoteOptionRelates.addAll(voteOptionList.stream()
             .map(voteOption -> new MemberVoteOptionRelate(member, voteOption)).collect(Collectors.toList()));
 
         memberVoteOptionRelateService.saveAll(memberVoteOptionRelates);
@@ -125,21 +144,36 @@ public class VoteApiController {
     }
 
     @GetMapping(value = "/detail/{voteUuid}")
+    @ApiOperation(value = "獲取投票細節")
     public VoteResource voteDetail(@PathVariable(value = "voteUuid") Vote vote) {
         return voteResourcePacker.pack(voteDetailViewConverter.convert(vote));
     }
 
     @GetMapping(value = "/voted")
+    @ApiOperation(value = "獲取已投票列表")
     public VoteResource votedList() {
         Member member = SystemUser.getMember();
-        return voteResourcePacker
-            .pack(votedListItemConverter.convert(voteService.getVotedByMemberId(member.getMemberId())));
+        List<Vote> voteList = voteService.getVotedByMemberId(member.getMemberId());
+        return voteResourcePacker.pack(votedListItemConverter.convert(voteList));
     }
 
     @GetMapping(value = "/create/list")
+    @ApiOperation(value = "獲取建立的投票")
     public VoteResource createdVoteList() {
         Member member = SystemUser.getMember();
-        return voteResourcePacker
-            .pack(votedListItemConverter.convert(voteService.getVotesByCreatorId(member.getMemberId())));
+        List<Vote> voteList = voteService.getVotesByCreatorId(member.getMemberId());
+        return voteResourcePacker.pack(votedListItemConverter.convert(voteList));
+    }
+
+    @Transactional
+    @GetMapping(value = "/{teamUuid}")
+    @ApiOperation(value = "加入團隊")
+    public VoteResource joinTeam(@ApiParam(value = "團隊驗證碼") @RequestParam(value = "pass_code") String passCode,
+                                 @PathVariable(value = "teamUuid") Team team) {
+        Team teamWithPassCode = teamService.getTeamByPassCode(passCode, team.getTeamUuid());
+        if (teamWithPassCode == null) {
+            return voteResourcePacker.packNotFoundErrors(TeamErrorConstantsEnums.TEAM_NOT_FOUND.valueOfName());
+        }
+        return voteResourcePacker.pack(teamViewConverter.convert(teamService.joinTeam(team)));
     }
 }

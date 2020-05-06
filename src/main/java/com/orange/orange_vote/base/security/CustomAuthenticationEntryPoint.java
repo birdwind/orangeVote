@@ -27,8 +27,8 @@ public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint 
             // System.out.println("Custom" + "false");
             ServletUtils.setResponse(httpServletResponse,
                 systemResourcePacker.packErrors(HttpStatus.UNAUTHORIZED,
-                    LocaleI18nUtils.getString(BaseErrorConstants.NO_PERMISSION), ErrorCode.NOT_LOGIN.errorCode(),
-                    ErrorCode.NOT_LOGIN.errorMsg()));
+                    LocaleI18nUtils.getString(BaseErrorConstants.NO_PERMISSION), ErrorCode.NO_PERMISSION.errorCode(),
+                    ErrorCode.NO_PERMISSION.errorMsg()));
         } catch (Exception e) {
             throw new ServletException();
         }

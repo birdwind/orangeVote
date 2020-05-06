@@ -1,5 +1,6 @@
 package com.orange.orange_vote.entity.model;
 
+import com.google.common.collect.Lists;
 import com.orange.orange_vote.base.annotation.I18nPrefix;
 import com.orange.orange_vote.base.repo.AbstractModel;
 import org.hibernate.annotations.CreationTimestamp;
@@ -10,6 +11,7 @@ import org.hibernate.annotations.Where;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -33,6 +35,22 @@ import lombok.Setter;
 public class VoteOption extends AbstractModel {
 
     private static final long serialVersionUID = 1L;
+
+    public VoteOption(){
+        this.voteOptionId = 0;
+        this.voteOptionUuid = UUID.randomUUID().toString();
+        this.memberVoteOptionRelates = Lists.newArrayList();
+        this.status = true;
+        this.createDate = new Date();
+        this.updateDate = new Date();
+    }
+
+    public VoteOption(Member creator, String value, Vote vote){
+        this();
+        this.creator = creator;
+        this.voteOptionValue = value;
+        this.vote = vote;
+    }
 
     @Id
     @Column(name = "option_id", updatable = false, nullable = false)

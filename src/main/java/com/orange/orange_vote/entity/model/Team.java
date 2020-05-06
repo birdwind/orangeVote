@@ -6,6 +6,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -27,6 +28,20 @@ import lombok.Setter;
 @Table(name = "`team`")
 @I18nPrefix(value = "Team")
 public class Team extends AbstractModel {
+
+    public Team(){
+        this.teamId = 0;
+        this.teamUuid = UUID.randomUUID().toString();
+        this.createDate = new Date();
+        this.updateDate = new Date();
+        this.status = true;
+    }
+
+    public Team(String teamNo, Member creator){
+        this();
+        this.teamNo = teamNo;
+        this.creator = creator;
+    }
 
     @Id
     @Column(name = "team_id", updatable = false, nullable = false)
@@ -62,8 +77,8 @@ public class Team extends AbstractModel {
     @Column(name = "status", nullable = false)
     private Boolean status;
 
-    @OneToMany(targetEntity = MemberTeamRealte.class, fetch = FetchType.LAZY, mappedBy = "team")
-    private List<MemberTeamRealte> memberTeamRealteList;
+    @OneToMany(targetEntity = MemberTeamRelate.class, fetch = FetchType.LAZY, mappedBy = "team")
+    private List<MemberTeamRelate> memberTeamRelateList;
 
     @Override
     public Integer getId() {

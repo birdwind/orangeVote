@@ -15,7 +15,7 @@ public interface TeamDao extends BaseRepository<Team, Integer> {
     @Query(value = "SELECT t FROM Team t WHERE t.status = true AND t.teamUuid = ?1")
     Optional<Team> findTeamByTeamUuid(String teamUuid);
 
-    @Query(value = "SELECT t FROM Team t JOIN MemberTeamRealte mtr ON mtr.team = t "
+    @Query(value = "SELECT t FROM Team t JOIN MemberTeamRelate mtr ON mtr.team = t "
         + "WHERE (t.status = true AND t.creator = ?1) OR (mtr.member = ?1 AND mtr.status = true)")
     Optional<List<Team>> findAllTeams(Member member);
 

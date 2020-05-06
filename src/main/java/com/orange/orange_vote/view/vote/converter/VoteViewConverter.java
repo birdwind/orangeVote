@@ -2,8 +2,9 @@ package com.orange.orange_vote.view.vote.converter;
 
 import com.orange.orange_vote.base.dto.mapper.converter.abstracts.AbstractViewConverter;
 import com.orange.orange_vote.base.dto.mapper.provider.PrimitiveProvider;
+import com.orange.orange_vote.base.security.model.SystemUser;
 import com.orange.orange_vote.entity.model.Member;
-import com.orange.orange_vote.entity.model.MemberTeamRealte;
+import com.orange.orange_vote.entity.model.MemberTeamRelate;
 import com.orange.orange_vote.entity.model.MemberVoteOptionRelate;
 import com.orange.orange_vote.entity.model.Team;
 import com.orange.orange_vote.entity.model.Vote;
@@ -32,19 +33,21 @@ public class VoteViewConverter extends AbstractViewConverter<Vote, VoteView> {
 
     private PrimitiveProvider<Vote> isVotedProvider =
         (source,
-            field) -> source.getVoteOptions().stream().map(VoteOption::getMemberVoteOptionRelates)
-                .flatMap(Collection::stream)
+            field) -> source.getVoteOptions().stream()
+                .map(VoteOption::getMemberVoteOptionRelates).flatMap(Collection::stream)
                 .filter(memberVoteOptionRelate -> memberVoteOptionRelate.getMember().getMemberId()
                     .equals(member.getMemberId()) && memberVoteOptionRelate.getStatus())
-                .map(MemberVoteOptionRelate::getStatus).findFirst().isPresent();
+                .map(MemberVoteOptionRelate::getStatus).count();
 
-    private PrimitiveProvider<Vote> teamProvider = (source, targetField) -> source.getVoteTeamRelates().stream()
-        .map(VoteTeamRelate::getTeam).map(Team::getMemberTeamRealteList).flatMap(Collection::stream)
-        .filter(memberTeamRealte -> memberTeamRealte.getMember().getMemberId().equals(member.getMemberId()))
-        .map(MemberTeamRealte::getTeam).map(Team::getTeamValue).reduce((a, b) -> a + "," + b).orElse("");
+    private PrimitiveProvider<Vote> teamProvider =
+        (source, targetField) -> source.getVoteTeamRelates().stream().filter(Objects::nonNull)
+            .map(VoteTeamRelate::getTeam).map(Team::getMemberTeamRelateList).flatMap(Collection::stream)
+            .filter(memberTeamRelate -> memberTeamRelate.getMember().getMemberId().equals(member.getMemberId()))
+            .map(MemberTeamRelate::getTeam).map(Team::getTeamValue).reduce((a, b) -> a + "," + b).orElse("");
 
     @Override
     public VoteView convert(Vote source) {
+        member = SystemUser.getMember();
         addValueProvider("voteOptions", voteOptionsProvider);
         addValueProvider("isVoted", isVotedProvider);
         addValueProvider("team", teamProvider);
@@ -52,7 +55,6 @@ public class VoteViewConverter extends AbstractViewConverter<Vote, VoteView> {
     }
 
     public List<VoteView> convert(List<Vote> sources, Member member) {
-        this.member = member;
         return sources.stream().filter(Objects::nonNull).map(this::convert).filter(Objects::nonNull)
             .collect(Collectors.toList());
     }

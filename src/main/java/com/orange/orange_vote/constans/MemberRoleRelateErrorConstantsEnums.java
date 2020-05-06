@@ -3,11 +3,11 @@ package com.orange.orange_vote.constans;
 import com.orange.orange_vote.base.enums.BaseEnum;
 import java.io.Serializable;
 
-public enum RoleErrorConstantsEnums implements BaseEnum {
+public enum MemberRoleRelateErrorConstantsEnums implements BaseEnum {
 
-    ROLE_NOTFOUND(0, "Error.Role.NotFound");
+    MEMBER_ROLE_RELATE_NOTFOUND(0, "Error.Member.Role.NotFound"), MEMBER_ROLE_RELATE_DUPLICATE(1, "Error.Member.Role.Duplicate");
 
-    RoleErrorConstantsEnums(Integer errorCode, String errorMsg) {
+    MemberRoleRelateErrorConstantsEnums(Integer errorCode, String errorMsg) {
         this.errorCode = errorCode;
         this.errorMsg = errorMsg;
     }
@@ -22,7 +22,7 @@ public enum RoleErrorConstantsEnums implements BaseEnum {
     }
 
     @Override
-    public java.lang.String valueOfName() {
+    public String valueOfName() {
         return this.errorMsg;
     }
 

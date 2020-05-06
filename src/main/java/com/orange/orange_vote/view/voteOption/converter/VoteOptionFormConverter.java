@@ -24,29 +24,26 @@ public class VoteOptionFormConverter extends AbstractFormConverter<VoteOptionFor
             Member member = SystemUser.getMember();
             target = simpleMapping(source, VoteOption.class);
             target.setVote(vote);
-            target.setVoteOptionUuid(UUID.randomUUID().toString());
-            target.setStatus(true);
+//            target.setVoteOptionUuid(UUID.randomUUID().toString());
+//            target.setStatus(true);
             target.setVoteOptionValue(source.getValue());
             target.setCreator(member);
             target.setCreateDate(new Date());
             target.setUpdateDate(new Date());
         } else {
+            target = simpleMapping(source, target);
             target.setVoteOptionValue(source.getValue());
             target.setUpdateDate(new Date());
         }
         return target;
     }
 
-    public VoteOption convert(VoteOptionForm source, Vote vote) {
-        this.vote = vote;
-        return convert(source);
-    }
-
     public List<VoteOption> convertList(List<VoteOptionForm> sources, Vote vote) {
         List<VoteOption> voteOptions = Lists.newArrayList();
-        if(sources != null) {
+        this.vote = vote;
+        if (sources != null) {
             sources.forEach(source -> {
-                voteOptions.add(convert(source, vote));
+                voteOptions.add(convert(source));
             });
         }
         return voteOptions;

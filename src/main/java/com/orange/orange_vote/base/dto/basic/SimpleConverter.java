@@ -13,7 +13,7 @@ public interface SimpleConverter<S, T> extends BaseConverter<S, T> {
         MapperFactory mapperFactory = new DefaultMapperFactory.Builder().build();
         mapperFactory.getConverterFactory().registerConverter(new PassThroughConverter(AbstractModel.class));
         mapperFactory.getConverterFactory().registerConverter(new PassThroughConverter(Date.class));
-        mapperFactory.classMap(source.getClass(), targetClass).mapNulls(true).mapNullsInReverse(false).byDefault()
+        mapperFactory.classMap(source.getClass(), targetClass).mapNulls(false).mapNullsInReverse(false).byDefault()
             .register();
         MapperFacade mapper = mapperFactory.getMapperFacade();
         return mapper.map(source, targetClass);
@@ -23,7 +23,7 @@ public interface SimpleConverter<S, T> extends BaseConverter<S, T> {
         MapperFactory mapperFactory = new DefaultMapperFactory.Builder().build();
         mapperFactory.getConverterFactory().registerConverter(new PassThroughConverter(AbstractModel.class));
         mapperFactory.getConverterFactory().registerConverter(new PassThroughConverter(Date.class));
-        mapperFactory.classMap(source.getClass(), target.getClass()).mapNulls(true).mapNullsInReverse(false).byDefault()
+        mapperFactory.classMap(source.getClass(), target.getClass()).mapNulls(false).mapNullsInReverse(false).byDefault()
             .register();
         MapperFacade mapper = mapperFactory.getMapperFacade();
         mapper.map(source, target);
