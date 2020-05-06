@@ -1,15 +1,17 @@
-package com.orange.orange_vote.view.role.converter;
+package com.orange.orange_vote.view.personal.converter;
 
 import com.orange.orange_vote.base.dto.mapper.converter.abstracts.AbstractFormConverter;
-import com.orange.orange_vote.entity.model.Role;
-import com.orange.orange_vote.view.role.RoleForm;
+import com.orange.orange_vote.base.security.model.SystemUser;
+import com.orange.orange_vote.entity.model.Member;
+import com.orange.orange_vote.view.personal.PersonalUpdateForm;
 import org.springframework.stereotype.Component;
 
 @Component
-public class RoleFormConverter extends AbstractFormConverter<RoleForm, Role> {
+public class PersonalUpdateFormConverter extends AbstractFormConverter<PersonalUpdateForm, Member> {
 
     @Override
-    public Role convert(RoleForm source) {
-        return null;
+    public Member convert(PersonalUpdateForm source) {
+        Member member = SystemUser.getMember();
+        return simpleMapping(source, member);
     }
 }
