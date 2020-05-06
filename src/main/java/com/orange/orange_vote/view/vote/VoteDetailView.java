@@ -11,6 +11,7 @@ import com.orange.orange_vote.base.enums.ViewTypeEnum;
 import com.orange.orange_vote.base.view.BaseView;
 import com.orange.orange_vote.view.team.TeamListItem;
 import com.orange.orange_vote.view.voteOption.VoteOptionDetailListItem;
+import java.util.Date;
 import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
@@ -23,30 +24,23 @@ public class VoteDetailView implements BaseView {
 
     private String voteUuid;
 
-    @ViewType(both = ViewTypeEnum.TEXT)
-    private StringColumn voteName;
+    private String voteName;
 
-    @ViewType(both = ViewTypeEnum.TEXT)
-    private StringColumn content;
+    private String content;
 
     private List<TeamListItem> teams;
 
     @DateTimeFormatter(value = DateTimeFormatType.MINUTE)
-    @ViewType(both = ViewTypeEnum.TEXT)
-    private DateStringColumn expiredDate;
+    private Date expiredDate;
 
     private List<VoteOptionDetailListItem> options;
 
-    @ViewType(both = ViewTypeEnum.BOOLEAN)
-    private BooleanColumn isAllowAdd;
+    private Boolean isAllowAdd;
 
-    @ViewType(both = ViewTypeEnum.BOOLEAN)
-    private BooleanColumn isOpen;
+    private Boolean isOpen;
 
-    @ViewType(both = ViewTypeEnum.BOOLEAN)
-    private BooleanColumn isSign;
+    private Boolean isSign;
 
-    @ViewType(both = ViewTypeEnum.UNSIGNED_INTEGER)
-    private NumberColumn multiSelection;
+    private Integer multiSelection;
 
 }

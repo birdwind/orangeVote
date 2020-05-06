@@ -23,16 +23,16 @@ import lombok.Setter;
 @Entity
 @Table(name = "`member_team_relate`")
 @I18nPrefix(value = "MemberTeamRelate")
-public class MemberTeamRealte extends AbstractModel {
+public class MemberTeamRelate extends AbstractModel {
 
     private static final long serialVersionUID = 1L;
 
-    public MemberTeamRealte(){
+    public MemberTeamRelate(){
         this.relateId = 0;
         this.status = true;
     }
 
-    public MemberTeamRealte(Member member, Team team){
+    public MemberTeamRelate(Member member, Team team){
         this();
         this.relateUuid = UUID.randomUUID().toString();
         this.member = member;

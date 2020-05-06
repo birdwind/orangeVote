@@ -3,7 +3,7 @@ package com.orange.orange_vote.view.vote.converter;
 import com.orange.orange_vote.base.dto.mapper.converter.abstracts.AbstractListConverter;
 import com.orange.orange_vote.base.security.model.SystemUser;
 import com.orange.orange_vote.entity.model.Member;
-import com.orange.orange_vote.entity.model.MemberTeamRealte;
+import com.orange.orange_vote.entity.model.MemberTeamRelate;
 import com.orange.orange_vote.entity.model.MemberVoteOptionRelate;
 import com.orange.orange_vote.entity.model.Team;
 import com.orange.orange_vote.entity.model.Vote;
@@ -49,10 +49,10 @@ public class VoteListItemConverter extends AbstractListConverter<Vote, VoteListI
                     memberVoteOptionRelates -> memberVoteOptionRelates.stream().map(MemberVoteOptionRelate::getMember))
                 .findFirst().isPresent());
         item.setTeam(
-            source.getVoteTeamRelates().stream().map(VoteTeamRelate::getTeam).map(Team::getMemberTeamRealteList)
-                .filter(memberTeamRealtes -> memberTeamRealtes.stream().map(MemberTeamRealte::getMember)
+            source.getVoteTeamRelates().stream().map(VoteTeamRelate::getTeam).map(Team::getMemberTeamRelateList)
+                .filter(memberTeamRealtes -> memberTeamRealtes.stream().map(MemberTeamRelate::getMember)
                     .anyMatch(member -> member.equalsTo(loginMember)))
-                .flatMap(memberTeamRealtes -> memberTeamRealtes.stream().map(MemberTeamRealte::getTeam))
+                .flatMap(memberTeamRealtes -> memberTeamRealtes.stream().map(MemberTeamRelate::getTeam))
                 .map(Team::getTeamValue).collect(Collectors.toSet()).stream().reduce((a, b) -> a + "," + b).orElse(""));
     }
 }

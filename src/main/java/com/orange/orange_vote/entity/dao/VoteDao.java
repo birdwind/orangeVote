@@ -10,7 +10,7 @@ import java.util.Optional;
 public interface VoteDao extends BaseRepository<Vote, Integer> {
 
     @Query(value = "SELECT distinct (v) FROM Vote v JOIN VoteTeamRelate vtr ON vtr.vote = v AND vtr.status = true "
-        + "JOIN MemberTeamRealte mtr ON mtr.team = vtr.team AND mtr.status = true "
+        + "JOIN MemberTeamRelate mtr ON mtr.team = vtr.team AND mtr.status = true "
         + "WHERE v.status = true AND mtr.member.memberId = ?1 AND v.expiredDate > ?2 AND v.isOpen = true ")
     Optional<List<Vote>> findVotesIsVisableByMemberIdAndIsOpen(Integer memberId, Date expiredDate);
 
@@ -18,17 +18,17 @@ public interface VoteDao extends BaseRepository<Vote, Integer> {
     Integer countVotes();
 
     @Query(value = "SELECT v FROM Vote v JOIN VoteTeamRelate vtr ON vtr.vote = v "
-        + "JOIN MemberTeamRealte mtr ON mtr.team = vtr.team "
+        + "JOIN MemberTeamRelate mtr ON mtr.team = vtr.team "
         + "WHERE v.status = true AND v.creator.memberId = ?2 AND v.voteUuid = ?1")
     Optional<Vote> findVoteByVoteUuidAndCreatorId(String voteUuid, Integer memberId);
 
     @Query(value = "SELECT v FROM Vote v JOIN VoteTeamRelate vtr ON vtr.vote = v AND vtr.status = true "
-        + "JOIN MemberTeamRealte mtr ON mtr.team = vtr.team AND mtr.status = true "
+        + "JOIN MemberTeamRelate mtr ON mtr.team = vtr.team AND mtr.status = true "
         + "WHERE v.status = true AND v.voteUuid = ?1 AND mtr.member.memberId = ?2 ")
     Optional<Vote> findVoteByVoteUuidAndMemberId(String voteUuid, Integer memberId);
 
     @Query(value = "SELECT DISTINCT (v) FROM Vote v JOIN VoteTeamRelate vtr ON vtr.vote = v AND vtr.status = true "
-        + "JOIN MemberTeamRealte mtr ON mtr.team = vtr.team AND mtr.status = true "
+        + "JOIN MemberTeamRelate mtr ON mtr.team = vtr.team AND mtr.status = true "
         + "WHERE v.status = true AND v.voteUuid = ?1 AND (mtr.member.memberId = ?2 OR v.creator.memberId = ?2)")
     Optional<Vote> findVoteByVoteUuidAndMemberIdAndCreatorId(String voteUuid, Integer memberId);
 

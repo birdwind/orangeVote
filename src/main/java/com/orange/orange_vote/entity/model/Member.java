@@ -100,9 +100,9 @@ public class Member extends AbstractModel {
     @Column(name = "status", nullable = false)
     private Boolean status;
 
-    @OneToMany(fetch = FetchType.LAZY, targetEntity = MemberTeamRealte.class, mappedBy = "member")
+    @OneToMany(fetch = FetchType.LAZY, targetEntity = MemberTeamRelate.class, mappedBy = "member")
     @Where(clause = "status = true")
-    private List<MemberTeamRealte> memberTeamRealtes;
+    private List<MemberTeamRelate> memberTeamRelates;
 
     @Override
     public Integer getId() {

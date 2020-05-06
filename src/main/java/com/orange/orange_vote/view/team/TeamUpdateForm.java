@@ -2,28 +2,29 @@ package com.orange.orange_vote.view.team;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.orange.orange_vote.base.annotation.NullOrNotBlank;
-import com.orange.orange_vote.base.constans.BaseErrorConstants;
 import com.orange.orange_vote.base.view.abstracts.AbstractForm;
 import com.orange.orange_vote.entity.model.Team;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Null;
+import io.swagger.annotations.ApiParam;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-public class TeamForm extends AbstractForm {
+public class TeamUpdateForm extends AbstractForm {
 
     private static final long serialVersionUID = 1L;
 
+    @ApiParam(value = "團隊Uuid")
     @NullOrNotBlank
     private String teamUuid;
 
+    @ApiParam(value = "團隊名稱")
     @NullOrNotBlank
     private String teamValue;
 
+    @ApiParam(value = "團隊驗證碼")
     @NullOrNotBlank
-    private String verification;
+    private String passCode;
 
     @JsonIgnore
     private Team team;

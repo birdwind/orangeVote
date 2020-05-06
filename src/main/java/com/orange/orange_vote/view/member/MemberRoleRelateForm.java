@@ -10,6 +10,7 @@ import com.orange.orange_vote.entity.model.Role;
 import java.util.List;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+import io.swagger.annotations.ApiParam;
 import lombok.Getter;
 import lombok.Setter;
 

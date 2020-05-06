@@ -2,7 +2,6 @@ package com.orange.orange_vote.base.security;
 
 import com.orange.orange_vote.base.enums.ErrorCode;
 import com.orange.orange_vote.base.system.converter.SystemResourcePacker;
-import com.orange.orange_vote.base.utils.LocaleI18nUtils;
 import com.orange.orange_vote.base.utils.ServletUtils;
 import com.orange.orange_vote.constans.MemberErrorConstantsEnums;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +28,7 @@ public class CustomAuthenticationFailureHandler implements AuthenticationFailure
         try {
             ServletUtils.setResponse(response,
                 systemResourcePacker.packErrors(HttpStatus.UNAUTHORIZED,
-                    LocaleI18nUtils.getString(MemberErrorConstantsEnums.MEMBER_NOT_FOUND.valueOfName()), ErrorCode.LOGIN_ERROR.errorCode(),
+                    MemberErrorConstantsEnums.MEMBER_NOT_FOUND.valueOfName(), ErrorCode.LOGIN_ERROR.errorCode(),
                     ErrorCode.LOGIN_ERROR.errorMsg()));
 
         } catch (IOException e) {

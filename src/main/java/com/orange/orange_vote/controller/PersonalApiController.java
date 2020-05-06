@@ -9,7 +9,9 @@ import com.orange.orange_vote.view.member.MemberUpdateForm;
 import com.orange.orange_vote.view.member.converter.MemberUpdateFormConverter;
 import com.orange.orange_vote.view.member.converter.MemberViewConverter;
 import com.orange.orange_vote.view.personal.PersonalResource;
+import com.orange.orange_vote.view.personal.PersonalUpdateForm;
 import com.orange.orange_vote.view.personal.converter.PersonalResourcePacker;
+import com.orange.orange_vote.view.personal.converter.PersonalUpdateFormConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,16 +21,19 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import javax.validation.Valid;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 
 @RestController
 @RequestMapping(value = {"/api/personal"}, produces = "application/json;charset=utf-8")
+@Api(tags = "個人資料模組")
 public class PersonalApiController {
 
     @Autowired
     private PersonalResourcePacker personalResourcePacker;
 
     @Autowired
-    private MemberUpdateFormConverter memberUpdateFormConverter;
+    private PersonalUpdateFormConverter personalUpdateFormConverter;
 
     @Autowired
     private MemberViewConverter memberViewConverter;
@@ -36,22 +41,15 @@ public class PersonalApiController {
     @Autowired
     private MemberService memberService;
 
-    @Autowired
-    private MemberFormValidator memberFormValidator;
-
-    // bind validator
-    @InitBinder(value = {"member"})
-    public void bindMember(WebDataBinder binder) {
-        binder.addValidators(memberFormValidator);
-    }
-
-    //TODO:還沒測試
+    @ApiOperation(value = "更新個人資料")
     @PostMapping(value = "")
-    public PersonalResource updatePersonal(@AuthForm @Valid @RequestPart(value = "member") MemberUpdateForm memberUpdateForm) {
-        Member member = memberUpdateFormConverter.convert(memberUpdateForm, SystemUser.getMember());
-        return personalResourcePacker.pack(memberViewConverter.convert(memberService.save(member)));
+    public PersonalResource updatePersonal(@AuthForm @Valid PersonalUpdateForm personalUpdateForm) {
+        Member memberLocal = personalUpdateFormConverter.convert(personalUpdateForm);
+        Member member = memberService.save(memberLocal);
+        return personalResourcePacker.pack(memberViewConverter.convert(member));
     }
 
+    @ApiOperation(value = "獲得個人資料")
     @GetMapping(value = "")
     public PersonalResource getPersonalInfo(){
         Member member = SystemUser.getMember();

@@ -1,11 +1,13 @@
 package com.orange.orange_vote.entity.model;
 
+import com.google.common.collect.Lists;
 import com.orange.orange_vote.base.annotation.I18nPrefix;
 import com.orange.orange_vote.base.repo.AbstractModel;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.Where;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -33,10 +35,19 @@ public class Vote extends AbstractModel {
 
     public Vote(){
         this.voteId = 0;
+        this.voteUuid = UUID.randomUUID().toString();
         this.status = true;
         this.isAllowAdd = false;
         this.isOpen = true;
         this.isSign = false;
+        this.voteTeamRelates = Lists.newArrayList();
+        this.voteOptions = Lists.newArrayList();
+    }
+
+    public Vote(Member creator, String voteNo){
+        this();
+        this.creator = creator;
+        this.voteNo = voteNo;
     }
 
     @Id

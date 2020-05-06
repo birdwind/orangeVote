@@ -53,7 +53,8 @@ public class VoteServiceImpl implements VoteService {
     @Override
     public Vote saveVote(Vote vote, Team team) {
         Vote tempVote = voteDao.save(vote);
-        voteTeamRelateDao.save(new VoteTeamRelate(team, tempVote));
+        VoteTeamRelate voteTeamRelate = voteTeamRelateDao.save(new VoteTeamRelate(team, tempVote));
+        tempVote.setVoteTeamRelates(Lists.newArrayList(voteTeamRelate));
         return tempVote;
     }
 
