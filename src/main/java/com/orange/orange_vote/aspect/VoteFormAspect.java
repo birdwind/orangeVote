@@ -41,7 +41,8 @@ public class VoteFormAspect extends CreateUpdateFormAspect<VoteCreateForm, VoteU
     @Override
     protected void postAuthenticate(VoteUpdateForm form, BindingResult errors) throws EntityNotFoundException {
         Member member = SystemUser.getMember();
-        List<VoteOption> voteOptionList = Lists.newArrayList();
+        List<VoteOption> deleteVoteOptionList = Lists.newArrayList();
+        List<VoteOption> updateVoteOptionList = Lists.newArrayList();
 
         Vote vote =
             voteService.getVoteByVoteUuidAndCreatorId(form.getVoteUuid(), member.getMemberId()).orElseThrow(() -> {
@@ -52,39 +53,54 @@ public class VoteFormAspect extends CreateUpdateFormAspect<VoteCreateForm, VoteU
         form.setTeam(checkTeamExist(form.getTeamUuid(), errors));
 
         AtomicInteger index = new AtomicInteger();
-        if (form.getOptions() != null) {
-            form.getOptions().forEach(voteOptionForm -> {
+        if (form.getUpdateOptionUuids() != null) {
+            form.getUpdateOptionUuids().forEach(optionUuid -> {
                 int i = index.getAndIncrement();
-                VoteOption voteOption = voteOptionService
-                    .getVoteOptionByVoteOptionUuidAndVote(voteOptionForm.getOptionUuid(), vote).orElse(null);
-                if (voteOption == null && voteOptionForm.getOptionUuid() != null) {
-                    errors.rejectValue("options[" + i + "]", VoteErrorConstantsEnums.VOTEOPTION_NOT_FOUND.valueOfCode(),
+                String voteOptionValue = form.getUpdateOptionValues().get(i);
+                VoteOption voteOption =
+                    voteOptionService.getVoteOptionByVoteOptionUuidAndVote(optionUuid, vote).orElse(null);
+                if (voteOption == null) {
+                    errors.rejectValue("updateOptionUuids[" + i + "]",
+                        VoteErrorConstantsEnums.VOTEOPTION_NOT_FOUND.valueOfCode(),
                         VoteErrorConstantsEnums.VOTEOPTION_NOT_FOUND.valueOfName());
+                } else if (voteOptionValue == null) {
+                    errors.rejectValue("updateOptionUuids[" + i + "]",
+                        VoteErrorConstantsEnums.VOTEOPTION_UPDATE_VALUE_NOTSET.valueOfCode(),
+                        VoteErrorConstantsEnums.VOTEOPTION_UPDATE_VALUE_NOTSET.valueOfName());
+                } else if (voteOption.getMemberVoteOptionRelates().size() > 0) {
+                    errors.rejectValue("updateOptionUuids[" + i + "]",
+                        VoteErrorConstantsEnums.VOTEOPTION_UPDATE_FAILED.valueOfCode(),
+                        VoteErrorConstantsEnums.VOTEOPTION_UPDATE_FAILED.valueOfName());
                 } else {
-                    voteOptionForm.setVoteOption(voteOption);
+                    voteOption.setVoteOptionValue(voteOptionValue);
+                    updateVoteOptionList.add(voteOption);
                 }
             });
         }
+        form.setUpdateVoteOptionList(updateVoteOptionList);
 
         index.set(0);
         if (form.getDeleteOptionUuids() != null) {
             form.getDeleteOptionUuids().forEach(deleteOptionUuids -> {
                 int i = index.getAndIncrement();
-                VoteOption voteOption = voteOptionService
-                    .getVoteOptionByVoteOptionUuidAndVote(deleteOptionUuids, vote).orElse(null);
+                VoteOption voteOption =
+                    voteOptionService.getVoteOptionByVoteOptionUuidAndVote(deleteOptionUuids, vote).orElse(null);
                 if (voteOption == null) {
                     errors.rejectValue("deleteOptionUuids[" + i + "]",
                         VoteErrorConstantsEnums.VOTEOPTION_NOT_FOUND.valueOfCode(),
                         VoteErrorConstantsEnums.VOTEOPTION_NOT_FOUND.valueOfName());
-                } else {
-                    voteOptionList.add(voteOption);
+                } else if(voteOption.getMemberVoteOptionRelates().size() > 0){
+                    errors.rejectValue("deleteOptionUuids[" + i + "]",
+                            VoteErrorConstantsEnums.VOTEOPTION_UPDATE_FAILED.valueOfCode(),
+                            VoteErrorConstantsEnums.VOTEOPTION_UPDATE_FAILED.valueOfName());
+                }else {
+                    deleteVoteOptionList.add(voteOption);
                 }
             });
         }
-        form.setVoteOptionList(voteOptionList);
+        form.setDeleteVoteOptionList(deleteVoteOptionList);
 
         form.setVote(vote);
-
     }
 
     private Team checkTeamExist(String teamUuid, BindingResult errors) {

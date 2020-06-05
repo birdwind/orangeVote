@@ -18,7 +18,6 @@ import org.springframework.validation.BindingResult;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
-
 @Component
 public class MemberVoteOptionRelateFormAspect extends UpdateFormAspect<MemberVoteOptionRelateForm> {
 
@@ -54,9 +53,16 @@ public class MemberVoteOptionRelateFormAspect extends UpdateFormAspect<MemberVot
             return;
         }
 
+        if (form.getAddOptions() == null) {
+            form.setAddOptions(Lists.newArrayList());
+        }
+
+        if (form.getOptionUuids() == null) {
+            form.setOptionUuids(Lists.newArrayList());
+        }
+
         // 檢查是否選擇大於多選限制
-        if (vote.getMultiSelection() < (form.getOptionUuids() == null ? 0 : form.getOptionUuids().size())
-            + (form.getAddOptions() == null ? 0 : form.getAddOptions().size())) {
+        if (vote.getMultiSelection() < form.getOptionUuids().size() + form.getAddOptions().size()) {
             errors.rejectValue("optionUuids", VoteErrorConstantsEnums.VOTEOPTION_MULTISELECT.valueOfCode(),
                 VoteErrorConstantsEnums.VOTEOPTION_MULTISELECT.valueOfName());
             if (form.getAddOptions() != null) {

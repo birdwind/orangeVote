@@ -40,7 +40,6 @@ public class Vote extends AbstractModel {
         this.isAllowAdd = false;
         this.isOpen = true;
         this.isSign = false;
-        this.voteTeamRelates = Lists.newArrayList();
         this.voteOptions = Lists.newArrayList();
     }
 
@@ -100,9 +99,9 @@ public class Vote extends AbstractModel {
     @Column(name = "status", nullable = false)
     private Boolean status;
 
-    @OneToMany(fetch = FetchType.LAZY, targetEntity = VoteTeamRelate.class, mappedBy = "vote")
+    @OneToOne(fetch = FetchType.LAZY, targetEntity = VoteTeamRelate.class, mappedBy = "vote")
     @Where(clause = "status = true")
-    private List<VoteTeamRelate> voteTeamRelates;
+    private VoteTeamRelate voteTeamRelates;
 
     @OneToMany(fetch = FetchType.LAZY, targetEntity = VoteOption.class, mappedBy = "vote")
     @Where(clause = "status = true")
@@ -114,7 +113,7 @@ public class Vote extends AbstractModel {
     }
 
     @Transient
-    private List<VoteOption> deleteVoteOptions;
+    private List<VoteOption> updateVoteOptions;
 
     @Transient
     private List<VoteOption> addVoteOptions;

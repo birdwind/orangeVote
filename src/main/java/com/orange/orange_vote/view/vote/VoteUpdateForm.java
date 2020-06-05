@@ -49,7 +49,11 @@ public class VoteUpdateForm extends AbstractForm {
     @NotNull
     private Boolean isSign;
 
-    private List<VoteOptionForm> options;
+    private List<String> addOptionValues;
+
+    private List<String> updateOptionUuids;
+
+    private List<String> updateOptionValues;
 
     private List<String> deleteOptionUuids;
 
@@ -60,6 +64,9 @@ public class VoteUpdateForm extends AbstractForm {
     private Team team;
 
     @JsonIgnore
-    private List<VoteOption> voteOptionList;
+    private List<VoteOption> updateVoteOptionList;
+
+    @JsonIgnore
+    private List<VoteOption> deleteVoteOptionList;
 
 }

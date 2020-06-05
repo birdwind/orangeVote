@@ -37,20 +37,14 @@ public class VoteViewConverter extends AbstractViewConverter<Vote, VoteView> {
                 .map(VoteOption::getMemberVoteOptionRelates).flatMap(Collection::stream)
                 .filter(memberVoteOptionRelate -> memberVoteOptionRelate.getMember().getMemberId()
                     .equals(member.getMemberId()) && memberVoteOptionRelate.getStatus())
-                .map(MemberVoteOptionRelate::getStatus).count();
+                .map(MemberVoteOptionRelate::getStatus).count() > 0;
 
-    private PrimitiveProvider<Vote> teamProvider =
-        (source, targetField) -> source.getVoteTeamRelates().stream().filter(Objects::nonNull)
-            .map(VoteTeamRelate::getTeam).map(Team::getMemberTeamRelateList).flatMap(Collection::stream)
-            .filter(memberTeamRelate -> memberTeamRelate.getMember().getMemberId().equals(member.getMemberId()))
-            .map(MemberTeamRelate::getTeam).map(Team::getTeamValue).reduce((a, b) -> a + "," + b).orElse("");
 
     @Override
     public VoteView convert(Vote source) {
         member = SystemUser.getMember();
         addValueProvider("voteOptions", voteOptionsProvider);
         addValueProvider("isVoted", isVotedProvider);
-        addValueProvider("team", teamProvider);
         return complexMapping(source, VoteView.class);
     }
 

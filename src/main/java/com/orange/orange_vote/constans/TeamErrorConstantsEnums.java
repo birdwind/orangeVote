@@ -6,7 +6,7 @@ import java.io.Serializable;
 public enum TeamErrorConstantsEnums implements BaseEnum {
 
     TEAM_NOT_FOUND(0, "Error.Team.NotFound"), TEAMUUID_NOT_NULL(1, "Error.Team.TeamUuidNull"), TEAM_VALUE_DUPLICATE(2,
-        "Error.Team.TeamValueDuplicate");
+        "Error.Team.TeamValueDuplicate"), TEAM_JOINED_DUPLICATE(3, "Error.Team.Joined");
 
     TeamErrorConstantsEnums(Integer errorCode, String errorMsg) {
         this.errorCode = errorCode;

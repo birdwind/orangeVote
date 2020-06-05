@@ -66,6 +66,8 @@ public class BaseErrorConstants {
 
     public static final String SERVER_ERROR = "Error.System.ServerError";
 
+    public static final String SPECIAL_ERROR = "Error.System.SpecialError";
+
     public static final String FILE_COUNTS_NOT_MATCH = "Error.System.FileCountsNotMatch";
 
     public static final String METHOD_NOT_SUPPORT = "Error.System.MethodNotSupport";

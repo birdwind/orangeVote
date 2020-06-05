@@ -1,6 +1,7 @@
 package com.orange.orange_vote.view.vote;
 
 import com.orange.orange_vote.base.annotation.DateTimeFormatter;
+import com.orange.orange_vote.base.annotation.PropertyMap;
 import com.orange.orange_vote.base.annotation.ViewType;
 import com.orange.orange_vote.base.dto.mapper.column.BooleanColumn;
 import com.orange.orange_vote.base.dto.mapper.column.DateStringColumn;
@@ -28,7 +29,8 @@ public class VoteDetailView implements BaseView {
 
     private String content;
 
-    private List<TeamListItem> teams;
+    @PropertyMap(value = "voteTeamRelates.team.teamValue")
+    private String team;
 
     @DateTimeFormatter(value = DateTimeFormatType.MINUTE)
     private Date expiredDate;
@@ -41,6 +43,12 @@ public class VoteDetailView implements BaseView {
 
     private Boolean isSign;
 
+    private Boolean isVoted;
+
+    private Boolean isEnd;
+
     private Integer multiSelection;
+
+    private Boolean isOwner;
 
 }

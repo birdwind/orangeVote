@@ -1,5 +1,6 @@
 package com.orange.orange_vote.entity.service;
 
+import com.orange.orange_vote.entity.model.Member;
 import com.orange.orange_vote.entity.model.Team;
 import java.util.List;
 import java.util.Optional;
@@ -14,7 +15,9 @@ public interface TeamService {
 
     Optional<Team> getAllTeamByTeamUuid(String teamUuid);
 
-    List<Team> getAllTeam();
+    List<Team> getAllTeams();
+
+    Optional<Team> checkTeamJoinedByMemberAndTeamId(Member member, int teamId);
 
     Team saveTeam(Team team);
 

@@ -105,8 +105,8 @@ public abstract class AbstractResourcePacker<R extends BaseResource> implements 
     @Override
     public R packNotFoundErrors(String response) {
         R resource = getInstance();
-        setError(resource, response, HttpStatus.PRECONDITION_FAILED, ErrorCode.DATA_INCOMPLETE.errorCode(),
-            ErrorCode.DATA_INCOMPLETE.errorMsg());
+        setError(resource, response, HttpStatus.PRECONDITION_FAILED, ErrorCode.RESOURCE_NOTFOUND.errorCode(),
+            ErrorCode.RESOURCE_NOTFOUND.errorMsg());
         setOtherProperties(null, resource, HttpStatus.PRECONDITION_FAILED);
         return resource;
     }

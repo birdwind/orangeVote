@@ -2,7 +2,6 @@ package com.orange.orange_vote.entity.service.impl;
 
 import com.google.common.collect.Lists;
 import com.orange.orange_vote.entity.dao.VoteDao;
-import com.orange.orange_vote.entity.dao.VoteOptionDao;
 import com.orange.orange_vote.entity.dao.VoteTeamRelateDao;
 import com.orange.orange_vote.entity.model.Team;
 import com.orange.orange_vote.entity.model.Vote;
@@ -26,9 +25,6 @@ public class VoteServiceImpl implements VoteService {
 
     @Autowired
     private VoteTeamRelateDao voteTeamRelateDao;
-
-    @Autowired
-    private VoteOptionDao voteOptionDao;
 
     private AtomicInteger counter = new AtomicInteger(-1);
 
@@ -54,15 +50,15 @@ public class VoteServiceImpl implements VoteService {
     public Vote saveVote(Vote vote, Team team) {
         Vote tempVote = voteDao.save(vote);
         VoteTeamRelate voteTeamRelate = voteTeamRelateDao.save(new VoteTeamRelate(team, tempVote));
-        tempVote.setVoteTeamRelates(Lists.newArrayList(voteTeamRelate));
+        tempVote.setVoteTeamRelates(voteTeamRelate);
         return tempVote;
     }
 
     @Override
     public Vote updateVote(Vote vote, Team team) {
         Vote tempVote = voteDao.save(vote);
-        if (team != tempVote.getVoteTeamRelates().stream().map(VoteTeamRelate::getTeam).findFirst().orElse(null)) {
-            VoteTeamRelate voteTeamRelate = vote.getVoteTeamRelates().stream().findFirst().orElse(null);
+        if (team != tempVote.getVoteTeamRelates().getTeam()) {
+            VoteTeamRelate voteTeamRelate = vote.getVoteTeamRelates();
             if (voteTeamRelate != null) {
                 voteTeamRelate.delete();
                 voteTeamRelateDao.save(voteTeamRelate);

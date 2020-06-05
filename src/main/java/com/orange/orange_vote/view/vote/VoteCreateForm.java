@@ -55,8 +55,11 @@ public class VoteCreateForm extends AbstractForm {
     @NotNull
     private Boolean isSign;
 
+//    @ApiParam(value = "投票選項")
+//    private List<VoteOptionForm> options;
+//
     @ApiParam(value = "投票選項")
-    private List<VoteOptionForm> options;
+    private List<String> optionValues;
 
     @JsonIgnore
     private Team team;

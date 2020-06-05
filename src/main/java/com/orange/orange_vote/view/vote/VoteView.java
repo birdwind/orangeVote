@@ -1,6 +1,7 @@
 package com.orange.orange_vote.view.vote;
 
 import com.orange.orange_vote.base.annotation.DateTimeFormatter;
+import com.orange.orange_vote.base.annotation.PropertyMap;
 import com.orange.orange_vote.base.annotation.ViewType;
 import com.orange.orange_vote.base.dto.mapper.column.BooleanColumn;
 import com.orange.orange_vote.base.dto.mapper.column.CollectionColumn;
@@ -28,6 +29,7 @@ public class VoteView implements BaseView {
 
     private String content;
 
+    @PropertyMap(value = "voteTeamRelates.team.teamValue")
     private String team;
 
     private Integer multiSelection;
