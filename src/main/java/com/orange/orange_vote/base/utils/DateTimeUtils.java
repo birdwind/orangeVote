@@ -1,6 +1,7 @@
 package com.orange.orange_vote.base.utils;
 
 import org.apache.commons.lang3.StringUtils;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.Duration;
 import java.time.Instant;
@@ -50,6 +51,14 @@ public class DateTimeUtils {
         return dateFormat.format(date);
     }
 
+    public static Date parseDate(String dateString){
+        try {
+            return dateFormat.parse(dateString);
+        } catch (ParseException e) {
+            return null;
+        }
+    }
+
     public static String numberFormat(Date date) {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd-");
 
@@ -78,9 +87,9 @@ public class DateTimeUtils {
         return iso8601Format.format(date);
     }
 
-    public static Date parseDate(String dateString) {
+    public static Date parseDateTime(String dateTimeString) {
         try {
-            return datetimeFormat.parse(dateString);
+            return datetimeFormat.parse(dateTimeString);
         } catch (Exception e) {
             return null;
         }

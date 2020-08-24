@@ -52,8 +52,9 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
         Authentication authentication) throws IOException {
         SystemUser systemUser = (SystemUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
-        Member member = memberService.getMemberByUsername(systemUser.getUsername())
-            .orElseThrow(() -> new BadCredentialsException(LocaleI18nUtils.getString(MemberErrorConstantsEnums.MEMBER_NOT_FOUND.valueOfName())));
+        Member member =
+            memberService.getMemberByUsername(systemUser.getUsername()).orElseThrow(() -> new BadCredentialsException(
+                LocaleI18nUtils.getString(MemberErrorConstantsEnums.MEMBER_NOT_FOUND.valueOfName())));
 
         String sessionString = CipherUtils.bcrypt(member.getMemberId().toString());
 
@@ -65,12 +66,12 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
         // 根據 function, operator, function_operator_relate 3張表格
         // 產生該帳號能夠存取的 URL
         // URL 格式如下: GET - /page/member/form, PUT - /api/member/, POST - /api/member/
-        List<String> urls =
+        Set<String> urls =
             functionOperatorRelateService.getFunctionOperatorRelatesByFunctionIds(functionIds).parallelStream()
                 .map(relate -> OperatorMethod.getName(relate.getOperator().getMethod()) + " - "
                     + OperatorType.getUrl(relate.getOperator().getType()) + relate.getFunction().getBackUrl()
                     + relate.getOperator().getUrl())
-                .collect(Collectors.toList());
+                .collect(Collectors.toSet());
 
         memberService.updateSession(sessionString, member.getMemberId());
         member.setSession(sessionString);
