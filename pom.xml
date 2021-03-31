@@ -29,7 +29,7 @@
 		<dependency>
 			<groupId>com.google.guava</groupId>
 			<artifactId>guava</artifactId>
-			<version>27.1-jre</version>
+			<version>29.0-jre</version>
 		</dependency>
 		<!-- gson： 提供 Java Collection 類別轉換成Json格式的字串或物件-->
 		<dependency>
